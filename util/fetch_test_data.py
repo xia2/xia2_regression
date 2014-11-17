@@ -7,8 +7,12 @@ def fetch_test_data_index():
 
 def fetch_test_data():
   import os
+  import libtbx.load_env
   from download import download
 
+  xia2_regression = libtbx.env.dist_path('xia2_regression')
+  os.chdir(xia2_regression)
+  
   index = fetch_test_data_index()
   
   for record in open(index):
