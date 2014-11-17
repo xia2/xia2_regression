@@ -1,2 +1,3 @@
 * text=auto !eol
+/libtbx_config -text
 /readme.txt -text
