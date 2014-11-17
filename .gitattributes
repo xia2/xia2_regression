@@ -2,3 +2,4 @@
 /libtbx_config -text
 /readme.txt -text
 util/download.py -text
+util/fetch_test_data.py -text
