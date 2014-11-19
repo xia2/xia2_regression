@@ -3,6 +3,8 @@
 command_line/fetch_test_data.py -text
 /libtbx_config -text
 /readme.txt -text
+/run_tests.py -text
+test/command_line/tst_xia2.py -text
 util/__init__.py -text
 util/download.py -text
 util/fetch_test_data.py -text
