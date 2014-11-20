@@ -10,8 +10,10 @@ def fetch_test_data():
   import libtbx.load_env
   from download import download
 
-  xia2_regression = libtbx.env.dist_path('xia2_regression')
-  os.chdir(xia2_regression)
+  target_dir = libtbx.env.under_build('xia2_regression')
+  if not os.path.exists(target_dir):
+    os.mkdir(target_dir)
+  os.chdir(target_dir)
   
   index = fetch_test_data_index()
   

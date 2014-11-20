@@ -7,9 +7,7 @@ from libtbx import easy_run
 #from libtbx.test_utils import approx_equal
 from libtbx.test_utils import open_tmp_directory
 
-xia2_regression = libtbx.env.find_in_repositories(
-  relative_path="xia2_regression",
-  test=os.path.isdir)
+xia2_regression = libtbx.env.under_build("xia2_regression")
 
 def exercise_1():
   cwd = os.path.abspath(os.curdir)
