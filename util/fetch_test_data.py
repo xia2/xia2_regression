@@ -25,7 +25,12 @@ def fetch_test_data():
         print filename
         download(url, filename)
       else:
-        print '%s exists' % filename
+        size = os.stat(filename).st_size
+        if size == 0:
+          print '%s exists, but empty, downloading' % filename
+          download(url, filename, error_if_exists=False)
+        else:
+          print '%s exists' % filename
 
   finally:
     os.remove(index)

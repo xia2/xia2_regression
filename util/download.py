@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-def download(url, target):
+def download(url, target, error_if_exists=True):
   '''Download a url to a target file, including path relative to cwd,
   making directory if necessary, throw exception if target file already
   present.'''
@@ -8,7 +8,7 @@ def download(url, target):
   import os
   import urllib2
 
-  if os.path.exists(target):
+  if os.path.exists(target) and error_if_exists:
     raise RuntimeError, 'file %s exists' % target
 
   dirname, filename = os.path.split(target)
