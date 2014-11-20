@@ -14,19 +14,21 @@ def fetch_test_data():
   if not os.path.exists(target_dir):
     os.mkdir(target_dir)
   os.chdir(target_dir)
-  
-  index = fetch_test_data_index()
-  
-  for record in open(index):
-    filename = record.strip()
-    url = 'http://dials.diamond.ac.uk/xia2/' + filename
-    if not os.path.exists(filename):
-      print filename
-      download(url, filename)
-    else:
-      print '%s exists' % filename
 
-  os.remove(index)
+  index = fetch_test_data_index()
+
+  try:
+    for record in open(index):
+      filename = record.strip()
+      url = 'http://dials.diamond.ac.uk/xia2/' + filename
+      if not os.path.exists(filename):
+        print filename
+        download(url, filename)
+      else:
+        print '%s exists' % filename
+
+  finally:
+    os.remove(index)
 
   return
 
