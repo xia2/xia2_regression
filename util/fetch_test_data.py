@@ -5,6 +5,11 @@ def fetch_test_data_index():
   download(index_url, 'filelist.dat')
   return 'filelist.dat'
 
+files_to_download = {
+  'http://www.ccp4.ac.uk/tutorials/tutorial_files/blend_tutorial/data02.tgz':
+  'blend_tutorial/data02.tgz',
+}
+
 def fetch_test_data():
   import os
   import libtbx.load_env
@@ -34,6 +39,18 @@ def fetch_test_data():
 
   finally:
     os.remove(index)
+
+  for url, target in files_to_download.iteritems():
+    filename = os.path.join(target_dir, target)
+    if not os.path.exists(filename):
+      os.makedirs(os.path.split(filename)[0])
+      download(url, filename)
+      size = os.stat(filename).st_size
+      if size == 0:
+        print '%s exists, but empty, downloading' % filename
+        download(url, filename, error_if_exists=False)
+      else:
+        print '%s exists' % filename
 
   return
 
