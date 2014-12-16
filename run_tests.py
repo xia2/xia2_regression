@@ -13,6 +13,7 @@ print Flags.get_parallel()
 
 tst_list = (
     ["$D/test/command_line/tst_xia2.py", "1"],
+    ["$D/test/command_line/tst_xia2.py", "2"],
 )
 
 def run () :
