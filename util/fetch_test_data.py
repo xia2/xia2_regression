@@ -10,12 +10,14 @@ files_to_download = {
   'blend_tutorial/data02.tgz',
 }
 
-def fetch_test_data():
+def fetch_test_data(target_dir = ''):
   import os
-  import libtbx.load_env
   from download import download
 
-  target_dir = libtbx.env.under_build('xia2_regression')
+  if (target_dir == ''):
+    import libtbx.load_env
+    target_dir = libtbx.env.under_build('xia2_regression')
+
   if not os.path.exists(target_dir):
     os.mkdir(target_dir)
   os.chdir(target_dir)
