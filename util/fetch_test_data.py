@@ -42,8 +42,7 @@ def fetch_test_data(target_dir = ''):
   finally:
     os.remove(index)
 
-  for url, target in files_to_download.iteritems():
-    filename = os.path.join(target_dir, target)
+  for url, filename in files_to_download.iteritems():
     if not os.path.exists(filename):
       os.makedirs(os.path.split(filename)[0])
       download(url, filename)
