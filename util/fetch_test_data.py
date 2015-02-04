@@ -43,15 +43,16 @@ def fetch_test_data(target_dir = ''):
     os.remove(index)
 
   for url, filename in files_to_download.iteritems():
-    if not os.path.exists(filename):
-      os.makedirs(os.path.split(filename)[0])
-      download(url, filename)
+    if os.path.exists(filename):
       size = os.stat(filename).st_size
       if size == 0:
         print '%s exists, but empty, downloading' % filename
         download(url, filename, error_if_exists=False)
       else:
         print '%s exists' % filename
+    else:
+      os.makedirs(os.path.split(filename)[0])
+      download(url, filename)
 
   return
 
