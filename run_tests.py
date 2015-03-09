@@ -5,12 +5,6 @@ from __future__ import division
 from libtbx import test_utils
 import libtbx.load_env
 
-from xia2.Handlers.CommandLine import CommandLine
-from xia2.Handlers.Flags import Flags
-print Flags.get_parallel()
-Flags.set_parallel(1)
-print Flags.get_parallel()
-
 tst_list = (
     ["$D/test/command_line/tst_xia2.py", "1"],
     ["$D/test/command_line/tst_xia2.py", "2"],
