@@ -6,6 +6,7 @@ command_line/fetch_test_data.py -text
 /run_tests.py -text
 test/command_line/tst_xia2.py -text
 test/xia2/tst_X4_wide.py -text
+test/xia2/tst_mad_example.py -text
 util/__init__.py -text
 util/download.py -text
 util/fetch_test_data.py -text

@@ -6,6 +6,9 @@ from libtbx import test_utils
 import libtbx.load_env
 
 tst_list = (
+    ["$D/test/xia2/tst_mad_example.py", "dials"],
+    ["$D/test/xia2/tst_mad_example.py", "xds"],
+    ["$D/test/xia2/tst_mad_example.py", "xds_ccp4a"],
     ["$D/test/xia2/tst_X4_wide.py", "dials"],
     ["$D/test/xia2/tst_X4_wide.py", "xds"],
     ["$D/test/xia2/tst_X4_wide.py", "xds_ccp4a"],
