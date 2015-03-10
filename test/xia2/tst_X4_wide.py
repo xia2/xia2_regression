@@ -11,7 +11,7 @@ from libtbx.test_utils import show_diff
 xia2_regression = libtbx.env.under_build("xia2_regression")
 
 
-def run_xia2(command_line_args, expected_summary=None):
+def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
 
   cwd = os.path.abspath(os.curdir)
   tmp_dir = os.path.abspath(open_tmp_directory())
@@ -26,6 +26,9 @@ def run_xia2(command_line_args, expected_summary=None):
   assert os.path.exists(summary_file)
   summary_text = open(summary_file, 'rb').read()
   assert not show_diff(summary_text, expected_summary)
+
+  for data_file in expected_data_files:
+    assert os.path.exists(os.path.join('DataFiles', data_file)), data_file
 
   os.chdir(cwd)
 
@@ -63,6 +66,12 @@ def exercise_dials():
   assert os.path.exists(data_dir)
   command_line_args = ['-dials', 'nproc=1', data_dir]
 
+  expected_data_files = [
+    'AUTOMATIC_DEFAULT_free.mtz',
+    'AUTOMATIC_DEFAULT_scaled.sca',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.mtz',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.sca']
+
   expected_summary = """\
 Project: AUTOMATIC
 Crystal: DEFAULT
@@ -72,19 +81,20 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                    	1.46	4.38	1.46
-Low resolution limit                     	30.03	30.03	1.55
-Completeness                             	99.8	98.7	99.7
-Multiplicity                             	5.5	4.9	5.3
-I/sigma                                  	8.8	30.6	2.5
-Rmerge                                   	0.078	0.023	0.361
-Anomalous completeness                   	99.3	99.4	98.7
-Anomalous multiplicity                   	3.0	3.1	2.7
+High resolution limit                    	1.39	4.4	1.39
+Low resolution limit                     	30.03	30.03	1.47
+Completeness                             	99.8	98.7	100.0
+Multiplicity                             	5.5	4.9	5.6
+I/sigma                                  	8.6	31.5	2.4
+Rmerge                                   	0.078	0.022	0.362
+Anomalous completeness                   	99.3	99.3	99.4
+Anomalous multiplicity                   	3.0	3.2	2.9
 Cell:  42.474  42.474  39.753  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
 
-  run_xia2(command_line_args, expected_summary=expected_summary)
+  run_xia2(command_line_args, expected_summary=expected_summary,
+           expected_data_files=expected_data_files)
 
   #tmp_dir = os.path.abspath(open_tmp_directory())
   #xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
@@ -101,6 +111,12 @@ def exercise_xds():
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
   command_line_args = ['-3d', 'nproc=1', data_dir]
+
+  expected_data_files = [
+    'AUTOMATIC_DEFAULT_free.mtz',
+    'AUTOMATIC_DEFAULT_scaled.sca',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.mtz',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.sca']
 
   expected_summary = """\
 Project: AUTOMATIC
@@ -123,7 +139,8 @@ Cell:  42.280  42.280  39.590  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
 
-  run_xia2(command_line_args, expected_summary=expected_summary)
+  run_xia2(command_line_args, expected_summary=expected_summary,
+           expected_data_files=expected_data_files)
 
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
@@ -157,7 +174,8 @@ Cell:  42.300  42.300  39.650  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
-  run_xia2(command_line_args, expected_summary=expected_summary)
+  run_xia2(command_line_args, expected_summary=expected_summary,
+           expected_data_files=expected_data_files)
 
 
 def exercise_xds_ccp4a():
@@ -165,6 +183,12 @@ def exercise_xds_ccp4a():
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
   command_line_args = ['-3d', 'nproc=1', 'scaler=ccp4a', data_dir]
+
+  expected_data_files = [
+    'AUTOMATIC_DEFAULT_free.mtz',
+    'AUTOMATIC_DEFAULT_scaled.sca',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.mtz',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.sca']
 
   expected_summary = """\
 Project: AUTOMATIC
@@ -187,7 +211,8 @@ Cell:  42.274  42.274  39.579  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
 
-  run_xia2(command_line_args, expected_summary=expected_summary)
+  run_xia2(command_line_args, expected_summary=expected_summary,
+           expected_data_files=expected_data_files)
 
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
@@ -221,14 +246,13 @@ Cell:  42.305  42.305  39.654  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
-  run_xia2(command_line_args, expected_summary=expected_summary)
+  run_xia2(command_line_args, expected_summary=expected_summary,
+           expected_data_files=expected_data_files)
 
 
 def run(args):
 
-  exercises = (exercise_xds, exercise_xds_ccp4a,
-               #exercise_dials,
-               )
+  exercises = (exercise_xds, exercise_xds_ccp4a, exercise_dials)
   if len(args):
     exercises = [globals().get('exercise_%s' %arg) for arg in args]
 
