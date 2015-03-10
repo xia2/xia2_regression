@@ -12,8 +12,6 @@ tst_list = (
     ["$D/test/xia2/tst_X4_wide.py", "dials"],
     ["$D/test/xia2/tst_X4_wide.py", "xds"],
     ["$D/test/xia2/tst_X4_wide.py", "xds_ccp4a"],
-    ["$D/test/command_line/tst_xia2.py", "1"],
-    ["$D/test/command_line/tst_xia2.py", "2"],
 )
 
 def run () :
