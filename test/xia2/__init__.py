@@ -1,3 +1,4 @@
+from __future__ import division
 import os
 from libtbx import easy_run
 from libtbx.test_utils import approx_equal, show_diff, open_tmp_directory
@@ -19,17 +20,20 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
   for line, expected in zip(summary_text_lines, expected_summary_lines):
+    line = ' '.join(line.split())
+    expected = ' '.join(expected.split())
     try:
       values_summary = [float(f) for f in line.split()[-3:]]
       values_expected = [float(f) for f in expected.split()[-3:]]
     except ValueError:
       assert not show_diff(line, expected)
     else:
-      if ('I/sigma' in line or
-          'completeness' in line.lower()):
-        assert approx_equal(values_summary, values_expected, eps=2e-1)
+      if ('I/sigma' in line):
+        assert approx_equal(values_summary, values_expected, eps=2e-1), (line, expected)
+      elif ('completeness' in line.lower()):
+        assert approx_equal(values_summary, values_expected, eps=5e-1), (line, expected)
       elif ('Rmerge' in line):
-        assert approx_equal(values_summary, values_expected, eps=2e-3)
+        assert approx_equal(values_summary, values_expected, eps=2e-3), (line, expected)
       else:
         assert not show_diff(line, expected)
 
