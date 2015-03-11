@@ -3,34 +3,11 @@ from __future__ import division
 import os
 
 import libtbx.load_env
-from libtbx import easy_run
-#from libtbx.test_utils import approx_equal
 from libtbx.test_utils import open_tmp_directory
-from libtbx.test_utils import show_diff
 
 xia2_regression = libtbx.env.under_build("xia2_regression")
 
-
-def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
-
-  cwd = os.path.abspath(os.curdir)
-  tmp_dir = os.path.abspath(open_tmp_directory())
-  os.chdir(tmp_dir)
-
-  cmd = ' '.join(['xia2'] + command_line_args)
-  print cmd
-  result = easy_run.fully_buffered(command=cmd).raise_if_errors()
-  #result.show_stdout()
-
-  summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
-  assert os.path.exists(summary_file)
-  summary_text = open(summary_file, 'rb').read()
-  assert not show_diff(summary_text, expected_summary)
-
-  for data_file in expected_data_files:
-    assert os.path.exists(os.path.join('DataFiles', data_file)), data_file
-
-  os.chdir(cwd)
+from xia2_regression.test.xia2 import run_xia2
 
 
 def exercise_dials():
