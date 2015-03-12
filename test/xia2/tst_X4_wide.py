@@ -59,18 +59,17 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.39    4.4     1.39
-Low resolution limit                            30.03   30.03   1.47
-Completeness                                    99.8    98.7    100.0
-Multiplicity                                    5.5     4.9     5.6
-I/sigma                                         8.6     31.5    2.4
-Rmerge                                          0.078   0.022   0.362
+High resolution limit                           1.41    4.46    1.41
+Low resolution limit                            29.03   29.03   1.49
+Completeness                                    99.8    98.5    99.9
+Multiplicity                                    5.5     5.0     5.5
+I/sigma                                         8.9     32.1    2.5
+Rmerge                                          0.076   0.02    0.351
 Anomalous completeness                          99.3    99.3    99.4
 Anomalous multiplicity                          3.0     3.2     2.9
-Cell:  42.474  42.474  39.753  90.000  90.000  90.000
+Cell:  42.456  42.456  39.772  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
-
   run_xia2(command_line_args, expected_summary=expected_summary,
            expected_data_files=expected_data_files)
 

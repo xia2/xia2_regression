@@ -41,22 +41,22 @@ Images: 1 to 60
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                           1.64    6.14    1.64
 Low resolution limit                            52.49   52.49   1.7
-Completeness                                    97.5    98.7    83.0
+Completeness                                    97.5    98.6    83.0
 Multiplicity                                    4.2     3.5     2.8
-I/sigma                                         10.2    16.5    2.2
+I/sigma                                         10.2    16.8    2.2
 Rmerge                                          0.055   0.039   0.318
 Anomalous completeness                          96.4    99.4    76.5
 Anomalous multiplicity                          2.3     2.3     1.6
 For AUTOMATIC/DEFAULT/WAVE2:
 High resolution limit                           1.62    6.06    1.62
-Low resolution limit                            51.52   51.52   1.68
-Completeness                                    94.9    98.6    70.9
+Low resolution limit                            43.11   43.11   1.68
+Completeness                                    94.9    98.5    70.9
 Multiplicity                                    4.1     3.5     2.5
-I/sigma                                         9.8     15.3    2.2
-Rmerge                                          0.056   0.041   0.311
-Anomalous completeness                          93.3    98.3    66.2
+I/sigma                                         9.6     15.3    2.2
+Rmerge                                          0.057   0.041   0.313
+Anomalous completeness                          93.3    98.8    66.2
 Anomalous multiplicity                          2.2     2.3     1.4
-Cell:  51.521  51.521 157.481  90.000  90.000  90.000
+Cell:  51.522  51.522 157.484  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 

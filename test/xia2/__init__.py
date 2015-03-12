@@ -19,6 +19,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
   expected_summary_lines = expected_summary.split('\n')
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
+  print summary_text
   for line, expected in zip(summary_text_lines, expected_summary_lines):
     line = ' '.join(line.split())
     expected = ' '.join(expected.split())
