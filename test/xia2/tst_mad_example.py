@@ -45,6 +45,7 @@ Completeness                                    97.5    98.6    83.0
 Multiplicity                                    4.2     3.5     2.8
 I/sigma                                         10.2    16.8    2.2
 Rmerge                                          0.055   0.039   0.318
+CC half                                         0.997   0.994   0.823
 Anomalous completeness                          96.4    99.4    76.5
 Anomalous multiplicity                          2.3     2.3     1.6
 For AUTOMATIC/DEFAULT/WAVE2:
@@ -54,6 +55,7 @@ Completeness                                    94.9    98.5    70.9
 Multiplicity                                    4.1     3.5     2.5
 I/sigma                                         9.6     15.3    2.2
 Rmerge                                          0.057   0.041   0.313
+CC half                                         0.998   0.997   0.833
 Anomalous completeness                          93.3    98.8    66.2
 Anomalous multiplicity                          2.2     2.3     1.4
 Cell:  51.522  51.522 157.484  90.000  90.000  90.000
@@ -99,6 +101,7 @@ Completeness                                    96.9    92.9    80.7
 Multiplicity                                    4.2     3.3     2.8
 I/sigma                                         17.7    39.4    2.1
 Rmerge                                          0.042   0.021   0.4
+CC half                                         0.998   0.996   0.729
 Anomalous completeness                          92.3    83.1    74.6
 Anomalous multiplicity                          2.2     2.3     1.6
 For AUTOMATIC/DEFAULT/WAVE2:
@@ -108,6 +111,7 @@ Completeness                                    95.9    96.1    74.5
 Multiplicity                                    4.2     3.4     2.7
 I/sigma                                         19.6    43.2    2.3
 Rmerge                                          0.038   0.018   0.359
+CC half                                         0.999   0.999   0.764
 Anomalous completeness                          90.8    90.9    70.0
 Anomalous multiplicity                          2.2     2.3     1.5
 Cell:  51.570  51.570 157.610  90.000  90.000  90.000
@@ -153,6 +157,7 @@ Completeness                                    98.3    99.1    89.0
 Multiplicity                                    4.4     3.7     3.0
 I/sigma                                         13.6    27.3    2.2
 Rmerge                                          0.052   0.028   0.356
+CC half                                         0.989   0.951   0.68
 Anomalous completeness                          97.3    98.3    81.7
 Anomalous multiplicity                          2.3     2.4     1.7
 For AUTOMATIC/DEFAULT/WAVE2:
@@ -162,6 +167,7 @@ Completeness                                    97.0    99.5    80.0
 Multiplicity                                    4.3     3.7     2.8
 I/sigma                                         13.8    26.1    2.3
 Rmerge                                          0.05    0.031   0.323
+CC half                                         0.984   0.901   0.789
 Anomalous completeness                          95.7    98.6    74.8
 Anomalous multiplicity                          2.3     2.4     1.5
 Cell:  51.566  51.566 157.600  90.000  90.000  90.000
