@@ -36,7 +36,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
         assert approx_equal(values_summary, values_expected, eps=5e-1), (line, expected)
       elif ('resolution limit' in line):
         assert approx_equal(values_summary, values_expected, eps=5e-2), (line, expected)
-      elif ('Rmerge' in line):
+      elif ('Rmerge' in line or 'CC half' in line):
         assert approx_equal(values_summary, values_expected, eps=2e-3), (line, expected)
       else:
         assert not show_diff(line, expected)
