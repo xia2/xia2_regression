@@ -110,11 +110,11 @@ Low resolution limit                        21.14   21.14   1.34
 Completeness                                99.8    98.3    99.7
 Multiplicity                                5.9     5.0     5.8
 I/sigma                                     17.6    51.4    2.5
-Rmerge                                      0.047   0.015   0.601
+Rmerge                                      0.05    0.015   0.639
 CC half                                     0.999   0.999   0.805
-Anomalous completeness                      98.6    81.5    99.1
+Anomalous completeness                      98.8    83.6    99.5
 Anomalous multiplicity                      3.1     3.7     3.0
-Cell:  42.280  42.280  39.590  90.000  90.000  90.000
+Cell:  42.430 42.430 39.800 90.000 90.000 90.000
 Spacegroup: P 41 21 2
 """ %data_dir
 
@@ -141,16 +141,16 @@ Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                       1.3     5.81    1.3
-Low resolution limit                        23.88   23.88   1.33
-Completeness                                98.8    98.9    90.4
-Multiplicity                                5.3     4.7     2.7
-I/sigma                                     16.0    45.0    2.2
-Rmerge                                      0.05    0.016   0.564
-CC half                                     0.999   1.0     0.712
-Anomalous completeness                      94.1    80.0    57.9
-Anomalous multiplicity                      2.8     3.3     1.7
-Cell:  42.300  42.300  39.650  90.000  90.000  90.000
+High resolution limit                       1.32    5.9     1.32
+Low resolution limit                        23.95   23.95   1.35
+Completeness                                99.2    98.9    91.5
+Multiplicity                                5.5     4.7     3.2
+I/sigma                                     16.0    41.6    2.4
+Rmerge                                      0.053   0.019   0.539
+CC half                                     0.999   0.999   0.74
+Anomalous completeness                      95.9    79.6    64.1
+Anomalous multiplicity                      2.8     3.4     2.0
+Cell:  42.410  42.410  39.810  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
@@ -188,7 +188,7 @@ Rmerge                                          0.063   0.02    0.483
 CC half                                         0.999   0.999   0.868
 Anomalous completeness                          99.7    99.3    99.9
 Anomalous multiplicity                          3.3     3.4     3.3
-Cell:  42.274  42.274  39.579  90.000  90.000  90.000
+Cell:  42.430 42.430 39.800 90.000 90.000 90.000
 Spacegroup: P 41 21 2
 """ %data_dir
 
@@ -220,11 +220,11 @@ Low resolution limit                        23.88   23.88   1.36
 Completeness                                97.9    98.7    90.6
 Multiplicity                                5.2     5.0     2.8
 I/sigma                                     11.0    30.5    1.9
-Rmerge                                      0.066   0.025   0.544
+Rmerge                                      0.075   0.033   0.572
 CC half                                     0.998   0.997   0.734
 Anomalous completeness                      91.5    99.3    61.8
 Anomalous multiplicity                      2.7     3.1     1.7
-Cell:  42.305  42.305  39.654  90.000  90.000  90.000
+Cell:  42.409 42.409 39.811 90.000 90.000 90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
