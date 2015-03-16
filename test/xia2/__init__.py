@@ -31,9 +31,10 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
     else:
       if ('I/sigma' in line):
         continue # I/sigma too variable, highly dependent on sigma estimates
-        #assert approx_equal(values_summary, values_expected, eps=2e-1), (line, expected)
+        # assert approx_equal(values_summary, values_expected, eps=2e-1),
+        # (line, expected)
       elif ('completeness' in line.lower()):
-        assert approx_equal(values_summary, values_expected, eps=5e-1), (line, expected)
+        assert approx_equal(values_summary, values_expected, eps=1), (line, expected)
       elif ('resolution limit' in line):
         assert approx_equal(values_summary, values_expected, eps=5e-2), (line, expected)
       elif ('Rmerge' in line):
