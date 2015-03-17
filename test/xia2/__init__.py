@@ -34,7 +34,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
                  # assert approx_equal(
                  # values_summary, values_expected, eps=2e-1), (line, expected)
       elif ('completeness' in line.lower()):
-        # overall / low resolution expect comparable number, high resolution 
+        # overall / low resolution expect comparable number, high resolution
         # be much more flexible
         assert approx_equal(
           values_summary[:2], values_expected[:2], eps=1), (line, expected)
@@ -49,7 +49,9 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
           values_summary, values_expected, eps=1e-2), (line, expected)
       elif ('CC half' in line):
         assert approx_equal(
-          values_summary, values_expected, eps=2e-2), (line, expected)
+          values_summary[:2], values_expected[:2], eps=2e-2), (line, expected)
+        assert approx_equal(
+          values_summary[2:], values_expected[2:], eps=2e-1), (line, expected)
       elif ('multiplicity' in line.lower()):
         assert approx_equal(
           values_summary, values_expected, eps=2e-1), (line, expected)
