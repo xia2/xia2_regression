@@ -56,7 +56,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
           values_summary[2:], values_expected[2:], eps=2e-1), (line, expected)
       elif ('multiplicity' in line.lower()):
         assert approx_equal(
-          values_summary, values_expected, eps=2e-1), (line, expected)
+          values_summary, values_expected, eps=3e-1), (line, expected)
       else:
         assert not show_diff(line, expected)
 
