@@ -46,7 +46,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
           values_summary[2:], values_expected[2:], eps=5e-2), (line, expected)
       elif ('Rmerge' in line):
         assert approx_equal(
-          values_summary[2:], values_expected[2:], eps=1e-2), (line, expected)
+          values_summary[:2], values_expected[:2], eps=1e-2), (line, expected)
         assert approx_equal(
           values_summary[2], values_expected[2], eps=1e-1), (line, expected)
       elif ('CC half' in line):
