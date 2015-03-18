@@ -74,14 +74,39 @@ Spacegroup: P 41 21 2
   run_xia2(command_line_args, expected_summary=expected_summary,
            expected_data_files=expected_data_files)
 
-  #tmp_dir = os.path.abspath(open_tmp_directory())
-  #xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
-  #with open(xinfo_file, 'wb') as f:
-    #print >> f, split_xinfo_template %(data_dir, data_dir)
+  tmp_dir = os.path.abspath(open_tmp_directory())
+  xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
+  with open(xinfo_file, 'wb') as f:
+    print >> f, split_xinfo_template %(data_dir, data_dir)
 
-  #command_line_args = ['-dials', 'nproc=1', 'njob=2', 'mode=parallel',
-                       #'xinfo=%s' %xinfo_file]
-  #run_xia2(command_line_args, expected_summary=expected_summary)
+  expected_summary = """\
+Project: AUTOMATIC
+Crystal: DEFAULT
+Sequence length: 0
+Wavelength: NATIVE (0.97950)
+Sweep: SWEEP1
+Files %s/X4_wide_M1S4_2_####.cbf
+Images: 1 to 40
+Sweep: SWEEP2
+Files %s/X4_wide_M1S4_2_####.cbf
+Images: 45 to 90
+For AUTOMATIC/DEFAULT/NATIVE:
+High resolution limit                           1.26    4.54    1.26
+Low resolution limit                            29.05   29.05   1.31
+Completeness                                    94.0    98.4    86.7
+Multiplicity                                    4.1     4.5     2.6
+I/sigma                                         8.6     32.1    1.9
+Rmerge                                          0.073   0.023   0.47
+CC half                                         0.997   0.999   0.789
+Anomalous completeness                          79.8    97.1    56.9
+Anomalous multiplicity                          2.0     2.8     1.6
+Cell:  42.509  42.509  39.800  90.000  90.000  90.000
+Spacegroup: P 41 21 2
+""" %(data_dir, data_dir)
+
+  command_line_args = ['-dials', 'nproc=1', 'njob=2', 'mode=parallel',
+                       'xinfo=%s' %xinfo_file]
+  run_xia2(command_line_args, expected_summary=expected_summary)
 
 
 def exercise_xds():
