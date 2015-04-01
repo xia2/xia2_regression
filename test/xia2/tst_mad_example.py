@@ -71,7 +71,7 @@ def exercise_xds():
   data_dir = os.path.join(xia2_regression, "test_data", "mad_example")
   assert os.path.exists(data_dir)
   command_line_args = [
-    '-3d', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
+    '-3di', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -127,7 +127,7 @@ def exercise_xds_ccp4a():
   data_dir = os.path.join(xia2_regression, "test_data", "mad_example")
   assert os.path.exists(data_dir)
   command_line_args = [
-    '-3d', 'scaler=ccp4a', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
+    '-3di', 'scaler=ccp4a', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',

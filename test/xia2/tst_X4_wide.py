@@ -113,7 +113,7 @@ def exercise_xds():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-3d', 'nproc=1', data_dir]
+  command_line_args = ['-3di', 'nproc=1', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -151,7 +151,7 @@ Spacegroup: P 41 21 2
   with open(xinfo_file, 'wb') as f:
     print >> f, split_xinfo_template %(data_dir, data_dir)
 
-  command_line_args = ['-3d', 'nproc=1', 'njob=2', 'mode=parallel',
+  command_line_args = ['-3di', 'nproc=1', 'njob=2', 'mode=parallel',
                        'xinfo=%s' %xinfo_file]
 
   expected_summary = """\
@@ -187,7 +187,7 @@ def exercise_xds_ccp4a():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-3d', 'nproc=1', 'scaler=ccp4a', data_dir]
+  command_line_args = ['-3di', 'nproc=1', 'scaler=ccp4a', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -225,7 +225,7 @@ Spacegroup: P 41 21 2
   with open(xinfo_file, 'wb') as f:
     print >> f, split_xinfo_template %(data_dir, data_dir)
 
-  command_line_args = ['-3d', 'nproc=1', 'scaler=ccp4a', 'njob=2',
+  command_line_args = ['-3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
                        'mode=parallel', 'xinfo=%s' %xinfo_file]
 
   expected_summary = """\
