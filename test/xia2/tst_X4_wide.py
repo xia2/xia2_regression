@@ -59,15 +59,15 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.37    4.54    1.37
-Low resolution limit                            30.02   30.02   1.44
-Completeness                                    99.8    98.6    99.9
-Multiplicity                                    5.6     5.0     5.7
-I/sigma                                         8.1     20.7    2.4
-Rmerge                                          0.078   0.023   0.373
-CC half                                         0.998   0.999   0.915
-Anomalous completeness                          99.3    99.3    99.6
-Anomalous multiplicity                          3.0     3.2     3.0
+High resolution limit                           1.35    6.04    1.35
+Low resolution limit                            30.02   30.02   1.39
+Completeness                                    99.8    99.7    100.0
+Multiplicity                                    5.6     5.1     5.8
+I/sigma                                         9.0     54.1    1.9
+Rmerge                                          0.08    0.02    0.45
+CC half                                         0.998   1.0     0.898
+Anomalous completeness                          99.3    100.0   99.6
+Anomalous multiplicity                          3.0     3.6     3.0
 Cell:  42.455  42.455  39.772  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
