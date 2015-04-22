@@ -15,7 +15,9 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
   #result.show_stdout()
 
   summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
-  assert os.path.exists(summary_file)
+  if not os.path.exists(summary_file):
+    result.show_stdout()
+  assert os.path.exists(summary_file), "xia2-summary.dat not present after execution"
   expected_summary_lines = expected_summary.split('\n')
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
