@@ -68,7 +68,7 @@ Rmerge                                          0.083   0.025   0.504
 CC half                                         0.998   1.0     0.889
 Anomalous completeness                          99.3    100.0   98.3
 Anomalous multiplicity                          3.0     3.6     2.7
-Cell: 42.396 42.396 39.694 90.000 90.000 90.000
+Cell: 42.426 42.426 39.717 90.000 90.000 90.000
 Spacegroup: P 41 21 2
 """ %data_dir
   run_xia2(command_line_args, expected_summary=expected_summary,
