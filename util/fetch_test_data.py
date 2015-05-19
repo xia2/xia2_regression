@@ -2,7 +2,7 @@ def fetch_test_data_index():
   from download import download
 
   index_url = 'http://dials.diamond.ac.uk/xia2/test_data/filelist.dat'
-  download(index_url, 'filelist.dat')
+  download(index_url, 'filelist.dat', error_if_exists=False)
   return 'filelist.dat'
 
 files_to_download = {
