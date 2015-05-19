@@ -41,24 +41,24 @@ Images: 1 to 60
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                       1.64    6.96    1.64
 Low resolution limit                        78.71   78.71   1.69
-Completeness                                96.9    91.1    82.0
+Completeness                                96.9    91.4    82.1
 Multiplicity                                4.2     3.4     2.8
-I/sigma                                     10.8    20.9    2.2
-Rmerge                                      0.054   0.039   0.326
-CC half                                     0.997   0.995   0.801
-Anomalous completeness                      95.5    90.7    75.5
+I/sigma                                     11.0    21.2    2.3
+Rmerge                                      0.053   0.038   0.321
+CC half                                     0.997   0.995   0.813
+Anomalous completeness                      95.5    91.1    75.6
 Anomalous multiplicity                      2.3     2.2     1.5
 For AUTOMATIC/DEFAULT/WAVE2:
-High resolution limit                       1.58    7.07    1.58
-Low resolution limit                        43.09   43.09   1.62
-Completeness                                91.7    91.4    59.8
-Multiplicity                                4.0     3.4     2.2
-I/sigma                                     10.8    20.9    2.3
-Rmerge                                      0.053   0.042   0.359
-CC half                                     0.998   0.996   0.794
-Anomalous completeness                      89.5    91.7    52.0
-Anomalous multiplicity                      2.1     2.2     1.2
-Cell:  51.496  51.496 157.417  90.000  90.000  90.000
+High resolution limit                       1.64    6.96    1.64
+Low resolution limit                        43.09   43.09   1.69
+Completeness                                102.6   91.5    162.8
+Multiplicity                                4.0     3.4     2.4
+I/sigma                                     11.0    21.4    2.6
+Rmerge                                      0.052   0.04    0.314
+CC half                                     0.998   0.997   0.827
+Anomalous completeness                      100.5   92.1    148.3
+Anomalous multiplicity                      2.1     2.2     1.3
+Cell:  51.496  51.496 157.415  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
