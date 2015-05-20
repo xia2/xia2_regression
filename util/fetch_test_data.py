@@ -1,18 +1,26 @@
-def fetch_test_data_index():
-  from download import download
-
-  index_url = 'http://dials.diamond.ac.uk/xia2/test_data/filelist.dat'
-  download(index_url, 'filelist.dat', error_if_exists=False)
-  return 'filelist.dat'
+from download import download
 
 files_to_download = {
   'http://www.ccp4.ac.uk/tutorials/tutorial_files/blend_tutorial/data02.tgz':
-  'blend_tutorial/data02.tgz',
+    'blend_tutorial/data02.tgz',
 }
 
-def fetch_test_data(target_dir = ''):
+def fetch_test_data_index():
+  index_url = 'http://dials.diamond.ac.uk/xia2/test_data/filelist.dat'
+
+  result = download(index_url, 'filelist.dat')
+  if result == -1:
+    raise RuntimeError, 'Could not download file list.'
+
+  index = {}
+  for record in open('filelist.dat'):
+    filename = record.strip()
+    url = 'http://dials.diamond.ac.uk/xia2/' + filename
+    index[url] = filename
+  return index
+
+def fetch_test_data(target_dir = '', skip_existing_files=True):
   import os
-  from download import download
 
   if (target_dir == ''):
     import libtbx.load_env
@@ -22,37 +30,29 @@ def fetch_test_data(target_dir = ''):
     os.mkdir(target_dir)
   os.chdir(target_dir)
 
-  index = fetch_test_data_index()
+  success = True
 
-  try:
-    for record in open(index):
-      filename = record.strip()
-      url = 'http://dials.diamond.ac.uk/xia2/' + filename
-      if not os.path.exists(filename):
-        print filename
-        download(url, filename)
-      else:
-        size = os.stat(filename).st_size
-        if size == 0:
-          print '%s exists, but empty, downloading' % filename
-          download(url, filename, error_if_exists=False)
-        else:
-          print '%s exists' % filename
+  download_list = fetch_test_data_index()
+  download_list.update(files_to_download)
 
-  finally:
-    os.remove(index)
+  download_count = len(download_list)
+  download_num = 0
+  progress_mask = " [%%%dd / %%d] " % len(str(download_count))
 
-  for url, filename in files_to_download.iteritems():
-    if os.path.exists(filename):
-      size = os.stat(filename).st_size
-      if size == 0:
-        print '%s exists, but empty, downloading' % filename
-        download(url, filename, error_if_exists=False)
-      else:
-        print '%s exists' % filename
+  for url in sorted(download_list):
+    download_num = download_num + 1
+    filename = download_list[url]
+
+    print progress_mask % (download_num, download_count),
+    if skip_existing_files and os.path.exists(filename):
+      print "skipping", url, ": file exists"
     else:
-      os.makedirs(os.path.split(filename)[0])
-      download(url, filename)
+      result = download(url, filename)
+      if result == -1:
+        success = False
+
+  if not success:
+    raise RuntimeError, 'some downloads failed, please try again.'
 
   return
 
