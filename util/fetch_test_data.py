@@ -47,7 +47,7 @@ def fetch_test_data(target_dir = '', skip_existing_files=True):
     url = urls[num]
     filename = download_list[url]
 
-    status_prefix = progress_mask % (num, download_count)
+    status_prefix = progress_mask % (num + 1, download_count)
     if skip_existing_files and os.path.exists(filename):
       print status_prefix, "skipping", url, ": file exists"
     else:
