@@ -1,4 +1,5 @@
 from download import download
+import multiprocessing
 
 files_to_download = {
   'http://www.ccp4.ac.uk/tutorials/tutorial_files/blend_tutorial/data02.tgz':
@@ -36,21 +37,26 @@ def fetch_test_data(target_dir = '', skip_existing_files=True):
   download_list.update(files_to_download)
 
   download_count = len(download_list)
-  download_num = 0
   progress_mask = " [%%%dd / %%d] " % len(str(download_count))
 
-  for url in sorted(download_list):
-    download_num = download_num + 1
+  urls = sorted(download_list)
+  pool = multiprocessing.Pool(3) # number of parallel downloads
+  results = []
+
+  for num in range(0, download_count):
+    url = urls[num]
     filename = download_list[url]
 
-    print progress_mask % (download_num, download_count),
+    status_prefix = progress_mask % (num, download_count)
     if skip_existing_files and os.path.exists(filename):
-      print "skipping", url, ": file exists"
+      print status_prefix, "skipping", url, ": file exists"
     else:
-      result = download(url, filename)
-      if result == -1:
-        success = False
+      results.append(pool.apply_async(download, (url, filename, status_prefix)))
 
+  success = True
+  for result in results:
+    if result.get(timeout=60) == -1:
+      success = False
   if not success:
     raise RuntimeError, 'some downloads failed, please try again.'
 

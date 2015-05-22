@@ -74,9 +74,7 @@ class Downloader(object):
 
     if status and (file_size > 0):
       log.write("]\n")
-    else:
-      log.write("%d kB\n" % (received / 1024))
-    log.flush()
+      log.flush()
 
     # Do not overwrite file during the download. If a download temporarily fails we
     # may still have a clean, working (yet older) copy of the file.
@@ -95,7 +93,7 @@ class Downloader(object):
     return received
 
 
-def download(url, target):
+def download(url, target, status_prefix=''):
   '''Download a url to a target file, including path relative to cwd,
   making directory if necessary. Returns the file size or return code.'''
 
@@ -104,12 +102,12 @@ def download(url, target):
     if not os.path.exists(dirname):
       os.makedirs(dirname)
 
-  print "downloading", url, ": ",
+  print status_prefix, "downloading", url, ": ",
   result = None
   retries = 3
   while (result is None) and (retries >= 0):
     try:
-      result = Downloader().download_to_file(url, target)
+      result = Downloader().download_to_file(url, target, status=False)
     except urllib2.HTTPError, e:
       print e
       retries = retries - 1
