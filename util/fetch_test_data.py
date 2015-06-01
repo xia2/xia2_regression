@@ -55,7 +55,7 @@ def fetch_test_data(target_dir = '', skip_existing_files=True):
 
   success = True
   for result in results:
-    if result.get(timeout=60) == -1:
+    if result.get(timeout=600) == -1:
       success = False
   if not success:
     raise RuntimeError, 'some downloads failed, please try again.'
