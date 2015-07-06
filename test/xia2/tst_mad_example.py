@@ -41,24 +41,26 @@ Images: 1 to 60
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                       1.65    7.0     1.65
 Low resolution limit                        51.5    51.5    1.7
-Completeness                                97.2    90.7    84.4
+Completeness                                97.3    91.0    84.4
 Multiplicity                                4.2     3.4     2.8
-I/sigma                                     10.5    20.5    2.1
-Rmerge                                      0.058   0.039   0.333
-CC half                                     0.997   0.995   0.827
+I/sigma                                     10.4    20.7    2.1
+Rmerge                                      0.056   0.039   0.325
+CC half                                     0.997   0.994   0.827
 Anomalous completeness                      95.9    91.5    77.6
 Anomalous multiplicity                      2.3     2.2     1.6
 For AUTOMATIC/DEFAULT/WAVE2:
 High resolution limit                       1.6     7.16    1.6
-Low resolution limit                        43.1    43.1    1.64
-Completeness                                93.0    90.8    64.6
-Multiplicity                                4.1     3.3     2.3
-I/sigma                                     10.5    20.5    2.4
-Rmerge                                      0.054   0.041   0.325
-CC half                                     0.998   0.997   0.793
+Low resolution limit                        43.09   43.09   1.64
+Completeness                                93.1    90.4    64.6
+Multiplicity                                4.1     3.4     2.3
+I/sigma                                     10.4    21.0    2.2
+Rmerge                                      0.053   0.04    0.326
+CC half                                     0.998   0.996   0.783
 Anomalous completeness                      91.2    91.1    58.7
 Anomalous multiplicity                      2.2     2.2     1.3
-Cell:  51.504  51.504 157.438  90.000  90.000  90.000
+Cell:  51.496  51.496 157.416  90.000  90.000  90.000
+Spacegroup: P 41 21 2
+
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
