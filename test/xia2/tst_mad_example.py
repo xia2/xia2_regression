@@ -39,26 +39,26 @@ Sweep: SWEEP2
 Files %s/12287_1_E2_###.img
 Images: 1 to 60
 For AUTOMATIC/DEFAULT/WAVE1:
-High resolution limit                       1.64    6.96    1.64
-Low resolution limit                        78.71   78.71   1.69
-Completeness                                96.8    90.8    82.0
-Multiplicity                                4.2     3.4     2.8
-I/sigma                                     10.9    20.9    2.2
-Rmerge                                      0.053   0.038   0.318
-CC half                                     0.997   0.994   0.8
-Anomalous completeness                      95.5    91.1    75.5
-Anomalous multiplicity                      2.3     2.2     1.5
+High resolution limit                       1.64    7.33    1.64
+Low resolution limit                        52.47   52.47   1.68
+Completeness                                97.6    97.9    81.4
+Multiplicity                                4.3     3.5     2.8
+I/sigma                                     13.0    27.1    2.1
+Rmerge                                      0.047   0.026   0.334
+CC half                                     0.998   0.997   0.799
+Anomalous completeness                      96.4    99.4    75.1
+Anomalous multiplicity                      2.3     2.3     1.5
 For AUTOMATIC/DEFAULT/WAVE2:
-High resolution limit                       1.58    7.07    1.58
-Low resolution limit                        43.09   43.09   1.62
-Completeness                                91.7    90.8    59.8
-Multiplicity                                4.0     3.4     2.2
-I/sigma                                     10.8    21.1    2.3
-Rmerge                                      0.052   0.04    0.364
-CC half                                     0.998   0.997   0.786
-Anomalous completeness                      89.5    91.7    52.0
-Anomalous multiplicity                      2.1     2.2     1.2
-Cell:  51.497  51.497 157.418  90.000  90.000  90.000
+High resolution limit                       1.64    7.33    1.64
+Low resolution limit                        43.09   43.09   1.68
+Completeness                                95.7    98.7    69.3
+Multiplicity                                4.2     3.4     2.3
+I/sigma                                     13.8    27.1    2.4
+Rmerge                                      0.046   0.029   0.338
+CC half                                     0.999   0.999   0.811
+Anomalous completeness                      93.3    99.4    57.2
+Anomalous multiplicity                      2.2     2.3     1.3
+Cell:  51.495  51.495 157.412  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
