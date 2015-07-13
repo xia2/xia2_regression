@@ -92,15 +92,15 @@ Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
 For AUTOMATIC/DEFAULT/NATIVE:
 High resolution limit                       1.33    5.95    1.33
-Low resolution limit                        29.93   29.93   1.36
-Completeness                                98.3    99.7    85.1
-Multiplicity                                4.9     4.6     3.3
-I/sigma                                     7.4     15.1    1.7
-Rmerge                                      0.079   0.023   0.432
-CC half                                     0.997   0.999   0.711
-Anomalous completeness                      96.1    96.1    77.6
+Low resolution limit                        29.03   29.03   1.36
+Completeness                                98.3    99.4    85.5
+Multiplicity                                4.9     4.7     3.3
+I/sigma                                     7.6     14.9    1.8
+Rmerge                                      0.077   0.023   0.394
+CC half                                     0.997   0.999   0.756
+Anomalous completeness                      96.2    96.2    78.2
 Anomalous multiplicity                      2.6     3.3     1.8
-Cell:  42.332  42.332  39.776  90.000  90.000  90.000
+Cell:  42.406  42.406  39.827  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
