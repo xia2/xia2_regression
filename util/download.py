@@ -100,8 +100,10 @@ def download(url, target, status_prefix=''):
 
   dirname, filename = os.path.split(target)
   if dirname:
-    if not os.path.exists(dirname):
+    try:
       os.makedirs(dirname)
+    except:
+      pass
 
   print status_prefix, "downloading", url, ": ",
   result = None
