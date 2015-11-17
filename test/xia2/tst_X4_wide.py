@@ -42,7 +42,7 @@ def exercise_dials():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-dials', 'nproc=1', data_dir]
+  command_line_args = ['-dials', 'nproc=1', 'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -59,7 +59,7 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
 Beam 220.00 212.48 => 219.87 212.62
-Distance 190.18 => 192.05
+Distance 190.18 => 192.03
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
 High resolution limit                           1.3     5.81    1.3
@@ -114,7 +114,7 @@ Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
   command_line_args = ['-dials', 'nproc=1', 'njob=2', 'mode=parallel',
-                       'xinfo=%s' %xinfo_file]
+                       'trust_beam_centre=True', 'xinfo=%s' %xinfo_file]
   run_xia2(command_line_args, expected_summary=expected_summary)
 
 
@@ -122,7 +122,7 @@ def exercise_xds():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-3di', 'nproc=1', data_dir]
+  command_line_args = ['-3di', 'nproc=1', 'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -164,7 +164,7 @@ Spacegroup: P 41 21 2
     print >> f, split_xinfo_template %(data_dir, data_dir)
 
   command_line_args = ['-3di', 'nproc=1', 'njob=2', 'mode=parallel',
-                       'xinfo=%s' %xinfo_file]
+                       'trust_beam_centre=True', 'xinfo=%s' %xinfo_file]
 
   expected_summary = """\
 Project: AUTOMATIC
@@ -205,7 +205,8 @@ def exercise_xds_ccp4a():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-3di', 'nproc=1', 'scaler=ccp4a', data_dir]
+  command_line_args = [
+    '-3di', 'nproc=1', 'scaler=ccp4a', 'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -246,8 +247,9 @@ Spacegroup: P 41 21 2
   with open(xinfo_file, 'wb') as f:
     print >> f, split_xinfo_template %(data_dir, data_dir)
 
-  command_line_args = ['-3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
-                       'mode=parallel', 'xinfo=%s' %xinfo_file]
+  command_line_args = [
+    '-3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
+    'trust_beam_centre=True', 'mode=parallel', 'xinfo=%s' %xinfo_file]
 
   expected_summary = """\
 Project: AUTOMATIC

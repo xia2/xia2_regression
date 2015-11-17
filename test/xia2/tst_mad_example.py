@@ -15,7 +15,8 @@ def exercise_dials():
   data_dir = os.path.join(xia2_regression, "test_data", "mad_example")
   assert os.path.exists(data_dir)
   command_line_args = [
-    '-dials', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
+    '-dials', 'nproc=1', 'njob=2', 'mode=parallel',
+    'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -42,7 +43,7 @@ Sweep: SWEEP2
 Files %s/12287_1_E2_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.14
-Distance 170.00 => 169.00
+Distance 170.00 => 168.99
 Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                           1.64    7.33    1.64
@@ -77,7 +78,8 @@ def exercise_xds():
   data_dir = os.path.join(xia2_regression, "test_data", "mad_example")
   assert os.path.exists(data_dir)
   command_line_args = [
-    '-3di', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
+    '-3di', 'nproc=1', 'njob=2', 'mode=parallel',
+    'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -139,7 +141,8 @@ def exercise_xds_ccp4a():
   data_dir = os.path.join(xia2_regression, "test_data", "mad_example")
   assert os.path.exists(data_dir)
   command_line_args = [
-    '-3di', 'scaler=ccp4a', 'nproc=1', 'njob=2', 'mode=parallel', data_dir]
+    '-3di', 'scaler=ccp4a', 'nproc=1', 'njob=2', 'mode=parallel',
+    'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
