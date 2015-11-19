@@ -26,9 +26,12 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
     line = ' '.join(line.split())
     expected = ' '.join(expected.split())
     try:
-      if ('Cell' in line):
+      if 'Cell' in line:
         values_summary = [float(f) for f in line.split()[-6:]]
         values_expected = [float(f) for f in expected.split()[-6:]]
+      elif 'Distance' in line or 'Beam' in line:
+        values_summary = [float(f) for f in line.replace('=>', ' ').split()[1:]]
+        values_expected = [float(f) for f in expected.replace('=>', ' ').split()[1:]]
       else:
         values_summary = [float(f) for f in line.split()[-3:]]
         values_expected = [float(f) for f in expected.split()[-3:]]
@@ -66,6 +69,9 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
       elif ('Cell' in line):
         assert approx_equal(
           values_summary, values_expected, eps=2e-2), (line, expected)
+      elif ('Distance' in line):
+        assert approx_equal(
+          values_summary, values_expected, eps=1e-3), (line, expected)
       else:
         assert not show_diff(line, expected)
 

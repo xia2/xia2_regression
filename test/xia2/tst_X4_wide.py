@@ -59,7 +59,7 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
 Beam 220.00 212.48 => 219.87 212.62
-Distance 190.18 => 192.03
+Distance 190.18 => 192.05
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
 High resolution limit                           1.3     5.81    1.3
@@ -91,25 +91,25 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
 Beam 220.00 212.48 => 219.90 212.60
-Distance 190.18 => 192.33
+Distance 190.18 => 192.32
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
-Beam 220.00 212.48 => 219.88 212.66
-Distance 190.18 => 191.57
+Beam 220.00 212.48 => 219.87 212.65
+Distance 190.18 => 191.83
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.35    6.04    1.35
-Low resolution limit                            29.94   29.94   1.39
-Completeness                                    99.5    99.7    96.4
-Multiplicity                                    5.1     4.7     4.5
-I/sigma                                         8.9     19.0    2.2
-Rmerge                                          0.073   0.029   0.37
-CC half                                         0.998   0.999   0.932
-Anomalous completeness                          97.5    95.9    87.1
-Anomalous multiplicity                          2.7     3.3     2.5
-Cell:  42.336  42.336  39.598  90.000  90.000  90.000
+High resolution limit                       1.37    6.13    1.37
+Low resolution limit                        29.95   29.95   1.41
+Completeness                                99.8    99.7    100.0
+Multiplicity                                5.1     4.7     5.2
+I/sigma                                     9.6     21.0    3.0
+Rmerge                                      0.071   0.027   0.313
+CC half                                     0.998   0.999   0.931
+Anomalous completeness                      98.4    95.8    98.2
+Anomalous multiplicity                      2.7     3.3     2.7
+Cell:  42.361  42.361  39.624  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
