@@ -14,9 +14,12 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
   result = easy_run.fully_buffered(command=cmd).raise_if_errors()
   #result.show_stdout()
 
-  summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
-  if not os.path.exists(summary_file):
+  error_file = os.path.join(tmp_dir, 'xia2.error')
+  if os.path.exists(error_file):
     result.show_stdout()
+    with open(error_file, 'rb') as f:
+      print f.read()
+  summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
   assert os.path.exists(summary_file), "xia2-summary.dat not present after execution"
   expected_summary_lines = expected_summary.split('\n')
   summary_text = open(summary_file, 'rb').read()
@@ -71,7 +74,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
           values_summary, values_expected, eps=2e-2), (line, expected)
       elif ('Distance' in line):
         assert approx_equal(
-          values_summary, values_expected, eps=1e-3), (line, expected)
+          values_summary, values_expected, eps=3e-2), (line, expected)
       else:
         assert not show_diff(line, expected)
 
