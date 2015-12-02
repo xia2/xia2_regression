@@ -62,16 +62,16 @@ Beam 220.00 212.48 => 219.87 212.62
 Distance 190.18 => 192.05
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.3     5.81    1.3
-Low resolution limit                            29.93   29.93   1.33
-Completeness                                    99.8    99.7    99.7
-Multiplicity                                    5.6     5.1     5.2
-I/sigma                                         8.8     19.9    1.8
-Rmerge                                          0.082   0.033   0.481
-CC half                                         0.997   0.999   0.893
-Anomalous completeness                          99.3    100.0   97.4
-Anomalous multiplicity                          3.0     3.6     2.7
-Cell:  42.331  42.331  39.639  90.000  90.000  90.000
+High resolution limit                           1.19    5.32    1.19
+Low resolution limit                            28.93   28.93   1.22
+Completeness                                    99.9    99.6    100.0
+Multiplicity                                    5.6     5.1     5.3
+I/sigma                                         7.7     19.6    1.3
+Rmerge                                          0.09    0.036   0.92
+CC half                                         0.997   0.999   0.801
+Anomalous completeness                          99.3    100.0   99.3
+Anomalous multiplicity                          2.9     3.4     2.8
+Cell:  42.331  42.331  39.638  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
   run_xia2(command_line_args, expected_summary=expected_summary,
@@ -100,15 +100,15 @@ Beam 220.00 212.48 => 219.87 212.65
 Distance 190.18 => 191.83
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                       1.37    6.13    1.37
-Low resolution limit                        29.95   29.95   1.41
-Completeness                                99.8    99.7    100.0
-Multiplicity                                5.1     4.7     5.2
-I/sigma                                     9.6     21.0    3.0
-Rmerge                                      0.071   0.027   0.313
-CC half                                     0.998   0.999   0.931
-Anomalous completeness                      98.4    95.8    98.2
-Anomalous multiplicity                      2.7     3.3     2.7
+High resolution limit                           1.26    5.64    1.26
+Low resolution limit                            29.95   29.95   1.29
+Completeness                                    99.5    99.8    95.4
+Multiplicity                                    5.0     4.7     4.3
+I/sigma                                         7.9     20.2    1.5
+Rmerge                                          0.077   0.03    0.574
+CC half                                         0.998   0.999   0.851
+Anomalous completeness                          97.0    96.8    83.7
+Anomalous multiplicity                          2.6     3.2     2.4
 Cell:  42.361  42.361  39.624  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
@@ -142,15 +142,15 @@ Beam 220.00 212.48 => 219.86 212.59
 Distance 190.18 => 192.16
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.3     5.81    1.3
-Low resolution limit                            21.14   21.14   1.33
-Completeness                                    99.9    98.4    99.9
-Multiplicity                                    5.9     5.1     5.7
-I/sigma                                         17.0    49.6    2.2
-Rmerge                                          0.048   0.016   0.652
-CC half                                         0.999   1.0     0.753
-Anomalous completeness                          98.7    81.8    99.3
-Anomalous multiplicity                          3.1     3.7     3.0
+High resolution limit                           1.22    5.46    1.22
+Low resolution limit                            21.14   21.14   1.25
+Completeness                                    99.9    98.7    100.0
+Multiplicity                                    5.9     5.1     6.0
+I/sigma                                         14.1    48.4    1.4
+Rmerge                                          0.054   0.018   1.084
+CC half                                         0.999   1.0     0.578
+Anomalous completeness                          98.9    84.3    99.7
+Anomalous multiplicity                          3.1     3.6     3.1
 Cell:  42.280  42.280  39.590  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
@@ -184,15 +184,15 @@ Beam 220.00 212.48 => 219.86 212.68
 Distance 190.18 => 191.95
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.29    5.77    1.29
-Low resolution limit                            23.88   23.88   1.32
-Completeness                                    98.9    98.9    89.9
-Multiplicity                                    5.4     4.8     2.8
-I/sigma                                         15.0    42.5    2.2
-Rmerge                                          0.055   0.023   0.536
-CC half                                         0.998   0.999   0.723
-Anomalous completeness                          94.4    87.7    63.5
-Anomalous multiplicity                          2.8     3.2     1.7
+High resolution limit                           1.22    5.46    1.22
+Low resolution limit                            23.88   23.88   1.25
+Completeness                                    99.0    99.1    91.1
+Multiplicity                                    5.4     4.8     2.9
+I/sigma                                         12.9    42.1    1.5
+Rmerge                                          0.06    0.022   0.96
+CC half                                         0.998   0.999   0.566
+Anomalous completeness                          95.4    88.6    66.8
+Anomalous multiplicity                          2.8     3.2     1.8
 Cell:  42.300  42.300  39.650  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
@@ -226,15 +226,15 @@ Beam 220.00 212.48 => 219.86 212.59
 Distance 190.18 => 192.16
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.38    6.17    1.38
-Low resolution limit                            23.85   23.85   1.42
-Completeness                                    99.9    98.7    100.0
-Multiplicity                                    6.0     5.3     6.1
-I/sigma                                         14.2    40.4    2.8
-Rmerge                                          0.06    0.019   0.433
-CC half                                         0.998   0.999   0.883
-Anomalous completeness                          99.8    100.0   100.0
-Anomalous multiplicity                          3.3     3.7     3.2
+High resolution limit                           1.24    5.55    1.24
+Low resolution limit                            23.85   23.85   1.27
+Completeness                                    99.9    99.1    100.0
+Multiplicity                                    6.0     5.4     6.0
+I/sigma                                         10.6    39.3    1.2
+Rmerge                                          0.072   0.021   0.909
+CC half                                         0.999   1.0     0.685
+Anomalous completeness                          99.7    100.0   99.9
+Anomalous multiplicity                          3.2     3.6     3.1
 Cell:  42.275  42.275  39.578  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
@@ -269,15 +269,15 @@ Beam 220.00 212.48 => 219.86 212.68
 Distance 190.18 => 191.95
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.36    6.08    1.36
-Low resolution limit                            23.88   23.88   1.4
-Completeness                                    99.7    98.8    96.8
-Multiplicity                                    5.7     5.0     5.1
-I/sigma                                         11.4    27.9    2.2
-Rmerge                                          0.069   0.033   0.433
-CC half                                         0.997   0.996   0.864
-Anomalous completeness                          98.7    100.0   89.7
-Anomalous multiplicity                          3.0     3.4     2.8
+High resolution limit                           1.25    5.59    1.25
+Low resolution limit                            23.88   23.88   1.28
+Completeness                                    99.6    99.0    95.2
+Multiplicity                                    5.6     5.1     4.1
+I/sigma                                         9.1     27.0    1.1
+Rmerge                                          0.078   0.037   0.774
+CC half                                         0.997   0.994   0.699
+Anomalous completeness                          97.7    100.0   78.1
+Anomalous multiplicity                          3.0     3.4     2.4
 Cell:  42.308  42.308  39.658  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
