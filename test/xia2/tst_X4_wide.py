@@ -91,7 +91,7 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
 Beam 220.00 212.48 => 219.90 212.60
-Distance 190.18 => 192.32
+Distance 190.18 => 192.26
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
