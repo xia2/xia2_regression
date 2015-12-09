@@ -36,14 +36,14 @@ Sweep: SWEEP1
 Files %s/12287_1_E1_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.14
-Distance 170.00 => 168.98
+Distance 170.00 => 169.04
 Date: Sun Sep 26 14:01:35 2004
 Wavelength: WAVE2 (1.00000)
 Sweep: SWEEP2
 Files %s/12287_1_E2_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.14
-Distance 170.00 => 168.96
+Distance 170.00 => 169.04
 Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                           1.55    6.93    1.55
@@ -65,7 +65,7 @@ Rmerge                                          0.046   0.029   0.444
 CC half                                         0.998   0.999   0.604
 Anomalous completeness                          86.2    99.5    21.8
 Anomalous multiplicity                          2.1     2.3     1.1
-Cell:  51.452  51.452 157.292  90.000  90.000  90.000
+Cell:  51.468  51.468 157.339  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 

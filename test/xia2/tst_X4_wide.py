@@ -58,7 +58,7 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
-Beam 220.00 212.48 => 219.87 212.62
+Beam 220.00 212.48 => 219.87 212.63
 Distance 190.18 => 192.05
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
@@ -90,26 +90,26 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
-Beam 220.00 212.48 => 219.90 212.60
-Distance 190.18 => 192.26
+Beam 220.00 212.48 => 219.89 212.59
+Distance 190.18 => 192.19
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
-Beam 220.00 212.48 => 219.87 212.65
-Distance 190.18 => 191.83
+Beam 220.00 212.48 => 219.81 212.68
+Distance 190.18 => 192.73
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.26    5.64    1.26
-Low resolution limit                            29.95   29.95   1.29
-Completeness                                    99.5    99.8    95.4
-Multiplicity                                    5.0     4.7     4.3
-I/sigma                                         7.9     20.2    1.5
-Rmerge                                          0.077   0.03    0.574
-CC half                                         0.998   0.999   0.851
-Anomalous completeness                          97.0    96.8    83.7
-Anomalous multiplicity                          2.6     3.2     2.4
-Cell:  42.361  42.361  39.624  90.000  90.000  90.000
+High resolution limit                           1.27    5.68    1.27
+Low resolution limit                            29.01   29.01   1.3
+Completeness                                    98.9    99.5    88.3
+Multiplicity                                    4.9     4.8     2.8
+I/sigma                                         7.8     21.6    1.0
+Rmerge                                          0.079   0.033   0.558
+CC half                                         0.997   0.998   0.815
+Anomalous completeness                          95.3    96.8    61.2
+Anomalous multiplicity                          2.6     3.2     1.7
+Cell:  42.455  42.455  39.724  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
