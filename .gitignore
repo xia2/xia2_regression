@@ -2,3 +2,5 @@
 *~
 *.pyc
 *.swp
+.git-notifier*
+.gitversion
