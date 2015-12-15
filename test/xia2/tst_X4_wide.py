@@ -90,26 +90,26 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
-Beam 220.00 212.48 => 219.89 212.59
-Distance 190.18 => 192.19
+Beam 220.00 212.48 => 219.89 212.60
+Distance 190.18 => 192.15
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
-Beam 220.00 212.48 => 219.81 212.68
-Distance 190.18 => 192.73
+Beam 220.00 212.48 => 219.82 212.67
+Distance 190.18 => 192.68
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
 High resolution limit                           1.27    5.68    1.27
-Low resolution limit                            29.01   29.01   1.3
-Completeness                                    98.9    99.5    88.3
-Multiplicity                                    4.9     4.8     2.8
-I/sigma                                         7.8     21.6    1.0
-Rmerge                                          0.079   0.033   0.558
-CC half                                         0.997   0.998   0.815
-Anomalous completeness                          95.3    96.8    61.2
-Anomalous multiplicity                          2.6     3.2     1.7
-Cell:  42.455  42.455  39.724  90.000  90.000  90.000
+Low resolution limit                            30.01   30.01   1.3
+Completeness                                    99.3    99.8    92.8
+Multiplicity                                    5.0     4.7     3.4
+I/sigma                                         7.8     21.4    1.0
+Rmerge                                          0.079   0.032   0.619
+CC half                                         0.997   0.998   0.8
+Anomalous completeness                          96.3    96.8    74.3
+Anomalous multiplicity                          2.6     3.2     2.0
+Cell:  42.445  42.445  39.706  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
