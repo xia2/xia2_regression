@@ -42,7 +42,8 @@ def exercise_dials():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-dials', 'nproc=1', 'trust_beam_centre=True', data_dir]
+  command_line_args = ['-dials', 'nproc=1', 'trust_beam_centre=True',
+                       'read_all_image_headers=False', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -122,7 +123,8 @@ def exercise_xds():
 
   data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
   assert os.path.exists(data_dir)
-  command_line_args = ['-3di', 'nproc=1', 'trust_beam_centre=True', data_dir]
+  command_line_args = ['-3di', 'nproc=1', 'trust_beam_centre=True',
+                       'read_all_image_headers=False', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
