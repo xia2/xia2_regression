@@ -99,35 +99,35 @@ Sweep: SWEEP1
 Files %s/12287_1_E1_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.15
-Distance 170.00 => 169.23
+Distance 170.00 => 169.28
 Date: Sun Sep 26 14:01:35 2004
 Wavelength: WAVE2 (1.00000)
 Sweep: SWEEP2
 Files %s/12287_1_E2_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.15
-Distance 170.00 => 169.18
+Distance 170.00 => 169.27
 Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
-High resolution limit                           1.58    6.89    1.58
-Low resolution limit                            43.15   43.15   1.62
-Completeness                                    94.4    94.5    68.2
-Multiplicity                                    4.1     3.4     2.5
-I/sigma                                         16.4    40.2    1.5
-Rmerge                                          0.043   0.02    0.505
-CC half                                         0.998   0.997   0.568
-Anomalous completeness                          89.8    84.8    64.2
-Anomalous multiplicity                          2.2     2.3     1.4
+High resolution limit                       1.58    6.89    1.58
+Low resolution limit                        43.15   43.15   1.62
+Completeness                                94.4    94.3    68.2
+Multiplicity                                4.1     3.4     2.5
+I/sigma                                     16.4    40.2    1.5
+Rmerge                                      0.043   0.02    0.498
+CC half                                     0.998   0.997   0.576
+Anomalous completeness                      89.8    85.7    64.3
+Anomalous multiplicity                      2.2     2.3     1.4
 For AUTOMATIC/DEFAULT/WAVE2:
-High resolution limit                           1.56    6.98    1.56
-Low resolution limit                            43.15   43.15   1.6
-Completeness                                    90.7    92.4    57.1
-Multiplicity                                    4.0     3.3     2.1
-I/sigma                                         17.6    44.2    1.2
-Rmerge                                          0.039   0.018   0.553
-CC half                                         0.999   0.999   0.505
-Anomalous completeness                          84.9    80.1    47.8
-Anomalous multiplicity                          2.1     2.3     1.2
+High resolution limit                       1.57    7.02    1.57
+Low resolution limit                        43.15   43.15   1.61
+Completeness                                91.3    91.5    58.9
+Multiplicity                                4.0     3.3     2.2
+I/sigma                                     17.8    44.0    1.3
+Rmerge                                      0.039   0.018   0.477
+CC half                                     0.999   0.999   0.6
+Anomalous completeness                      85.6    79.4    50.7
+Anomalous multiplicity                      2.1     2.3     1.3
 Cell:  51.570  51.570 157.610  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
@@ -162,36 +162,36 @@ Sweep: SWEEP1
 Files %s/12287_1_E1_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.15
-Distance 170.00 => 169.23
+Distance 170.00 => 169.28
 Date: Sun Sep 26 14:01:35 2004
 Wavelength: WAVE2 (1.00000)
 Sweep: SWEEP2
 Files %s/12287_1_E2_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.15
-Distance 170.00 => 169.18
+Distance 170.00 => 169.27
 Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
-High resolution limit                           1.58    6.89    1.58
-Low resolution limit                            39.4    39.4    1.62
-Completeness                                    94.9    97.5    68.5
-Multiplicity                                    4.2     3.5     2.5
-I/sigma                                         12.5    27.9    1.4
-Rmerge                                          0.053   0.028   0.512
-CC half                                         0.996   0.995   0.638
-Anomalous completeness                          93.1    96.4    64.6
-Anomalous multiplicity                          2.2     2.3     1.4
+High resolution limit                       1.58    6.89    1.58
+Low resolution limit                        39.4    39.4    1.62
+Completeness                                94.9    97.5    68.6
+Multiplicity                                4.2     3.5     2.5
+I/sigma                                     12.5    27.9    1.4
+Rmerge                                      0.053   0.028   0.507
+CC half                                     0.995   0.995   0.65
+Anomalous completeness                      93.1    95.5    64.7
+Anomalous multiplicity                      2.2     2.3     1.4
 For AUTOMATIC/DEFAULT/WAVE2:
-High resolution limit                           1.56    6.98    1.56
-Low resolution limit                            39.4    39.4    1.6
-Completeness                                    91.6    99.6    57.3
-Multiplicity                                    4.1     3.5     2.2
-I/sigma                                         12.6    27.1    1.1
-Rmerge                                          0.051   0.032   0.558
-CC half                                         0.996   0.986   0.608
-Anomalous completeness                          89.0    99.5    48.1
-Anomalous multiplicity                          2.2     2.3     1.2
-Cell:  51.566  51.566 157.597  90.000  90.000  90.000
+High resolution limit                       1.56    6.98    1.56
+Low resolution limit                        39.4    39.4    1.6
+Completeness                                91.6    99.6    57.4
+Multiplicity                                4.1     3.5     2.2
+I/sigma                                     12.6    27.2    1.1
+Rmerge                                      0.051   0.032   0.555
+CC half                                     0.996   0.991   0.606
+Anomalous completeness                      89.0    99.5    48.2
+Anomalous multiplicity                      2.2     2.3     1.2
+Cell:  51.566  51.566 157.598  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
