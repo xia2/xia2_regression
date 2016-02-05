@@ -60,7 +60,7 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
 Beam 220.00 212.48 => 219.87 212.63
-Distance 190.18 => 192.05
+Distance 190.18 => 192.11
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
 High resolution limit                           1.19    5.32    1.19
@@ -92,12 +92,12 @@ Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
 Beam 220.00 212.48 => 219.89 212.60
-Distance 190.18 => 192.15
+Distance 190.18 => 192.22
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
-Beam 220.00 212.48 => 219.82 212.67
+Beam 220.00 212.48 => 219.82 212.69
 Distance 190.18 => 192.68
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
@@ -105,12 +105,12 @@ High resolution limit                           1.27    5.68    1.27
 Low resolution limit                            30.01   30.01   1.3
 Completeness                                    99.3    99.8    92.8
 Multiplicity                                    5.0     4.7     3.4
-I/sigma                                         7.8     21.4    1.0
-Rmerge                                          0.079   0.032   0.619
-CC half                                         0.997   0.998   0.8
+I/sigma                                         7.8     21.6    1.0
+Rmerge                                          0.078   0.031   0.613
+CC half                                         0.997   0.999   0.805
 Anomalous completeness                          96.3    96.8    74.3
 Anomalous multiplicity                          2.6     3.2     2.0
-Cell:  42.445  42.445  39.706  90.000  90.000  90.000
+Cell:  42.438  42.438  39.713  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
