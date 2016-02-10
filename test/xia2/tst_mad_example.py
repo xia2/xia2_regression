@@ -48,24 +48,24 @@ Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                           1.55    6.93    1.55
 Low resolution limit                            52.42   52.42   1.59
-Completeness                                    92.6    97.0    60.1
+Completeness                                    92.6    97.2    60.1
 Multiplicity                                    4.1     3.5     2.2
-I/sigma                                         11.9    27.2    1.2
-Rmerge                                          0.048   0.026   0.481
-CC half                                         0.997   0.996   0.681
-Anomalous completeness                          90.5    94.9    53.5
+I/sigma                                         11.7    26.6    1.2
+Rmerge                                          0.049   0.026   0.481
+CC half                                         0.997   0.997   0.679
+Anomalous completeness                          90.5    96.3    53.5
 Anomalous multiplicity                          2.2     2.3     1.2
 For AUTOMATIC/DEFAULT/WAVE2:
 High resolution limit                           1.58    6.89    1.58
 Low resolution limit                            43.05   43.05   1.62
-Completeness                                    90.8    98.8    45.7
+Completeness                                    90.8    98.8    45.6
 Multiplicity                                    4.0     3.5     1.6
-I/sigma                                         13.1    27.1    1.3
-Rmerge                                          0.046   0.029   0.448
-CC half                                         0.998   0.999   0.604
-Anomalous completeness                          86.2    99.5    21.8
+I/sigma                                         12.8    26.4    1.3
+Rmerge                                          0.047   0.029   0.437
+CC half                                         0.998   0.998   0.602
+Anomalous completeness                          86.2    99.5    21.9
 Anomalous multiplicity                          2.1     2.3     1.1
-Cell:  51.440  51.440 157.257  90.000  90.000  90.000
+Cell:  51.442  51.442 157.263  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
@@ -172,25 +172,25 @@ Beam 108.95 105.10 => 108.98 105.15
 Distance 170.00 => 169.27
 Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
-High resolution limit                       1.58    6.89    1.58
-Low resolution limit                        39.4    39.4    1.62
-Completeness                                94.9    97.5    68.6
-Multiplicity                                4.2     3.5     2.5
-I/sigma                                     12.5    27.9    1.4
-Rmerge                                      0.053   0.028   0.507
-CC half                                     0.995   0.995   0.65
-Anomalous completeness                      93.1    95.5    64.7
-Anomalous multiplicity                      2.2     2.3     1.4
+High resolution limit                           1.58    6.89    1.58
+Low resolution limit                            39.4    39.4    1.62
+Completeness                                    94.9    97.5    68.6
+Multiplicity                                    4.2     3.5     2.5
+I/sigma                                         12.5    27.7    1.4
+Rmerge                                          0.054   0.028   0.507
+CC half                                         0.995   0.995   0.638
+Anomalous completeness                          93.2    96.0    64.7
+Anomalous multiplicity                          2.2     2.3     1.4
 For AUTOMATIC/DEFAULT/WAVE2:
-High resolution limit                       1.56    6.98    1.56
-Low resolution limit                        39.4    39.4    1.6
-Completeness                                91.6    99.6    57.4
-Multiplicity                                4.1     3.5     2.2
-I/sigma                                     12.6    27.2    1.1
-Rmerge                                      0.051   0.032   0.555
-CC half                                     0.996   0.991   0.606
-Anomalous completeness                      89.0    99.5    48.2
-Anomalous multiplicity                      2.2     2.3     1.2
+High resolution limit                           1.56    6.98    1.56
+Low resolution limit                            39.4    39.4    1.6
+Completeness                                    91.6    99.6    57.4
+Multiplicity                                    4.1     3.5     2.2
+I/sigma                                         12.6    27.0    1.1
+Rmerge                                          0.051   0.032   0.555
+CC half                                         0.996   0.991   0.61
+Anomalous completeness                          89.0    99.5    48.2
+Anomalous multiplicity                          2.2     2.3     1.2
 Cell:  51.566  51.566 157.598  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
