@@ -36,36 +36,36 @@ Sweep: SWEEP1
 Files %s/12287_1_E1_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.14
-Distance 170.00 => 168.93
+Distance 170.00 => 169.05
 Date: Sun Sep 26 14:01:35 2004
 Wavelength: WAVE2 (1.00000)
 Sweep: SWEEP2
 Files %s/12287_1_E2_###.img
 Images: 1 to 60
 Beam 108.95 105.10 => 108.98 105.14
-Distance 170.00 => 168.90
+Distance 170.00 => 169.08
 Date: Sun Sep 26 14:05:43 2004
 For AUTOMATIC/DEFAULT/WAVE1:
 High resolution limit                           1.55    6.93    1.55
-Low resolution limit                            52.42   52.42   1.59
-Completeness                                    92.6    97.2    60.1
+Low resolution limit                            52.45   52.45   1.59
+Completeness                                    92.6    97.0    60.1
 Multiplicity                                    4.1     3.5     2.2
-I/sigma                                         11.7    26.6    1.2
-Rmerge                                          0.049   0.026   0.481
-CC half                                         0.997   0.997   0.679
-Anomalous completeness                          90.5    96.3    53.5
+I/sigma                                         12.0    27.2    1.2
+Rmerge                                          0.048   0.026   0.487
+CC half                                         0.997   0.996   0.676
+Anomalous completeness                          90.5    94.9    53.2
 Anomalous multiplicity                          2.2     2.3     1.2
 For AUTOMATIC/DEFAULT/WAVE2:
 High resolution limit                           1.58    6.89    1.58
-Low resolution limit                            43.05   43.05   1.62
+Low resolution limit                            43.07   43.07   1.62
 Completeness                                    90.8    98.8    45.6
 Multiplicity                                    4.0     3.5     1.6
-I/sigma                                         12.8    26.4    1.3
-Rmerge                                          0.047   0.029   0.437
-CC half                                         0.998   0.998   0.602
-Anomalous completeness                          86.2    99.5    21.9
+I/sigma                                         13.2    27.2    1.4
+Rmerge                                          0.046   0.029   0.447
+CC half                                         0.998   0.998   0.618
+Anomalous completeness                          86.1    99.6    21.8
 Anomalous multiplicity                          2.1     2.3     1.1
-Cell:  51.442  51.442 157.263  90.000  90.000  90.000
+Cell:  51.472  51.472 157.351  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
