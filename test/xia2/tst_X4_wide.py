@@ -59,24 +59,36 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
-Beam 220.00 212.48 => 219.87 212.63
-Distance 190.18 => 192.06
+Beam 220.00 212.48 => 219.87 212.62
+Distance 190.18 => 192.00
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                             1.20    3.26    1.20
-Low resolution limit                             28.94   28.94    1.22
-Completeness                                    100.0    99.9   100.0
-Multiplicity                                      5.6     5.3     5.5
-I/sigma                                           7.3    20.2     1.2
-Rmerge(I+/-)                                    0.090   0.040   0.808
-CC half                                         0.997   0.998   0.796
-Anomalous completeness                           99.3    99.8     5.1
-Anomalous multiplicity                            3.1     3.3     2.9
-Cell:  42.335  42.335  39.642  90.000  90.000  90.000
+High resolution limit                         1.24    3.36    1.24
+Low resolution limit                         29.93   29.94    1.26
+Completeness                                100.0    99.8   100.0
+Multiplicity                                  5.5     5.2     5.6
+I/sigma                                       7.0    19.6     1.3
+Rmerge(I+/-)                                0.088   0.034   0.699
+CC half                                     0.997   0.998   0.820
+Anomalous completeness                       99.3    99.7     5.2
+Anomalous multiplicity                        3.0     3.3     3.0
+Cell:  42.334  42.334  39.646  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
   run_xia2(command_line_args, expected_summary=expected_summary,
            expected_data_files=expected_data_files)
+
+
+def exercise_dials_split():
+
+  data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
+  assert os.path.exists(data_dir)
+
+  expected_data_files = [
+    'AUTOMATIC_DEFAULT_free.mtz',
+    'AUTOMATIC_DEFAULT_scaled.sca',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.mtz',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.sca']
 
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
@@ -91,26 +103,26 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
-Beam 220.00 212.48 => 219.90 212.60
+Beam 220.00 212.48 => 219.89 212.60
 Distance 190.18 => 192.14
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
 Beam 220.00 212.48 => 219.82 212.68
-Distance 190.18 => 192.68
+Distance 190.18 => 192.67
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                             1.28    3.47    1.28
-Low resolution limit                             28.99   29.00    1.30
-Completeness                                     99.3    99.6    87.3
-Multiplicity                                      5.0     4.7     2.7
-I/sigma                                           7.6    21.5     1.1
-Rmerge(I+/-)                                    0.078   0.031   0.516
-CC half                                         0.998   0.998   0.816
-Anomalous completeness                           96.2    98.2     3.1
-Anomalous multiplicity                            2.8     3.0     1.7
-Cell:  42.435  42.435  39.705  90.000  90.000  90.000
+High resolution limit                         1.30    3.53    1.30
+Low resolution limit                         28.99   29.00    1.32
+Completeness                                 98.8    99.6    87.4
+Multiplicity                                  4.9     4.7     2.4
+I/sigma                                       7.6    23.1     0.8
+Rmerge(I+/-)                                0.077   0.029   0.464
+CC half                                     0.998   0.999   0.771
+Anomalous completeness                       94.1    98.1     2.9
+Anomalous multiplicity                        2.7     3.0     1.5
+Cell:  42.439  42.439  39.707  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
@@ -159,6 +171,18 @@ Spacegroup: P 41 21 2
 
   run_xia2(command_line_args, expected_summary=expected_summary,
            expected_data_files=expected_data_files)
+
+
+def exercise_xds_split():
+
+  data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
+  assert os.path.exists(data_dir)
+
+  expected_data_files = [
+    'AUTOMATIC_DEFAULT_free.mtz',
+    'AUTOMATIC_DEFAULT_scaled.sca',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.mtz',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.sca']
 
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
@@ -243,6 +267,18 @@ Spacegroup: P 41 21 2
 
   run_xia2(command_line_args, expected_summary=expected_summary,
            expected_data_files=expected_data_files)
+
+
+def exercise_xds_ccp4a_split():
+
+  data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
+  assert os.path.exists(data_dir)
+
+  expected_data_files = [
+    'AUTOMATIC_DEFAULT_free.mtz',
+    'AUTOMATIC_DEFAULT_scaled.sca',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.mtz',
+    'AUTOMATIC_DEFAULT_scaled_unmerged.sca']
 
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
