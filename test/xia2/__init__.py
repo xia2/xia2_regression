@@ -21,7 +21,7 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
       print f.read()
   html_file = os.path.join(tmp_dir, 'xia2.html')
   assert os.path.exists(html_file), "xia2.html not present after execution"
-  html_file = os.path.join(tmp_dir, 'xia2-summary.dat')
+  summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
   assert os.path.exists(summary_file), "xia2-summary.dat not present after execution"
   expected_summary_lines = expected_summary.split('\n')
   summary_text = open(summary_file, 'rb').read()
