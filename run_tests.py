@@ -9,6 +9,7 @@ tst_list = (
     ["$D/test/xia2/tst_mad_example.py", "dials"],
     ["$D/test/xia2/tst_mad_example.py", "xds"],
     ["$D/test/xia2/tst_mad_example.py", "xds_ccp4a"],
+    ["$D/test/xia2/tst_small_molecule.py", "dials"],
     ["$D/test/xia2/tst_X4_wide.py", "dials"],
     ["$D/test/xia2/tst_X4_wide.py", "xds"],
     ["$D/test/xia2/tst_X4_wide.py", "xds_ccp4a"],
@@ -18,7 +19,6 @@ tst_list = (
 )
 
 def run () :
-
   build_dir = libtbx.env.under_build("xia2")
   dist_dir = libtbx.env.dist_path("xia2")
   test_utils.run_tests(build_dir, dist_dir, tst_list)
