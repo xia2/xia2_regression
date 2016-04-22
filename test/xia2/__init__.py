@@ -185,9 +185,12 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
   print '-' * 80
 
   for data_file in expected_data_files:
-    assert os.path.exists(os.path.join('DataFiles', data_file)), "expected file %s is missing" % data_file
+    if not os.path.exists(os.path.join('DataFiles', data_file)):
+      print "> expected file %s is missing" % data_file
+      valid = [ False ]
 
   html_file = os.path.join(tmp_dir, 'xia2.html')
   assert os.path.exists(html_file), "xia2.html not present after execution"
 
   os.chdir(cwd)
+  assert all(valid)
