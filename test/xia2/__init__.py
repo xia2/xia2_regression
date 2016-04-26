@@ -187,10 +187,14 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
   for data_file in expected_data_files:
     if not os.path.exists(os.path.join('DataFiles', data_file)):
       print "> expected file %s is missing" % data_file
-      valid = [ False ]
+      output_identical = False
 
   html_file = os.path.join(tmp_dir, 'xia2.html')
-  assert os.path.exists(html_file), "xia2.html not present after execution"
+  if not os.path.exists(html_file):
+    print "> xia2.html not present after execution"
+    output_identical = False
 
   os.chdir(cwd)
-  assert all(valid)
+  if not output_identical:
+    from libtbx.utils import Sorry
+    raise Sorry("xia2 output failing tolerance checks")
