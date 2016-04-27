@@ -113,14 +113,17 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
   summary_text_lines = summary_text.split('\n')
   expected_summary_lines = expected_summary.split('\n')
 
-  print '-' * 80
+  import cStringIO as StringIO
+  compare = StringIO.StringIO()
+
+  print >>compare, '-' * 80
 
   number = re.compile('(\d*\.\d+|\d+\.?)')
   number_with_tolerance = re.compile('(\d*\.\d+|\d+\.?)\((ignore|\*\*|\d*\.\d+%?|\d+\.?%?)\)')
   output_identical = True
   for actual, expected in zip(summary_text_lines, expected_summary_lines):
     if actual == expected:
-      print ' ' + actual
+      print >>compare, ' ' + actual
       continue
 
     actual_s = actual.split()
@@ -160,7 +163,7 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
         valid.append(False)
 
     if all(equal):
-      print ' ' + actual
+      print >>compare, ' ' + actual
       continue
 
     expected_line = ''
@@ -177,24 +180,26 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
         expected_line += ' ' + template % expected + ' '
         actual_line += '*' + template % actual + '*'
         output_identical = False
-    print '-' + expected_line
+    print >>compare, '-' + expected_line
     if not all(valid):
-      print '>' + actual_line
+      print >>compare, '>' + actual_line
     else:
-      print '+' + actual_line
-  print '-' * 80
+      print >>compare, '+' + actual_line
+  print >>compare, '-' * 80
 
   for data_file in expected_data_files:
     if not os.path.exists(os.path.join('DataFiles', data_file)):
-      print "> expected file %s is missing" % data_file
+      print >>compare, "> expected file %s is missing" % data_file
       output_identical = False
 
   html_file = os.path.join(tmp_dir, 'xia2.html')
   if not os.path.exists(html_file):
-    print "> xia2.html not present after execution"
+    print >>compare, "> xia2.html not present after execution"
     output_identical = False
 
   os.chdir(cwd)
   if not output_identical:
     from libtbx.utils import Sorry
+    sys.stderr.write(compare.getvalue())
     raise Sorry("xia2 output failing tolerance checks")
+  sys.stdout.write(compare.getvalue())
