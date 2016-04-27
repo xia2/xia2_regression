@@ -59,20 +59,20 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 90
-Beam 220.00 212.48 => 219.87 212.62
-Distance 190.18 => 192.00
+Beam 220.00 212.48 => 219.86 212.63
+Distance 190.18 => 192.18
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                         1.24    3.36    1.24
-Low resolution limit                         29.93   29.94    1.26
+High resolution limit                         1.25    3.39    1.25
+Low resolution limit                         28.95   28.96    1.27
 Completeness                                100.0    99.8   100.0
 Multiplicity                                  5.5     5.2     5.6
-I/sigma                                       7.0    19.6     1.3
-Rmerge(I+/-)                                0.088   0.034   0.699
-CC half                                     0.997   0.998   0.820
-Anomalous completeness                       99.3    99.7     5.2
+I/sigma                                       7.3    20.8     1.4
+Rmerge(I+/-)                                0.085   0.032   0.635
+CC half                                     0.998   0.999   0.849
+Anomalous completeness                       99.3    99.7     5.1
 Anomalous multiplicity                        3.0     3.3     3.0
-Cell:  42.334  42.334  39.646  90.000  90.000  90.000
+Cell:  42.358  42.358  39.653  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %data_dir
   run_xia2(command_line_args, expected_summary=expected_summary,
@@ -103,26 +103,26 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 1 to 40
-Beam 220.00 212.48 => 219.89 212.60
-Distance 190.18 => 192.14
+Beam 220.00 212.48 => 219.90 212.60
+Distance 190.18 => 192.13
 Date: Fri Feb  8 13:23:40 2013
 Sweep: SWEEP2
 Files %s/X4_wide_M1S4_2_####.cbf
 Images: 45 to 90
-Beam 220.00 212.48 => 219.82 212.68
-Distance 190.18 => 192.67
+Beam 220.00 212.48 => 219.86 212.65
+Distance 190.18 => 192.42
 Date: Fri Feb  8 13:24:24 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                         1.30    3.53    1.30
-Low resolution limit                         28.99   29.00    1.32
-Completeness                                 98.8    99.6    87.4
-Multiplicity                                  4.9     4.7     2.4
-I/sigma                                       7.6    23.1     0.8
-Rmerge(I+/-)                                0.077   0.029   0.464
-CC half                                     0.998   0.999   0.771
-Anomalous completeness                       94.1    98.1     2.9
-Anomalous multiplicity                        2.7     3.0     1.5
-Cell:  42.439  42.439  39.707  90.000  90.000  90.000
+High resolution limit                         1.29    3.50    1.29
+Low resolution limit                         29.01   29.02    1.31
+Completeness                                 99.6    99.6    90.8
+Multiplicity                                  5.0     4.7     3.6
+I/sigma                                       7.4    21.0     0.9
+Rmerge(I+/-)                                0.079   0.032   0.590
+CC half                                     0.998   0.998   0.754
+Anomalous completeness                       97.0    98.5     3.8
+Anomalous multiplicity                        2.8     3.0     2.1
+Cell:  42.415  42.415  39.772  90.000  90.000  90.000
 Spacegroup: P 41 21 2
 """ %(data_dir, data_dir)
 
