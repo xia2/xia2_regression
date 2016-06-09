@@ -123,6 +123,8 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
   expected_summary_lines = expected_summary.split('\n')
+  with open(os.path.join(tmp_dir, 'xia2-summary.dat.tmpl'), 'w') as fh:
+    fh.write(generate_tolerant_template(summary_text_lines))
 
   import cStringIO as StringIO
   compare = StringIO.StringIO()
@@ -219,3 +221,38 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
     sys.stderr.write(compare.getvalue())
     raise Sorry("xia2 output failing tolerance checks")
   sys.stdout.write(compare.getvalue())
+
+def generate_tolerant_template(lines):
+  tolerances = {
+    'Distance': [ '', '0.1' ],
+    'High resolution limit': [ '5%', '10%', '**' ],
+    'Low resolution limit': [ '5%', '**', '**' ],
+    'Completeness': [ '5%', '2%', '5%' ],
+    'Multiplicity': [ '0.2', '0.2', '0.2' ],
+    'I/sigma': [ '5%', '5%', '0.2' ],
+    'Rmerge(I+/-)': [ '5%', '5%', '5%' ],
+    'CC half': [ '2%', '2%', '5%' ],
+    'Anomalous completeness': [ '2%', '5%', '2%' ],
+    'Anomalous multiplicity': [ '2%', '2%', '2%' ],
+    'Cell:': [ '0.5%', '0.5%', '0.5%',
+        lambda x:'0.5%' if x != '90.000' and x != '120.000' else '',
+        lambda x:'0.5%' if x != '90.000' and x != '120.000' else '',
+        lambda x:'0.5%' if x != '90.000' and x != '120.000' else '']
+  }
+  number = re.compile('(\d*\.\d+|\d+\.?)')
+  f = []
+  for l in lines:
+    if l.startswith('Files '): l = 'Files ***'
+    items = re.split(r'(\s+)', l)
+    number_positions = [ pos for pos, item in enumerate(items) if number.match(item) ]
+    if number_positions and number_positions[0] > 0:
+      prefix = ''.join(items[0:number_positions[0]]).strip()
+      if prefix in tolerances:
+        for num, pos in enumerate(number_positions):
+          tolerance = tolerances[prefix][num]
+          if callable(tolerance): tolerance = tolerance(items[pos])
+          if tolerance != '': tolerance = '(%s)' % tolerance
+          items[pos] += tolerance
+        l = ''.join(items)
+    f.append(l)
+  return "\n".join(f)
