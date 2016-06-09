@@ -120,7 +120,7 @@ Crystal: DEFAULT
 Sequence length: 0
 Wavelength: NATIVE (0.56356)
 Sweep: SWEEP1
-Files /scratch/wra62962/files/dials/build/xia2_regression/test_data/small_molecule_example/x3_1_####.cbf.gz
+Files ***
 Images: 1 to 900
 Beam 208.78 214.29 => 208.86 214.37
 Distance 191.42 => 193.55
