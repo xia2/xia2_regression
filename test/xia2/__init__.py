@@ -91,6 +91,17 @@ def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
 
   os.chdir(cwd)
 
+def ccp4_is_newer_or_equal_to(major, minor, revision):
+  result = run_process(['refmac5', '-i'], print_stdout=False)
+  assert result['exitcode'] == 0 and not result['timeout']
+  version = re.search('patch level *([0-9]+)\.([0-9]+)\.([0-9]+)', result['stdout'])
+  assert version
+  cmaj, cmin, crev = (int(v) for v in version.groups())
+  if cmaj > major: return True
+  if cmaj < major: return False
+  if cmin > minor: return True
+  if cmin < minor: return False
+  return revision <= crev
 
 def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[]):
   cwd = os.path.abspath(os.curdir)
@@ -144,6 +155,11 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
       elif number_with_tolerance.match(e) and number.match(a):
         expected_value, tolerance = number_with_tolerance.match(e).groups()
         expected_value = float(expected_value)
+        if number.match(e).groups()[0] == a:
+          # identical value, but missing brackets
+          equal.append(True)
+          valid.append(True)
+          continue
         if tolerance == '**':
           equal.append(True)
           valid.append(True)
