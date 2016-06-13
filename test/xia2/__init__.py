@@ -2,112 +2,22 @@ from __future__ import division
 import os
 import re
 import sys
-from libtbx import easy_run
-from libtbx.test_utils import approx_equal, show_diff, open_tmp_directory
+from libtbx.test_utils import open_tmp_directory
 from dials.util.procrunner import run_process
 
-def run_xia2(command_line_args, expected_summary, expected_data_files=[]):
-
-  cwd = os.path.abspath(os.curdir)
-  tmp_dir = os.path.abspath(open_tmp_directory())
-  os.chdir(tmp_dir)
-
-  cmd = ' '.join(['xia2'] + command_line_args)
-  print cmd
-  result = easy_run.fully_buffered(command=cmd).raise_if_errors()
-  #result.show_stdout()
-
-  error_file = os.path.join(tmp_dir, 'xia2.error')
-  if os.path.exists(error_file):
-    result.show_stdout()
-    with open(error_file, 'rb') as f:
-      print f.read()
-  html_file = os.path.join(tmp_dir, 'xia2.html')
-  assert os.path.exists(html_file), "xia2.html not present after execution"
-  summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
-  assert os.path.exists(summary_file), "xia2-summary.dat not present after execution"
-  expected_summary_lines = expected_summary.split('\n')
-  summary_text = open(summary_file, 'rb').read()
-  summary_text_lines = summary_text.split('\n')
-  print summary_text
-  for line, expected in zip(summary_text_lines, expected_summary_lines):
-    line = ' '.join(line.split())
-    expected = ' '.join(expected.split())
-    try:
-      if 'Cell' in line:
-        values_summary = [float(f) for f in line.split()[-6:]]
-        values_expected = [float(f) for f in expected.split()[-6:]]
-      elif 'Distance' in line or 'Beam' in line:
-        values_summary = [float(f) for f in line.replace('=>', ' ').split()[1:]]
-        values_expected = [float(f) for f in expected.replace('=>', ' ').split()[1:]]
-      else:
-        values_summary = [float(f) for f in line.split()[-3:]]
-        values_expected = [float(f) for f in expected.split()[-3:]]
-    except ValueError:
-      assert not show_diff(line, expected)
-    else:
-      if ('I/sigma' in line):
-        continue # I/sigma too variable, highly dependent on sigma estimates
-                 # assert approx_equal(
-                 # values_summary, values_expected, eps=2e-1), (line, expected)
-      elif ('completeness' in line.lower()):
-        # overall / low resolution expect comparable number, high resolution
-        # be much more flexible
-        assert approx_equal(
-          values_summary[:2], values_expected[:2], eps=1.5), (line, expected)
-        assert approx_equal(
-          values_summary[2:], values_expected[2:], eps=10), (line, expected)
-      elif ('resolution limit' in line):
-        # just check last value => high limit
-        assert approx_equal(
-          values_summary[2:], values_expected[2:], eps=5e-2), (line, expected)
-      elif ('Rmerge' in line):
-        assert approx_equal(
-          values_summary[:2], values_expected[:2], eps=1e-2), (line, expected)
-        assert approx_equal(
-          values_summary[2], values_expected[2], eps=1e-1), (line, expected)
-      elif ('CC half' in line):
-        assert approx_equal(
-          values_summary[:2], values_expected[:2], eps=6e-2), (line, expected)
-        assert approx_equal(
-          values_summary[2:], values_expected[2:], eps=2e-1), (line, expected)
-      elif ('multiplicity' in line.lower()):
-        assert approx_equal(
-          values_summary, values_expected, eps=5e-1), (line, expected)
-      elif ('Cell' in line):
-        assert approx_equal(
-          values_summary, values_expected, eps=2e-2), (line, expected)
-      elif ('Distance' in line):
-        assert approx_equal(
-          values_summary, values_expected, eps=1e-1), (line, expected)
-      elif ('Beam' in line):
-        assert approx_equal(
-          values_summary, values_expected, eps=2e-2), (line, expected)
-      else:
-        assert not show_diff(line, expected)
-
-  for data_file in expected_data_files:
-    assert os.path.exists(os.path.join('DataFiles', data_file)), data_file
-
-  os.chdir(cwd)
-
-def ccp4_is_newer_or_equal_to(major, minor, revision):
+def ccp4_version():
   result = run_process(['refmac5', '-i'], print_stdout=False)
   assert result['exitcode'] == 0 and not result['timeout']
   version = re.search('patch level *([0-9]+)\.([0-9]+)\.([0-9]+)', result['stdout'])
   assert version
-  cmaj, cmin, crev = (int(v) for v in version.groups())
-  if cmaj > major: return True
-  if cmaj < major: return False
-  if cmin > minor: return True
-  if cmin < minor: return False
-  return revision <= crev
+  return [int(v) for v in version.groups()]
 
-def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[]):
+def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   cwd = os.path.abspath(os.curdir)
   tmp_dir = os.path.abspath(open_tmp_directory())
   os.chdir(tmp_dir)
 
+  ccp4 = ccp4_version()
   result = run_process(['xia2'] + command_line_args)
 
   error_file = os.path.join(tmp_dir, 'xia2.error')
@@ -122,9 +32,36 @@ def run_xia2_tolerant(command_line_args, expected_summary, expected_data_files=[
 
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
-  expected_summary_lines = expected_summary.split('\n')
-  with open(os.path.join(tmp_dir, 'xia2-summary.dat.tmpl'), 'w') as fh:
+  template_name = 'result.%s.%d.%d.%d' % (test_name, ccp4[0], ccp4[1], ccp4[2])
+  with open(os.path.join(tmp_dir, template_name), 'w') as fh:
     fh.write(generate_tolerant_template(summary_text_lines))
+
+  expected_result_dir = os.path.join(os.path.dirname(__file__), 'expected')
+  expected_result_file, expected_result_file_version = None, None
+  if os.path.exists(expected_result_dir):
+    for f in os.listdir(expected_result_dir):
+      if f.startswith('result.%s' % test_name) and os.path.isfile(os.path.join(expected_result_dir, f)): 
+        candidate_version = re.search("\.([0-9]+)\.([0-9]+)\.([0-9]+)$", f)
+        if candidate_version:
+          major, minor, revision = [int(v) for v in candidate_version.groups()]
+          cmaj, cmin, crev = ccp4
+          # ensure file is not made for a newer CCP4 version
+          if cmaj < major: continue
+          if cmaj == major and cmin < minor: continue
+          if cmaj == major and cmin == minor and crev < revision: continue
+          if expected_result_file is not None and expected_result_file_version is not None:
+            cmaj, cmin, crev = expected_result_file_version
+            # ensure file is for a more recent version than any already found file
+            if cmaj > major: continue
+            if cmaj == major and cmin > minor: continue
+            if cmaj == major and cmin == minor and crev > revision: continue
+          expected_result_file = f
+          expected_result_file_version = [int(v) for v in candidate_version.groups()]
+        elif expected_result_file is None:
+          expected_result_file = f
+  assert expected_result_file is not None, "Could not find expected results file to compare actual results to"
+  with open(os.path.join(expected_result_dir, expected_result_file), 'r') as fh:
+    expected_summary_lines = fh.readlines()
 
   import cStringIO as StringIO
   compare = StringIO.StringIO()
