@@ -9,11 +9,11 @@ Beam 208.78 214.29 => 208.86 214.37
 Distance 191.42 => 193.55(0.1)
 Date: Thu Apr 14 12:41:44 2016
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                    	  0.65(5%)	  1.76(10%)	  0.65(**)
-Low resolution limit                     	 11.20(5%)	 11.20(**)	  0.66(**)
-Completeness                             	 94.5(5%)	100.0(5%)	 58.5(5%)
-Multiplicity                             	  3.3(0.2)	  3.3(0.2)	  2.6(0.2)
-I/sigma                                  	  4.6(15%)	 14.9(**)	  0.9(0.2)
-CC half                                  	0.995(2%)	0.996(0.2)	0.688(5%)
+High resolution limit                           0.65(5%)    1.76(10%)    0.65(**)
+Low resolution limit                           11.20(5%)   11.20(**)    0.66(**)
+Completeness                                   94.5(5%)   100.0(5%)    58.5(10)
+Multiplicity                                    3.3(0.2)     3.3(0.2)     2.6(0.2)
+I/sigma                                         4.6(15%)    14.9(**)     0.9(0.2)
+CC half                                       0.995(2%)   0.996(0.2)   0.688(0.2)
 Cell:   9.410(0.5%)  16.980(0.5%)  15.170(0.5%)  90.000 100.840(0.5%)  90.000
 Spacegroup: P 1 21/n 1
