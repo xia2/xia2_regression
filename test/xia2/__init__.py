@@ -167,7 +167,7 @@ def generate_tolerant_template(lines):
     'Completeness': [ '5%', '5%', '10' ],
     'Multiplicity': [ '0.2', '0.2', '0.2' ],
     'I/sigma': [ '15%', '**', '0.2' ],
-    'Rmerge(I+/-)': [ '5%', '5%', '15%' ],
+    'Rmerge(I+/-)': [ '10%', '10%', '15%' ],
     'CC half': [ '2%', '0.2', '0.2' ],
     'Anomalous completeness': [ '2%', '5%', '10' ],
     'Anomalous multiplicity': [ '2%', '0.5', '0.5' ],
