@@ -38,7 +38,8 @@ END PROJECT AUTOMATIC
 
 def exercise_dials():
   command_line_args = ['-dials', 'nproc=1', 'trust_beam_centre=True',
-                       'read_all_image_headers=False', data_dir]
+                       'read_all_image_headers=False', 'truncate=cctbx',
+                       data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
