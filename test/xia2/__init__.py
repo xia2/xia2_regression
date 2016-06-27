@@ -65,7 +65,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 
   import cStringIO as StringIO
   compare = StringIO.StringIO()
-  print >>compare, 'Comparing output against %s' % expected_results_file
+  print >>compare, 'Comparing output against %s' % expected_result_file
   print >>compare, '-' * 80
 
   number = re.compile('(\d*\.\d+|\d+\.?)')
