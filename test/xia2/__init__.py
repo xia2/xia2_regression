@@ -14,10 +14,7 @@ def ccp4_version():
 def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   cwd = os.path.abspath(os.curdir)
   tmp_dir = os.path.join(os.curdir, 'xia2_regression.%s' % test_name)
-  try:
-    os.mkdir(tmp_dir)
-  except OSError:
-    pass
+  os.mkdir(tmp_dir)
   os.chdir(tmp_dir)
 
   ccp4 = ccp4_version()
