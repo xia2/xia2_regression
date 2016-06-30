@@ -2,7 +2,6 @@ from __future__ import division
 import os
 import re
 import sys
-from libtbx.test_utils import open_tmp_directory
 from dials.util.procrunner import run_process
 
 def ccp4_version():
@@ -14,7 +13,11 @@ def ccp4_version():
 
 def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   cwd = os.path.abspath(os.curdir)
-  tmp_dir = os.path.abspath(open_tmp_directory())
+  tmp_dir = os.path.join(os.curdir, 'xia2_regression.%s' % test_name)
+  try:
+    os.mkdir(tmp_dir)
+  except OSError:
+    pass
   os.chdir(tmp_dir)
 
   ccp4 = ccp4_version()
