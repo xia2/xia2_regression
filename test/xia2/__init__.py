@@ -20,20 +20,20 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   ccp4 = ccp4_version()
   result = run_process(['xia2'] + command_line_args)
 
-  error_file = os.path.join(tmp_dir, 'xia2.error')
+  error_file = 'xia2.error'
   if os.path.exists(error_file):
     print open(error_file, 'r').read()
     assert False, "xia2.error present after execution"
 
   assert result['exitcode'] == 0, "xia2 terminated with non-zero exit code"
   assert result['stderr'] == '', "xia2 terminated with output to STDERR"
-  summary_file = os.path.join(tmp_dir, 'xia2-summary.dat')
+  summary_file = 'xia2-summary.dat'
   assert os.path.exists(summary_file), "xia2-summary.dat not present after execution"
 
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
   template_name = 'result.%s.%d.%d.%d' % (test_name, ccp4[0], ccp4[1], ccp4[2])
-  with open(os.path.join(tmp_dir, template_name), 'w') as fh:
+  with open(template_name, 'w') as fh:
     fh.write(generate_tolerant_template(summary_text_lines))
 
   expected_result_dir = os.path.join(os.path.dirname(__file__), 'expected')
@@ -147,7 +147,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
       print >>compare, "> expected file %s is missing" % data_file
       output_identical = False
 
-  html_file = os.path.join(tmp_dir, 'xia2.html')
+  html_file = 'xia2.html'
   if not os.path.exists(html_file):
     print >>compare, "> xia2.html not present after execution"
     output_identical = False
