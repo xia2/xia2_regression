@@ -9,7 +9,7 @@ data_dir = os.path.join(xia2_regression, "test_data", "small_molecule_example")
 assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
 def exercise_dials():
-  command_line_args = ['-dials', '-small_molecule',
+  command_line_args = ['-dials', 'small_molecule=True',
                        'trust_beam_centre=True', 'nproc=2',
                        'read_all_image_headers=False', data_dir]
 
@@ -24,7 +24,7 @@ def exercise_dials():
 
 
 def exercise_xds():
-  command_line_args = ['-3dii', '-small_molecule',
+  command_line_args = ['-3dii', 'small_molecule=True',
                        'trust_beam_centre=True', 'nproc=2',
                        'read_all_image_headers=False', data_dir]
 
@@ -39,7 +39,7 @@ def exercise_xds():
 
 
 def exercise_xds_ccp4a():
-  command_line_args = ['-3dii', '-small_molecule', 'scaler=ccp4a',
+  command_line_args = ['-3dii', 'small_molecule=True', 'scaler=ccp4a',
                        'trust_beam_centre=True', 'nproc=2',
                        'read_all_image_headers=False', data_dir]
 
