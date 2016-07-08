@@ -22,8 +22,9 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 
   error_file = 'xia2.error'
   if os.path.exists(error_file):
-    print open(error_file, 'r').read()
-    assert False, "xia2.error present after execution"
+    print >> sys.stderr, open(error_file, 'r').read()
+    from libtbx.utils import Sorry
+    raise Sorry("xia2.error present after execution")
 
   assert result['exitcode'] == 0, "xia2 terminated with non-zero exit code"
   assert result['stderr'] == '', "xia2 terminated with output to STDERR"
