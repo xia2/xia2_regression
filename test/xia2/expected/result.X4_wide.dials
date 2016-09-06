@@ -5,18 +5,18 @@ Wavelength: NATIVE (0.97950)
 Sweep: SWEEP1
 Files ***
 Images: 1 to 90
-Beam 220.00 212.48 => 219.86 212.63
-Distance 190.18 => 192.18(0.1)
+Beam 220.00 212.48 => 219.87 212.63
+Distance 190.18 => 192.07(0.1)
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.25(5%)    3.39(10%)    1.25(**)
-Low resolution limit                           28.95(5%)   28.96(**)    1.27(**)
+High resolution limit                           1.26(5%)    3.42(10%)    1.26(**)
+Low resolution limit                           29.93(5%)   29.94(**)    1.28(**)
 Completeness                                  100.0(5%)    99.8(5%)   100.0(10)
-Multiplicity                                    5.5(0.2)     5.2(0.2)     5.6(0.2)
-I/sigma                                         7.3(15%)    20.7(**)     1.4(0.2)
-Rmerge(I+/-)                                  0.085(5%)   0.032(5%)   0.635(15%)
-CC half                                       0.998(2%)   0.999(0.2)   0.859(0.2)
-Anomalous completeness                         99.3(2%)    99.7(5%)     5.1(10)
-Anomalous multiplicity                          3.0(2%)     3.3(0.5)     3.0(0.5)
-Cell:  42.358(0.5%)  42.358(0.5%)  39.653(0.5%)  90.000  90.000  90.000
+Multiplicity                                    5.5(0.2)     5.2(0.2)     5.5(0.2)
+I/sigma                                         7.3(15%)    19.9(**)     1.6(0.2)
+Rmerge(I+/-)                                  0.086(10%)   0.032(10%)   0.542(15%)
+CC half                                       0.998(2%)   0.998(0.2)   0.884(0.2)
+Anomalous completeness                         99.2(2%)    99.7(5%)     5.2(10)
+Anomalous multiplicity                          3.0(2%)     3.2(0.5)     2.9(0.5)
+Cell:  42.331(0.5%)  42.331(0.5%)  39.632(0.5%)  90.000  90.000  90.000
 Spacegroup: P 41 21 2
