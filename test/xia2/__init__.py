@@ -14,7 +14,15 @@ def ccp4_version():
 def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   cwd = os.path.abspath(os.curdir)
   tmp_dir = os.path.join(os.curdir, 'xia2_regression.%s' % test_name)
-  os.mkdir(tmp_dir)
+  try:
+    os.mkdir(tmp_dir)
+  except OSError as exc:
+    import errno
+    if exc.errno == errno.EEXIST and os.path.isdir(tmp_dir):
+      pass
+    else:
+      raise
+
   os.chdir(tmp_dir)
 
   ccp4 = ccp4_version()
@@ -163,15 +171,15 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 def generate_tolerant_template(lines):
   tolerances = {
     'Distance': [ '', '0.1' ],
-    'High resolution limit': [ '5%', '10%', '**' ],
-    'Low resolution limit': [ '5%', '**', '**' ],
-    'Completeness': [ '5%', '5%', '10' ],
-    'Multiplicity': [ '0.2', '0.2', '0.2' ],
-    'I/sigma': [ '15%', '**', '0.2' ],
-    'Rmerge(I+/-)': [ '10%', '10%', '15%' ],
-    'CC half': [ '2%', '0.2', '0.2' ],
-    'Anomalous completeness': [ '2%', '5%', '10' ],
-    'Anomalous multiplicity': [ '2%', '0.5', '0.5' ],
+    'High resolution limit': [ '5%', '10%', '**', '5%' ],
+    'Low resolution limit': [ '5%', '**', '**', '5%' ],
+    'Completeness': [ '5%', '5%', '10', '5%' ],
+    'Multiplicity': [ '0.2', '0.2', '0.2', '0.2' ],
+    'I/sigma': [ '15%', '**', '0.2', '15%' ],
+    'Rmerge(I+/-)': [ '10%', '10%', '15%', '10%' ],
+    'CC half': [ '2%', '0.2', '0.2', '2%' ],
+    'Anomalous completeness': [ '2%', '5%', '10', '2%' ],
+    'Anomalous multiplicity': [ '2%', '0.5', '0.5', '2%' ],
     'Cell:': [ '0.5%', '0.5%', '0.5%',
         lambda x:'0.5%' if x != '90.000' and x != '120.000' else '',
         lambda x:'0.5%' if x != '90.000' and x != '120.000' else '',
