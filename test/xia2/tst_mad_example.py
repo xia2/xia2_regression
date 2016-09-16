@@ -12,7 +12,7 @@ assert os.path.exists(data_dir)
 
 def exercise_dials():
   command_line_args = [
-    '-dials', 'nproc=1', 'njob=2', 'mode=parallel',
+    'pipeline=dials', 'nproc=1', 'njob=2', 'mode=parallel',
     'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
@@ -30,7 +30,7 @@ def exercise_dials():
 
 def exercise_xds():
   command_line_args = [
-    '-3di', 'nproc=1', 'njob=2', 'mode=parallel',
+    'pipeline=3di', 'nproc=1', 'njob=2', 'mode=parallel',
     'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
@@ -48,7 +48,7 @@ def exercise_xds():
 
 def exercise_xds_ccp4a():
   command_line_args = [
-    '-3di', 'scaler=ccp4a', 'nproc=1', 'njob=2', 'mode=parallel',
+    'pipeline=3di', 'scaler=ccp4a', 'nproc=1', 'njob=2', 'mode=parallel',
     'trust_beam_centre=True', data_dir]
 
   expected_data_files = [

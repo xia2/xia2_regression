@@ -37,7 +37,7 @@ END PROJECT AUTOMATIC
 """ % (data_dir, data_dir)
 
 def exercise_dials():
-  command_line_args = ['-dials', 'nproc=1', 'trust_beam_centre=True',
+  command_line_args = ['pipeline=dials', 'nproc=1', 'trust_beam_centre=True',
                        'read_all_image_headers=False', 'truncate=cctbx',
                        data_dir]
 
@@ -57,7 +57,7 @@ def exercise_dials_split():
   with open(xinfo_file, 'wb') as f:
     print >> f, split_xinfo_template
 
-  command_line_args = ['-dials', 'nproc=1', 'njob=2', 'mode=parallel',
+  command_line_args = ['pipeline=dials', 'nproc=1', 'njob=2', 'mode=parallel',
                        'trust_beam_centre=True', 'xinfo=%s' % xinfo_file]
 
   expected_data_files = [
@@ -71,7 +71,7 @@ def exercise_dials_split():
 
 
 def exercise_xds():
-  command_line_args = ['-3di', 'nproc=1', 'trust_beam_centre=True',
+  command_line_args = ['pipeline=3di', 'nproc=1', 'trust_beam_centre=True',
                        'read_all_image_headers=False', data_dir]
 
   expected_data_files = [
@@ -90,7 +90,7 @@ def exercise_xds_split():
   with open(xinfo_file, 'wb') as f:
     print >> f, split_xinfo_template
 
-  command_line_args = ['-3di', 'nproc=1', 'njob=2', 'mode=parallel',
+  command_line_args = ['pipeline=3di', 'nproc=1', 'njob=2', 'mode=parallel',
                        'trust_beam_centre=True', 'xinfo=%s' %xinfo_file]
 
   expected_data_files = [
@@ -105,7 +105,7 @@ def exercise_xds_split():
 
 def exercise_xds_ccp4a():
   command_line_args = [
-    '-3di', 'nproc=1', 'scaler=ccp4a', 'trust_beam_centre=True', data_dir]
+    'pipeline=3di', 'nproc=1', 'scaler=ccp4a', 'trust_beam_centre=True', data_dir]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -124,7 +124,7 @@ def exercise_xds_ccp4a_split():
     print >> f, split_xinfo_template
 
   command_line_args = [
-    '-3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
+    'pipeline=3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
     'merging_statistics.source=aimless',
     'trust_beam_centre=True', 'mode=parallel', 'xinfo=%s' % xinfo_file]
 
