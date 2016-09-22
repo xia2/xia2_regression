@@ -34,8 +34,8 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
     from libtbx.utils import Sorry
     raise Sorry("xia2.error present after execution")
 
-  assert result['exitcode'] == 0, "xia2 terminated with non-zero exit code"
-  assert result['stderr'] == '', "xia2 terminated with output to STDERR"
+  assert result['stderr'] == '', "xia2 terminated with output to STDERR:\n" + result['stderr']
+  assert result['exitcode'] == 0, "xia2 terminated with non-zero exit code (%d)" % result['exitcode']
   summary_file = 'xia2-summary.dat'
   assert os.path.exists(summary_file), "xia2-summary.dat not present after execution"
 
