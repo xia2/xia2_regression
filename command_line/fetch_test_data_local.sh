@@ -32,6 +32,11 @@ libtbx.find_in_repositories dials_regression >/dev/null 2>/dev/null || {
   then
     rsync -rv g18-sc-serv-03:/scratch/jenkins_slave/workspace/dials_distribute_push/dials_regression $(libtbx.find_in_repositories dials)/.. && libtbx.configure dials_regression
   fi
+
+  echo
+  echo You may need to run - with XXXX replaced by your CCI user name
+  echo    svn switch --relocate svn+ssh://mgerstel@cci.lbl.gov/dials_regression/trunk svn+ssh://XXXXXX@cci.lbl.gov/dials_regression/trunk
+  echo in the dials_regression directory.
 }
 
 echo
