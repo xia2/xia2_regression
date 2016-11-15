@@ -179,7 +179,7 @@ def generate_tolerant_template(lines):
     'Rmerge(I+/-)': [ '10%', '10%', '15%', '10%' ],
     'CC half': [ '2%', '0.2', '0.2', '0.2' ],
     'Anomalous completeness': [ '2%', '5%', '10', '2%' ],
-    'Anomalous multiplicity': [ '2%', '0.5', '0.5', '0.5' ],
+    'Anomalous multiplicity': [ '0.5', '0.5', '0.5', '0.5' ],
     'Cell:': [ '0.5%', '0.5%', '0.5%',
         lambda x:'0.5%' if x != '90.000' and x != '120.000' else '',
         lambda x:'0.5%' if x != '90.000' and x != '120.000' else '',
