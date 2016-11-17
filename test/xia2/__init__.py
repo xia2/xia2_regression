@@ -1,4 +1,6 @@
 from __future__ import division
+import cStringIO as StringIO
+import glob
 import os
 import re
 import sys
@@ -45,10 +47,6 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   with open(template_name, 'w') as fh:
     fh.write(generate_tolerant_template(summary_text_lines))
 
-  import glob
-  g = glob.glob('LogFiles/*_report.html')
-  assert len(g) > 0, 'xia2 report not present'
-
   expected_result_dir = os.path.join(os.path.dirname(__file__), 'expected')
   expected_result_file, expected_result_file_version = None, None
   if os.path.exists(expected_result_dir):
@@ -76,7 +74,6 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   with open(os.path.join(expected_result_dir, expected_result_file), 'r') as fh:
     expected_summary_lines = fh.readlines()
 
-  import cStringIO as StringIO
   compare = StringIO.StringIO()
   print >>compare, 'Comparing output against %s' % expected_result_file
   print >>compare, '-' * 80
@@ -163,6 +160,11 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   html_file = 'xia2.html'
   if not os.path.exists(html_file):
     print >>compare, "> xia2.html not present after execution"
+    output_identical = False
+
+  g = glob.glob('LogFiles/*_report.html')
+  if len(g) == 0:
+    print >>compare, "> xia2 report not present after execution"
     output_identical = False
 
   os.chdir(cwd)
