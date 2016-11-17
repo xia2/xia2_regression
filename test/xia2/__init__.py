@@ -45,11 +45,15 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   with open(template_name, 'w') as fh:
     fh.write(generate_tolerant_template(summary_text_lines))
 
+  import glob
+  g = glob.glob('LogFiles/*_report.html')
+  assert len(g) > 0, 'xia2 report not present'
+
   expected_result_dir = os.path.join(os.path.dirname(__file__), 'expected')
   expected_result_file, expected_result_file_version = None, None
   if os.path.exists(expected_result_dir):
     for f in os.listdir(expected_result_dir):
-      if f.startswith('result.%s' % test_name) and os.path.isfile(os.path.join(expected_result_dir, f)): 
+      if f.startswith('result.%s' % test_name) and os.path.isfile(os.path.join(expected_result_dir, f)):
         candidate_version = re.search("\.([0-9]+)\.([0-9]+)\.([0-9]+)$", f)
         if candidate_version:
           major, minor, revision = [int(v) for v in candidate_version.groups()]
