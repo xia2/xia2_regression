@@ -9,13 +9,13 @@ Beam 220.00 212.48 => 219.87 212.63
 Distance 190.18 => 192.07(0.1)
 Date: Fri Feb  8 13:23:40 2013
 For AUTOMATIC/DEFAULT/NATIVE:
-High resolution limit                           1.25(5%)    3.39(10%)    1.25(**)
-Low resolution limit                           28.93(5%)   28.94(**)    1.27(**)
+High resolution limit                           1.22(5%)    3.31(10%)    1.22(**)
+Low resolution limit                           28.93(5%)   28.94(**)    1.24(**)
 Completeness                                  100.0(5%)    99.8(5%)   100.0(10)
-Multiplicity                                    5.5(0.2)     5.2(0.2)     5.6(0.2)
-I/sigma                                         7.6(15%)    28.5(**)     1.1(0.3)
-Rmerge(I+/-)                                  0.086(10%)   0.026(10%)   0.625(15%)
-CC half                                       0.997(2%)   0.999(0.2)   0.856(0.2)
+Multiplicity                                    5.5(0.2)     5.3(0.2)     5.5(0.2)
+I/sigma                                         7.2(15%)    28.9(**)     0.9(0.3)
+Rmerge(I+/-)                                  0.089(10%)   0.027(10%)   0.749(15%)
+CC half                                       0.998(2%)   0.999(0.2)   0.804(0.2)
 Anomalous completeness                         99.3(2%)    99.7(5%)     5.2(10)
 Anomalous multiplicity                          3.0(0.5)     3.3(0.5)     2.9(0.5)
 Cell:  42.327(0.5%)  42.327(0.5%)  39.631(0.5%)  90.000  90.000  90.000
