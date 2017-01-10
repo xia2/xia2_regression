@@ -1,6 +1,6 @@
 #!/usr/bin/env libtbx.python
 #
-# dials_regression.project_x.py
+# xia2_regression.project_x.py
 #
 #  Copyright (C) 2016 Diamond Light Source
 #
