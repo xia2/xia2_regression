@@ -128,6 +128,8 @@ class Script(object):
 
     distance_map = flex.double(flex.grid(data[0].focus()))
 
+    RUBinvs = [ (R * matrix.sqr(crystal.get_A())).inverse() for crystal in crystals ]
+
     for panel, pixels in zip(detector, data):
       origin = panel.get_origin()
       fast = panel.get_fast_axis()
@@ -147,9 +149,8 @@ class Script(object):
 
           # this code is *so slow* it will make your eyes swirl
           _d = 1
-          for crystal in crystals:
-            RUB = R * matrix.sqr(crystal.get_A())
-            rhkl = RUB.inverse() * q
+          for RUBinv in RUBinvs:
+            rhkl = RUBinv * q
             hkl = map(nint, rhkl.elems)
             d = (matrix.col(hkl) - rhkl).length()
             if d < _d: _d = d
