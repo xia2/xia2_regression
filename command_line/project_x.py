@@ -136,9 +136,9 @@ class Script(object):
       slow = panel.get_slow_axis()
       nfast, nslow = panel.get_image_size()
 
-      for j in range(nslow):
+      for j in xrange(nslow):
         print j
-        for i in range(nfast):
+        for i in xrange(nfast):
 
           # this is indexing into the array so works in slow, fast frame
           pixel = pixels[(j,i)]
@@ -151,8 +151,7 @@ class Script(object):
           _d = 1
           for RUBinv in RUBinvs:
             rhkl = RUBinv * q
-            hkl = map(nint, rhkl.elems)
-            d = (matrix.col(hkl) - rhkl).length()
+            d = matrix.col([((x + 0.5) % 1) - 0.5 for x in rhkl.elems]).length()
             if d < _d: _d = d
           # score as a Gaussian with weight defined as params.r
           distance_map[(j,i)] = math.exp(-(_d / params.r) ** 2)
