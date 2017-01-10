@@ -148,12 +148,13 @@ class Script(object):
           q = x * (1.0 / wavelength) - s0
 
           # this code is *so slow* it will make your eyes swirl
-          _d = 1
+          min_dsq = 1
           for RUBinv in RUBinvs:
             rhkl = RUBinv * q
-            d = matrix.col([((x + 0.5) % 1) - 0.5 for x in rhkl.elems]).length()
-            if d < _d: _d = d
+            dsq = sum((((x + 0.5) % 1) - 0.5) ** 2 for x in rhkl.elems)
+            if dsq < min_dsq: min_dsq = dsq
           # score as a Gaussian with weight defined as params.r
+          _d = math.sqrt(min_dsq)
           distance_map[(j,i)] = math.exp(-(_d / params.r) ** 2)
 
     # plot output
