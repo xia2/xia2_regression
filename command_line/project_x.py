@@ -23,7 +23,7 @@ dials_regression.project_x experiment.json
 '''
 
 phil_scope = parse('''
-r = 0.1
+r = 0.05
   .type = float
   .help = 'Effective radius of relp'
 png = 'project_x.png'
@@ -59,17 +59,18 @@ class Script(object):
     pyplot.imshow(data)
     pyplot.savefig(filename)
     return
-    
+
   def run(self):
     from dials.util.command_line import Command
     from dials.array_family import flex
     from scitbx import matrix
     from dials.util.options import flatten_experiments
+    import math
 
     params, options = self.parser.parse_args(show_diff_phil=True)
 
     experiments = flatten_experiments(params.input.experiments)
-    
+
     if len(experiments) == 0:
       self.parser.print_help()
       return
@@ -91,10 +92,10 @@ class Script(object):
     # derived quantities
     wavelength = beam.get_wavelength()
     s0 = matrix.col(beam.get_s0())
-    
+
     # this should be working only on single images at the moment
     assert imageset.get_array_range()[1] - imageset.get_array_range()[0] == 1
-    
+
     # really slow code follows - (i) move this to C++ and (ii) work out a
     # way to not loop over all pixels doing relatively expensive calculations
     # for every pixel and (iii) work out a neater way of looping over the
@@ -126,7 +127,7 @@ class Script(object):
     assert(len(detector) == 1)
 
     distance_map = flex.double(flex.grid(data[0].focus()))
-      
+
     for panel, pixels in zip(detector, data):
       origin = panel.get_origin()
       fast = panel.get_fast_axis()
@@ -139,7 +140,7 @@ class Script(object):
 
           # this is indexing into the array so works in slow, fast frame
           pixel = pixels[(j,i)]
-          
+
           # this function works in the fast, slow coordinate frame
           x = matrix.col(panel.get_pixel_lab_coord((i,j))).normalize()
           q = x * (1.0 / wavelength) - s0
@@ -152,10 +153,11 @@ class Script(object):
             hkl = map(nint, rhkl.elems)
             d = (matrix.col(hkl) - rhkl).length()
             if d < _d: _d = d
-          distance_map[(j,i)] = d
-          
+          # score as a Gaussian with weight defined as params.r
+          distance_map[(j,i)] = math.exp(-(_d / params.r) ** 2)
+
     # plot output
-    self.plot_map(distance_map, params.png)  
+    self.plot_map(distance_map, params.png)
 
 if __name__ == '__main__':
   from dials.util import halraiser
