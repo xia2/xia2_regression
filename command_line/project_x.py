@@ -23,7 +23,7 @@ dials_regression.project_x experiment.json
 '''
 
 phil_scope = parse('''
-r = 0.05
+r = 0.1
   .type = float
   .help = 'Effective radius of relp'
 png = 'project_x.png'
@@ -65,6 +65,7 @@ class Script(object):
     from dials.array_family import flex
     from scitbx import matrix
     from dials.util.options import flatten_experiments
+    from dials.util.command_line import ProgressBar as progress_bar
     import math
 
     params, options = self.parser.parse_args(show_diff_phil=True)
@@ -128,8 +129,10 @@ class Script(object):
 
     distance_map = flex.double(flex.grid(data[0].focus()))
 
-    RUBinvs = [ (R * matrix.sqr(crystal.get_A())).inverse() for crystal in crystals ]
+    RUBinvs = [(R * matrix.sqr(crystal.get_A())).inverse() \
+               for crystal in crystals]
 
+    pb = progress_bar()
     for panel, pixels in zip(detector, data):
       origin = panel.get_origin()
       fast = panel.get_fast_axis()
@@ -137,7 +140,8 @@ class Script(object):
       nfast, nslow = panel.get_image_size()
 
       for j in xrange(nslow):
-        print j
+        pb.update((100.0 * j) / nslow)
+
         for i in xrange(nfast):
 
           # this is indexing into the array so works in slow, fast frame
@@ -157,6 +161,7 @@ class Script(object):
           _d = math.sqrt(min_dsq)
           distance_map[(j,i)] = math.exp(-(_d / params.r) ** 2)
 
+    pb.finished()
     # plot output
     self.plot_map(distance_map, params.png)
 
