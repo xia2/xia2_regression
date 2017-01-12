@@ -1,6 +1,7 @@
 #include <boost/python.hpp>
 #include <scitbx/array_family/shared.h>
 #include <scitbx/array_family/flex_types.h>
+#include <dxtbx/model/detector.h>
 #include <cctype>
 
 namespace xia2_regression {
@@ -39,12 +40,21 @@ namespace xia2_regression {
       return result;
     }
 
+    // use dxtbx things
+
+    std::string detector_as_string(const dxtbx::model::Detector &detector) {
+      std::stringstream ss;
+      ss << detector;
+      return ss.str();
+    }
+
     void init_module()
     {
       using namespace boost::python;
       def("make_list", make_list, (arg("size")));
       def("make_flex", make_flex, (arg("size")));
       def("sum", sum, (arg("array")));
+      def("detector_as_string", detector_as_string, (arg("detector")));
     }
 
   }
