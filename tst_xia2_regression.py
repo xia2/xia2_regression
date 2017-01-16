@@ -14,6 +14,8 @@ def tst_xia2_regression():
 def tst2():
   import sys
   from dxtbx import load
+  if len(sys.argv) < 2:
+    return
   i = load(sys.argv[1])
   detector = i.get_detector()
   beam = i.get_beam()
