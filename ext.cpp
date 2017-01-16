@@ -63,6 +63,9 @@ namespace xia2_regression {
       size_t width = panel.get_image_size()[0];
       size_t height = panel.get_image_size()[1];
 
+      height *= oversample;
+      width *= oversample;
+
       scitbx::af::versa<double, scitbx::af::c_grid<2> > map;
       map.resize(scitbx::af::c_grid<2>(height, width));
 
@@ -79,8 +82,8 @@ namespace xia2_regression {
           // exponential at several places in a grid over the pixel to
           // get a smoother value.
 
-          xy[0] = i + 0.5;
-          xy[1] = j + 0.5;
+          xy[0] = (i + 0.5) / oversample;
+          xy[1] = (j + 0.5) / oversample;
           scitbx::vec3<double> p(panel.get_pixel_lab_coord(xy));
           scitbx::vec3<double> q = p.normalize() * winv - s0;
           scitbx::vec3<double> hkl = UB_inv * q;

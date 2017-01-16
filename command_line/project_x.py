@@ -26,13 +26,13 @@ phil_scope = parse('''
 r = 0.1
   .type = float
   .help = 'Effective radius of relp'
+oversample = 1
+  .type = int
+  .help = 'Oversample rate'
 png = 'project_x.png'
   .type = str
   .help = 'Output name for .png'
 ''', process_includes=True)
-
-def nint(a):
-  return int(round(a))
 
 class Script(object):
   '''A class for running the script.'''
@@ -138,7 +138,7 @@ class Script(object):
 
       for crystal in crystals:
         RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
-        _map = x_map(panel, beam, RUBi, 1, params.r)
+        _map = x_map(panel, beam, RUBi, params.oversample, params.r)
         if distance_map is None:
           distance_map = _map
         else:
