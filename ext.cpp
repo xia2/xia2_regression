@@ -63,8 +63,6 @@ namespace xia2_regression {
       size_t width = panel.get_image_size()[0];
       size_t height = panel.get_image_size()[1];
 
-      std::cout << "Size: " << width << " " << height << std::endl;
-
       scitbx::af::versa<double, scitbx::af::c_grid<2> > map;
       map.resize(scitbx::af::c_grid<2>(height, width));
 
