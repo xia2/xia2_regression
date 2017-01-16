@@ -75,6 +75,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
     expected_summary_lines = fh.readlines()
 
   compare = StringIO.StringIO()
+  print >>compare, 'Detected CCP4 version %d.%d.%d' % ccp4
   print >>compare, 'Comparing output against %s' % expected_result_file
   print >>compare, '-' * 80
 
