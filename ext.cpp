@@ -1,7 +1,12 @@
 #include <boost/python.hpp>
 #include <scitbx/array_family/shared.h>
 #include <scitbx/array_family/flex_types.h>
+#include <scitbx/array_family/boost_python/flex_wrapper.h>
 #include <dxtbx/model/detector.h>
+#include <dxtbx/model/panel.h>
+#include <dxtbx/model/beam.h>
+#include <scitbx/vec3.h>
+#include <scitbx/mat3.h>
 #include <cctype>
 
 namespace xia2_regression {
@@ -42,10 +47,54 @@ namespace xia2_regression {
 
     // use dxtbx things
 
-    std::string detector_as_string(const dxtbx::model::Detector &detector) {
+    std::string detector_as_string(const dxtbx::model::Detector &detector)
+    {
       std::stringstream ss;
       ss << detector;
       return ss.str();
+    }
+
+    scitbx::af::versa<double, scitbx::af::c_grid<2> >
+    x_map(const dxtbx::model::Panel & panel,
+          const dxtbx::model::Beam & beam,
+          const scitbx::mat3<double> & UB_inv,
+          int oversample, double r)
+    {
+      size_t width = panel.get_image_size()[0];
+      size_t height = panel.get_image_size()[1];
+
+      std::cout << "Size: " << width << " " << height << std::endl;
+
+      scitbx::af::versa<double, scitbx::af::c_grid<2> > map;
+      map.resize(scitbx::af::c_grid<2>(height, width));
+
+      scitbx::af::tiny<double,2> xy;
+      scitbx::vec3<double> s0(beam.get_s0());
+      double winv = 1.0 / beam.get_wavelength();
+
+      double r2 = r * r;
+
+      size_t offset = 0;
+      for(size_t j = 0; j < height; j++) {
+        for(size_t i = 0; i < width; i++) {
+          // FIXME in here contemplate oversampling i.e. computing value of
+          // exponential at several places in a grid over the pixel to
+          // get a smoother value.
+
+          xy[0] = i + 0.5;
+          xy[1] = j + 0.5;
+          scitbx::vec3<double> p(panel.get_pixel_lab_coord(xy));
+          scitbx::vec3<double> q = p.normalize() * winv - s0;
+          scitbx::vec3<double> hkl = UB_inv * q;
+          double d2 = (hkl[0] - round(hkl[0])) * (hkl[0] - round(hkl[0])) +
+            (hkl[1] - round(hkl[1])) * (hkl[1] - round(hkl[1])) +
+            (hkl[2] - round(hkl[2])) * (hkl[2] - round(hkl[2]));
+          map[offset] = exp(- d2 / r2);
+          offset++;
+        }
+      }
+
+      return map;
     }
 
     void init_module()
@@ -55,6 +104,8 @@ namespace xia2_regression {
       def("make_flex", make_flex, (arg("size")));
       def("sum", sum, (arg("array")));
       def("detector_as_string", detector_as_string, (arg("detector")));
+      def("x_map", x_map, (arg("panel"), arg("beam"), arg("UB_inv"),
+                           arg("oversample"), arg("r")));
     }
 
   }

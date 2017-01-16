@@ -65,7 +65,6 @@ class Script(object):
     from dials.array_family import flex
     from scitbx import matrix
     from dials.util.options import flatten_experiments
-    from dials.util.command_line import ProgressBar as progress_bar
     import math
 
     params, options = self.parser.parse_args(show_diff_phil=True)
@@ -127,41 +126,24 @@ class Script(object):
     # need to decide how to handle multiple plots...
     assert(len(detector) == 1)
 
-    distance_map = flex.double(flex.grid(data[0].focus()))
-
-    RUBinvs = [(R * matrix.sqr(crystal.get_A())).inverse() \
-               for crystal in crystals]
-
-    pb = progress_bar()
     for panel, pixels in zip(detector, data):
       origin = panel.get_origin()
       fast = panel.get_fast_axis()
       slow = panel.get_slow_axis()
       nfast, nslow = panel.get_image_size()
 
-      for j in xrange(nslow):
-        pb.update((100.0 * j) / nslow)
+      from xia2_regression import x_map
 
-        for i in xrange(nfast):
+      distance_map = None
 
-          # this is indexing into the array so works in slow, fast frame
-          pixel = pixels[(j,i)]
+      for crystal in crystals:
+        RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
+        _map = x_map(panel, beam, RUBi, 1, params.r)
+        if distance_map is None:
+          distance_map = _map
+        else:
+          distance_map = flex.max(distance_map, _map)
 
-          # this function works in the fast, slow coordinate frame
-          x = matrix.col(panel.get_pixel_lab_coord((i,j))).normalize()
-          q = x * (1.0 / wavelength) - s0
-
-          # this code is *so slow* it will make your eyes swirl
-          min_dsq = 1
-          for RUBinv in RUBinvs:
-            rhkl = RUBinv * q
-            dsq = sum((((x + 0.5) % 1) - 0.5) ** 2 for x in rhkl.elems)
-            if dsq < min_dsq: min_dsq = dsq
-          # score as a Gaussian with weight defined as params.r
-          _d = math.sqrt(min_dsq)
-          distance_map[(j,i)] = math.exp(-(_d / params.r) ** 2)
-
-    pb.finished()
     # plot output
     self.plot_map(distance_map, params.png)
 
