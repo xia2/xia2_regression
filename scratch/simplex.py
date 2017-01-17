@@ -2,29 +2,37 @@ from scitbx import simplex
 from scitbx.array_family import flex
 import random
 
+def generate_start(values, offset):
+  assert len(values) == len(offset)
+  start = [values]
+  for j, o in enumerate(offset):
+    next = values.deep_copy()
+    next[j] += o
+    start.append(next)
+  return start
+
 class simple_simplex(object):
 
   def __init__(self, values):
     self.n = len(values)
     self.x = values
-    self.starting_simplex = []
+    self.starting_simplex = generate_start(flex.double((1, 1)),
+                                           flex.double((0.1, 0.1)))
     self.fcount = 0
-    for ii in range(self.n + 1):
-        self.starting_simplex.append(flex.double((ii + 0.1 * random.random(),
-                                                  ii + 1 + 0.1 * random.random())))
-    optimizer = simplex.simplex_opt(dimension = self.n,
-                                    matrix = self.starting_simplex,
-                                    evaluator = self,
-                                    tolerance = 1e-10)
+
+    optimizer = simplex.simplex_opt(dimension=self.n,
+                                    matrix=self.starting_simplex,
+                                    evaluator=self,
+                                    tolerance=1e-10,
+                                    max_iter=1000000)
     self.x = optimizer.get_solution()
-    print "SIMPLEX ITRATIONS", optimizer.count, self.fcount, "SOLUTION", list(self.x), self.target(self.x)
+    print "Iterations %d %d" % (optimizer.count, self.fcount)
+    print "Solution %s" % str(list(self.x))
+    print "Target %f" % self.target(self.x)
 
   def target(self, vector):
     self.fcount += 1
-    origin = flex.double((1.0, 2.0))
-    vector -= origin
-    value = flex.sum(vector * vector)
-    print value
+    value = abs(2 * vector[0] ** 2 + 3 * (vector[1] - 2) ** 2 + 1)
     return value
 
 if __name__ == '__main__':
