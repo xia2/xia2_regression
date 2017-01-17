@@ -68,7 +68,7 @@ class Script(object):
     data = map.as_numpy_array()
     fig = pyplot.gcf()
     fig.set_size_inches(params.png_width, params.png_height)
-    pyplot.imshow(data)
+    pyplot.imshow(data, cmap='gray_r')
     pyplot.savefig(filename, dpi=params.png_dpi)
     return
 
