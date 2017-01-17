@@ -72,6 +72,41 @@ class Script(object):
     pyplot.savefig(filename, dpi=params.png_dpi)
     return
 
+  def score(self, idata, distance_map):
+    from scitbx.array_family import flex
+    nslow, nfast = idata.focus()
+
+    # try to find points on here > 1% (for arguments sake)
+    binary_map = distance_map.deep_copy()
+    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.01, 1)
+    binary_map = binary_map.iround()
+    binary_map.reshape(flex.grid(1, nslow, nfast))
+
+    # find connected regions of spots
+    from cctbx import masks
+    from cctbx import uctbx
+    uc = uctbx.unit_cell((1, nslow, nfast, 90, 90, 90))
+    flood_fill = masks.flood_fill(binary_map, uc)
+    binary_map = binary_map.as_1d()
+
+    data = idata.as_double().as_1d()
+
+    mean_cc = 0.0
+
+    for j in range(flood_fill.n_voids()):
+      sel = binary_map == (j + 2)
+
+      d = data.select(sel)
+
+      assert d.size() > 0
+      if flex.min(d) < 0:
+        continue
+
+      m = distance_map.as_1d().select(sel)
+      mean_cc += flex.linear_correlation(d, m).coefficient()
+
+    return mean_cc / flood_fill.n_voids(), flood_fill.n_voids()
+
   def run(self):
     from dials.util.command_line import Command
     from dials.array_family import flex
@@ -151,13 +186,28 @@ class Script(object):
 
       distance_map = None
 
+      # play with symmetry stuff - yay for short class names
+      from dials.algorithms.refinement.parameterisation.crystal_parameters \
+        import CrystalUnitCellParameterisation, \
+        CrystalOrientationParameterisation
+
       for crystal in crystals:
+        cucp = CrystalUnitCellParameterisation(crystal)
+        cop = CrystalOrientationParameterisation(crystal)
+
+        print 'In total we have %d free parameters' % len(
+          cucp.get_param_vals() + cop.get_param_vals() + [1])
+
         RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
         _map = x_map(panel, beam, RUBi, params.oversample, params.r)
         if distance_map is None:
           distance_map = _map
         else:
           distance_map = flex.max(distance_map, _map)
+
+    score, n_objects = self.score(pixels, distance_map)
+
+    print 'Score was: %.3f over %d objects' % (score, n_objects)
 
     # plot output
     self.plot_map(distance_map, params.png)
