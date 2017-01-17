@@ -63,9 +63,6 @@ namespace xia2_regression {
       size_t width = panel.get_image_size()[0];
       size_t height = panel.get_image_size()[1];
 
-      height *= oversample;
-      width *= oversample;
-
       scitbx::af::versa<double, scitbx::af::c_grid<2> > map;
       map.resize(scitbx::af::c_grid<2>(height, width));
 
@@ -76,21 +73,30 @@ namespace xia2_regression {
       double r2 = r * r;
 
       size_t offset = 0;
-      for(size_t j = 0; j < height; j++) {
-        for(size_t i = 0; i < width; i++) {
-          // FIXME in here contemplate oversampling i.e. computing value of
-          // exponential at several places in a grid over the pixel to
-          // get a smoother value.
+      for (size_t j = 0; j < height; j++) {
+        for (size_t i = 0; i < width; i++) {
 
-          xy[0] = (i + 0.5) / oversample;
-          xy[1] = (j + 0.5) / oversample;
-          scitbx::vec3<double> p(panel.get_pixel_lab_coord(xy));
-          scitbx::vec3<double> q = p.normalize() * winv - s0;
-          scitbx::vec3<double> hkl = UB_inv * q;
-          double d2 = (hkl[0] - round(hkl[0])) * (hkl[0] - round(hkl[0])) +
-            (hkl[1] - round(hkl[1])) * (hkl[1] - round(hkl[1])) +
-            (hkl[2] - round(hkl[2])) * (hkl[2] - round(hkl[2]));
-          map[offset] = exp(- d2 / r2);
+          double value = 0.0;
+
+          for (size_t _j = 0; _j < oversample; _j++) {
+            for (size_t _i = 0; _i < oversample; _i++) {
+
+              xy[0] = i + ((_i + 0.5) / oversample);
+              xy[1] = j + ((_j + 0.5) / oversample);
+
+              scitbx::vec3<double> p(panel.get_pixel_lab_coord(xy));
+              scitbx::vec3<double> q = p.normalize() * winv - s0;
+              scitbx::vec3<double> hkl = UB_inv * q;
+              double d2 = (hkl[0] - round(hkl[0])) * (hkl[0] - round(hkl[0])) +
+                (hkl[1] - round(hkl[1])) * (hkl[1] - round(hkl[1])) +
+                (hkl[2] - round(hkl[2])) * (hkl[2] - round(hkl[2]));
+
+              value += exp(- d2 / r2);
+
+            }
+          }
+
+          map[offset] = value / (oversample * oversample);
           offset++;
         }
       }
