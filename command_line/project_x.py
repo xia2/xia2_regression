@@ -32,6 +32,15 @@ oversample = 1
 png = 'project_x.png'
   .type = str
   .help = 'Output name for .png'
+png_width = 8
+  .type = float
+  .help = 'Width, inches'
+png_height = 6
+  .type = float
+  .help = 'Height, inches'
+png_dpi = 200
+  .type = int
+  .help = 'Pixels per inch'
 ''', process_includes=True)
 
 class Script(object):
@@ -55,9 +64,12 @@ class Script(object):
     import matplotlib
     matplotlib.use('Agg')
     from matplotlib import pyplot
+    params = self.params
     data = map.as_numpy_array()
+    fig = pyplot.gcf()
+    fig.set_size_inches(params.png_width, params.png_height)
     pyplot.imshow(data)
-    pyplot.savefig(filename)
+    pyplot.savefig(filename, dpi=params.png_dpi)
     return
 
   def run(self):
@@ -68,6 +80,8 @@ class Script(object):
     import math
 
     params, options = self.parser.parse_args(show_diff_phil=True)
+
+    self.params = params
 
     experiments = flatten_experiments(params.input.experiments)
 
@@ -94,7 +108,8 @@ class Script(object):
     s0 = matrix.col(beam.get_s0())
 
     # this should be working only on single images at the moment
-    assert imageset.get_array_range()[1] - imageset.get_array_range()[0] == 1
+    if hasattr(imageset, "get_array_range"):
+      assert imageset.get_array_range()[1] - imageset.get_array_range()[0] == 1
 
     # really slow code follows - (i) move this to C++ and (ii) work out a
     # way to not loop over all pixels doing relatively expensive calculations
