@@ -78,7 +78,7 @@ class Script(object):
 
     # try to find points on here > 1% (for arguments sake)
     binary_map = distance_map.deep_copy()
-    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.01, 1)
+    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.1, 1)
     binary_map = binary_map.iround()
     binary_map.reshape(flex.grid(1, nslow, nfast))
 
@@ -176,34 +176,38 @@ class Script(object):
     # need to decide how to handle multiple plots...
     assert(len(detector) == 1)
 
-    for panel, pixels in zip(detector, data):
-      origin = panel.get_origin()
-      fast = panel.get_fast_axis()
-      slow = panel.get_slow_axis()
-      nfast, nslow = panel.get_image_size()
+    panel = detector[0]
+    pixels = data[0]
 
-      from xia2_regression import x_map
+    origin = panel.get_origin()
+    fast = panel.get_fast_axis()
+    slow = panel.get_slow_axis()
+    nfast, nslow = panel.get_image_size()
 
-      distance_map = None
+    from xia2_regression import x_map
 
-      # play with symmetry stuff - yay for short class names
-      from dials.algorithms.refinement.parameterisation.crystal_parameters \
-        import CrystalUnitCellParameterisation, \
-        CrystalOrientationParameterisation
+    distance_map = None
 
-      for crystal in crystals:
-        cucp = CrystalUnitCellParameterisation(crystal)
-        cop = CrystalOrientationParameterisation(crystal)
+    # play with symmetry stuff - yay for short class names
+    from dials.algorithms.refinement.parameterisation.crystal_parameters \
+      import CrystalUnitCellParameterisation, \
+      CrystalOrientationParameterisation
 
-        print 'In total we have %d free parameters' % len(
-          cucp.get_param_vals() + cop.get_param_vals() + [1])
+    assert len(crystals) == 1
+    crystal = crystals[0]
 
-        RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
-        _map = x_map(panel, beam, RUBi, params.oversample, params.r)
-        if distance_map is None:
-          distance_map = _map
-        else:
-          distance_map = flex.max(distance_map, _map)
+    cucp = CrystalUnitCellParameterisation(crystal)
+    cop = CrystalOrientationParameterisation(crystal)
+
+    print 'In total we have %d free parameters' % len(
+      cucp.get_param_vals() + cop.get_param_vals() + [1])
+
+    RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
+    _map = x_map(panel, beam, RUBi, params.oversample, params.r)
+    if distance_map is None:
+      distance_map = _map
+    else:
+      distance_map = flex.max(distance_map, _map)
 
     score, n_objects = self.score(pixels, distance_map)
 
