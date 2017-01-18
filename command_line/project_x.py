@@ -111,7 +111,9 @@ class Script(object):
   def evaluate(self, vector):
     # compute and score vector of params (order == [metrical matrix params],
     # [orientation params], r; return 1.0/cc
-    return 0
+    xmap = self.compute_xmap(vector)
+    cc, n = self.score(self.pixels, xmap)
+    return 1.0 / cc
 
   def compute_xmap(self, vector):
     cell_parms = self.cucp.get_param_vals()
@@ -122,23 +124,19 @@ class Script(object):
                              len(orientation_parms)]
     tst_r = vector[-1]
 
-    print cell_parms
-    print tst_cell
-    print orientation_parms
-    print tst_orientation
-
     self.cucp.set_param_vals(tst_cell)
     self.cop.set_param_vals(tst_orientation)
 
     from scitbx import matrix
     from xia2_regression import x_map
 
+    print self.crystal
+
     RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
     distance_map = x_map(self.panel, self.beam, RUBi, self.params.oversample,
                          tst_r, self.params.d_min)
 
     return distance_map
-
 
   def score(self, idata, distance_map):
     from scitbx.array_family import flex
@@ -173,6 +171,9 @@ class Script(object):
 
       m = distance_map.as_1d().select(sel)
       mean_cc += flex.linear_correlation(d, m).coefficient()
+
+
+    print 'Score: %.3f' % (1.0 / (mean_cc / flood_fill.n_voids()))
 
     return mean_cc / flood_fill.n_voids(), flood_fill.n_voids()
 
@@ -251,26 +252,32 @@ class Script(object):
     pixels = data[0]
 
     self.panel = panel
+    self.pixels = pixels
     self.beam = beam
+
+    assert len(crystals) == 1
+    crystal = crystals[0]
 
     # play with symmetry stuff - yay for short class names
     from dials.algorithms.refinement.parameterisation.crystal_parameters \
       import CrystalUnitCellParameterisation, \
       CrystalOrientationParameterisation
 
-    assert len(crystals) == 1
-    crystal = crystals[0]
-
     self.crystal = crystal
+    self.cucp = CrystalUnitCellParameterisation(crystal)
+    self.cop = CrystalOrientationParameterisation(crystal)
 
-    cucp = CrystalUnitCellParameterisation(crystal)
-    cop = CrystalOrientationParameterisation(crystal)
+    # 0-point and deltas
+    values = flex.double(self.cucp.get_param_vals() +
+                         self.cop.get_param_vals() + [params.r])
+    offset = flex.double([0.01 * v for v in self.cucp.get_param_vals()] +
+                         [0.1, 0.1, 0.1, 0.01])
 
-    self.cucp = cucp
-    self.cop = cop
+    # create simplex
+    refined_values = simple_simplex(values, offset, self)
 
     distance_map = self.compute_xmap(
-      cucp.get_param_vals() + cop.get_param_vals() + [params.r])
+      self.cucp.get_param_vals() + self.cop.get_param_vals() + [params.r])
 
     score, n_objects = self.score(pixels, distance_map)
 
