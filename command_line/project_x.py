@@ -130,7 +130,9 @@ class Script(object):
     from scitbx import matrix
     from xia2_regression import x_map
 
-    print self.crystal
+    print '%.3f %.3f %.3f %.3f %.3f %.3f' % \
+      tuple(self.crystal.get_unit_cell().parameters()),
+    print '%.3f %.3f %.3f' % tuple(tst_orientation), '%.3f' % tst_r
 
     RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
     distance_map = x_map(self.panel, self.beam, RUBi, self.params.oversample,
