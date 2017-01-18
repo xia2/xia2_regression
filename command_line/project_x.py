@@ -74,6 +74,9 @@ class simple_simplex(object):
                                     max_iter=1000000)
 
     self.x = optimizer.get_solution()
+    return
+
+  def get_solution(self):
     return self.x
 
   def target(self, vector):
@@ -278,7 +281,8 @@ class Script(object):
                          [0.1, 0.1, 0.1, 0.01])
 
     # create simplex
-    refined_values = simple_simplex(values, offset, self)
+    refiner = simple_simplex(values, offset, self)
+    refined_values = refiner.get_solution()
 
     # use results
     distance_map = self.compute_xmap(refined_values)
