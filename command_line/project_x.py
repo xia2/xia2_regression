@@ -113,7 +113,7 @@ class Script(object):
     # [orientation params], r; return 1.0/cc
     xmap = self.compute_xmap(vector)
     cc, n = self.score(self.pixels, xmap)
-    return 1.0 / cc
+    return 1.0 / abs(cc)
 
   def compute_xmap(self, vector):
     cell_parms = self.cucp.get_param_vals()
