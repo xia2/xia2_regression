@@ -99,6 +99,8 @@ class Script(object):
       check_format=True,
       read_experiments=True)
 
+    self.evaluations = 0
+
   def plot_map(self, map, filename):
     import matplotlib
     matplotlib.use('Agg')
@@ -114,6 +116,8 @@ class Script(object):
   def evaluate(self, vector):
     # compute and score vector of params (order == [metrical matrix params],
     # [orientation params], r; return 1.0/cc
+    self.evaluations += 1
+    print 'Cycle %d' % self.evaluations
     xmap = self.compute_xmap(vector)
     cc, n = self.score(self.pixels, xmap)
     return 1.0 / max(cc, 0.01)
@@ -133,9 +137,10 @@ class Script(object):
     from scitbx import matrix
     from xia2_regression import x_map
 
-    print '%.3f %.3f %.3f %.3f %.3f %.3f' % \
-      tuple(self.crystal.get_unit_cell().parameters()),
-    print '%.3f %.3f %.3f' % tuple(tst_orientation), '%.3f' % tst_r
+    print 'Cell: %.3f %.3f %.3f %.3f %.3f %.3f' % \
+      tuple(self.crystal.get_unit_cell().parameters())
+    print 'Phi(1,2,3): %.3f %.3f %.3f' % tuple(tst_orientation), \
+      'R: %.3f' % tst_r
 
     RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
     distance_map = x_map(self.panel, self.beam, RUBi, self.params.oversample,
