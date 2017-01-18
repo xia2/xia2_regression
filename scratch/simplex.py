@@ -13,11 +13,11 @@ def generate_start(values, offset):
 
 class simple_simplex(object):
 
-  def __init__(self, values):
+  def __init__(self, values, offset, params=None):
+    self.params = params
     self.n = len(values)
     self.x = values
-    self.starting_simplex = generate_start(flex.double((1, 1)),
-                                           flex.double((0.1, 0.1)))
+    self.starting_simplex = generate_start(values, offset)
     self.fcount = 0
 
     optimizer = simplex.simplex_opt(dimension=self.n,
@@ -25,6 +25,7 @@ class simple_simplex(object):
                                     evaluator=self,
                                     tolerance=1e-10,
                                     max_iter=1000000)
+
     self.x = optimizer.get_solution()
     print "Iterations %d %d" % (optimizer.count, self.fcount)
     print "Solution %s" % str(list(self.x))
@@ -36,4 +37,4 @@ class simple_simplex(object):
     return value
 
 if __name__ == '__main__':
-  ss = simple_simplex(flex.double((3, 3)))
+  ss = simple_simplex(flex.double((3, 3)), flex.double((0.1, 0.1)))
