@@ -113,7 +113,7 @@ class Script(object):
     # [orientation params], r; return 1.0/cc
     xmap = self.compute_xmap(vector)
     cc, n = self.score(self.pixels, xmap)
-    return 1.0 / abs(cc)
+    return 1.0 / max(cc, 0.01)
 
   def compute_xmap(self, vector):
     cell_parms = self.cucp.get_param_vals()
@@ -174,10 +174,12 @@ class Script(object):
       m = distance_map.as_1d().select(sel)
       mean_cc += flex.linear_correlation(d, m).coefficient()
 
-
-    print 'Score: %.3f' % (1.0 / (mean_cc / flood_fill.n_voids()))
-
-    return mean_cc / flood_fill.n_voids(), flood_fill.n_voids()
+    if flood_fill.n_voids() > 1:
+      print 'Score: %.3f' % (1.0 / (mean_cc / flood_fill.n_voids()))
+      return mean_cc / flood_fill.n_voids(), flood_fill.n_voids()
+    else:
+      print 'Scoring failed'
+      return 0.01, 1
 
   def run(self):
     from dials.util.command_line import Command
