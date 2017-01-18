@@ -71,7 +71,7 @@ class simple_simplex(object):
                                     matrix=self.starting_simplex,
                                     evaluator=self,
                                     tolerance=1e-10,
-                                    max_iter=1000000)
+                                    max_iter=200)
 
     self.x = optimizer.get_solution()
     return
