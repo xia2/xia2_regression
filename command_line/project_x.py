@@ -272,9 +272,9 @@ class Script(object):
     distance_map = self.compute_xmap(
       cucp.get_param_vals() + cop.get_param_vals() + [params.r])
 
-    #score, n_objects = self.score(pixels, distance_map)
+    score, n_objects = self.score(pixels, distance_map)
 
-    #print 'Score was: %.3f over %d objects' % (score, n_objects)
+    print 'Score was: %.3f over %d objects' % (score, n_objects)
 
     # plot output
     self.plot_map(distance_map, params.png)
