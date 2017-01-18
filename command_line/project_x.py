@@ -46,6 +46,39 @@ png_dpi = 200
   .help = 'Pixels per inch'
 ''', process_includes=True)
 
+from scitbx import simplex
+from scitbx.array_family import flex
+import random
+
+def generate_start(values, offset):
+  assert len(values) == len(offset)
+  start = [values]
+  for j, o in enumerate(offset):
+    next = values.deep_copy()
+    next[j] += o
+    start.append(next)
+  return start
+
+class simple_simplex(object):
+  def __init__(self, values, offset, evaluator):
+    self.evaluator = evaluator
+    self.n = len(values)
+    self.x = values
+    self.starting_simplex = generate_start(values, offset)
+    self.fcount = 0
+
+    optimizer = simplex.simplex_opt(dimension=self.n,
+                                    matrix=self.starting_simplex,
+                                    evaluator=self,
+                                    tolerance=1e-10,
+                                    max_iter=1000000)
+
+    self.x = optimizer.get_solution()
+    return self.x
+
+  def target(self, vector):
+    return self.evaluator.evaluate(vector)
+
 class Script(object):
   '''A class for running the script.'''
 
@@ -75,17 +108,49 @@ class Script(object):
     pyplot.savefig(filename, dpi=params.png_dpi)
     return
 
+  def evaluate(self, vector):
+    # compute and score vector of params (order == [metrical matrix params],
+    # [orientation params], r; return 1.0/cc
+    return 0
+
+  def compute_xmap(self, vector):
+    cell_parms = self.cucp.get_param_vals()
+    orientation_parms = self.cop.get_param_vals()
+    assert len(vector) == len(cell_parms) + len(orientation_parms) + 1
+    tst_cell = vector[:len(cell_parms)]
+    tst_orientation = vector[len(cell_parms):len(cell_parms) +
+                             len(orientation_parms)]
+    tst_r = vector[-1]
+
+    print cell_parms
+    print tst_cell
+    print orientation_parms
+    print tst_orientation
+
+    self.cucp.set_param_vals(tst_cell)
+    self.cop.set_param_vals(tst_orientation)
+
+    from scitbx import matrix
+    from xia2_regression import x_map
+
+    RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
+    distance_map = x_map(self.panel, self.beam, RUBi, self.params.oversample,
+                         tst_r, self.params.d_min)
+
+    return distance_map
+
+
   def score(self, idata, distance_map):
     from scitbx.array_family import flex
     nslow, nfast = idata.focus()
 
     # try to find points on here > 1% (for arguments sake)
     binary_map = distance_map.deep_copy()
-    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.1, 1)
+    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.01, 1)
     binary_map = binary_map.iround()
     binary_map.reshape(flex.grid(1, nslow, nfast))
 
-    # find connected regions of spots
+    # find connected regions of spots - hacking code for density modification
     from cctbx import masks
     from cctbx import uctbx
     uc = uctbx.unit_cell((1, nslow, nfast, 90, 90, 90))
@@ -99,9 +164,10 @@ class Script(object):
     for j in range(flood_fill.n_voids()):
       sel = binary_map == (j + 2)
 
-      d = data.select(sel)
+      # select pixels for this void; if any are -ve i.e. bad pixels
+      # exclude from calculation
 
-      assert d.size() > 0
+      d = data.select(sel)
       if flex.min(d) < 0:
         continue
 
@@ -176,20 +242,16 @@ class Script(object):
     else:
       R = matrix.sqr((1, 0, 0, 0, 1, 0, 0, 0, 1))
 
+    self.R = R
+
     # need to decide how to handle multiple plots...
     assert(len(detector) == 1)
 
     panel = detector[0]
     pixels = data[0]
 
-    origin = panel.get_origin()
-    fast = panel.get_fast_axis()
-    slow = panel.get_slow_axis()
-    nfast, nslow = panel.get_image_size()
-
-    from xia2_regression import x_map
-
-    distance_map = None
+    self.panel = panel
+    self.beam = beam
 
     # play with symmetry stuff - yay for short class names
     from dials.algorithms.refinement.parameterisation.crystal_parameters \
@@ -199,22 +261,20 @@ class Script(object):
     assert len(crystals) == 1
     crystal = crystals[0]
 
+    self.crystal = crystal
+
     cucp = CrystalUnitCellParameterisation(crystal)
     cop = CrystalOrientationParameterisation(crystal)
 
-    print 'In total we have %d free parameters' % len(
-      cucp.get_param_vals() + cop.get_param_vals() + [1])
+    self.cucp = cucp
+    self.cop = cop
 
-    RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
-    _map = x_map(panel, beam, RUBi, params.oversample, params.r, params.d_min)
-    if distance_map is None:
-      distance_map = _map
-    else:
-      distance_map = flex.max(distance_map, _map)
+    distance_map = self.compute_xmap(
+      cucp.get_param_vals() + cop.get_param_vals() + [params.r])
 
-    score, n_objects = self.score(pixels, distance_map)
+    #score, n_objects = self.score(pixels, distance_map)
 
-    print 'Score was: %.3f over %d objects' % (score, n_objects)
+    #print 'Score was: %.3f over %d objects' % (score, n_objects)
 
     # plot output
     self.plot_map(distance_map, params.png)
