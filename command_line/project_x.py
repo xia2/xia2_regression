@@ -276,8 +276,8 @@ class Script(object):
     # create simplex
     refined_values = simple_simplex(values, offset, self)
 
-    distance_map = self.compute_xmap(
-      self.cucp.get_param_vals() + self.cop.get_param_vals() + [params.r])
+    # use results
+    distance_map = self.compute_xmap(refined_values)
 
     score, n_objects = self.score(pixels, distance_map)
 
