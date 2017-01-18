@@ -26,6 +26,9 @@ phil_scope = parse('''
 r = 0.1
   .type = float
   .help = 'Effective radius of relp'
+d_min = 0.0
+  .type = float
+  .help = 'Highest resolution for calculation'
 oversample = 1
   .type = int
   .help = 'Oversample rate'
@@ -203,15 +206,15 @@ class Script(object):
       cucp.get_param_vals() + cop.get_param_vals() + [1])
 
     RUBi = (R * matrix.sqr(crystal.get_A())).inverse()
-    _map = x_map(panel, beam, RUBi, params.oversample, params.r)
+    _map = x_map(panel, beam, RUBi, params.oversample, params.r, params.d_min)
     if distance_map is None:
       distance_map = _map
     else:
       distance_map = flex.max(distance_map, _map)
 
-    score, n_objects = self.score(pixels, distance_map)
+    #score, n_objects = self.score(pixels, distance_map)
 
-    print 'Score was: %.3f over %d objects' % (score, n_objects)
+    #print 'Score was: %.3f over %d objects' % (score, n_objects)
 
     # plot output
     self.plot_map(distance_map, params.png)

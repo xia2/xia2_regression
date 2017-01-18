@@ -58,7 +58,7 @@ namespace xia2_regression {
     x_map(const dxtbx::model::Panel & panel,
           const dxtbx::model::Beam & beam,
           const scitbx::mat3<double> & UB_inv,
-          int oversample, double r)
+          int oversample, double r, double d_min)
     {
       size_t width = panel.get_image_size()[0];
       size_t height = panel.get_image_size()[1];
@@ -77,6 +77,17 @@ namespace xia2_regression {
         for (size_t i = 0; i < width; i++) {
 
           double value = 0.0;
+
+          if (d_min > 0) {
+            xy[0] = i + 0.5;
+            xy[1] = j + 0.5;
+            double d = panel.get_resolution_at_pixel(s0, xy);
+            if (d < d_min) {
+              map[offset] = 0.0;
+              offset ++;
+              continue;
+            }
+          }
 
           for (size_t _j = 0; _j < oversample; _j++) {
             for (size_t _i = 0; _i < oversample; _i++) {
