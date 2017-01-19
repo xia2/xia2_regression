@@ -32,6 +32,9 @@ d_min = 0.0
 oversample = 1
   .type = int
   .help = 'Oversample rate'
+max_iter = 200
+  .type = int(value_min=0)
+  .help = 'Max # simplex iterations'
 png = 'project_x.png'
   .type = str
   .help = 'Output name for .png'
@@ -65,7 +68,7 @@ def generate_start(values, offset):
   return start
 
 class simple_simplex(object):
-  def __init__(self, values, offset, evaluator):
+  def __init__(self, values, offset, evaluator, max_iter):
     self.evaluator = evaluator
     self.n = len(values)
     self.x = values
@@ -76,7 +79,7 @@ class simple_simplex(object):
                                     matrix=self.starting_simplex,
                                     evaluator=self,
                                     tolerance=1e-10,
-                                    max_iter=200)
+                                    max_iter=max_iter)
 
     self.x = optimizer.get_solution()
     return
@@ -344,15 +347,14 @@ class Script(object):
                          [0.1, 0.1, 0.1, 0.01])
 
     # create simplex
-    refiner = simple_simplex(values, offset, self)
+    refiner = simple_simplex(values, offset, self, params.max_iter)
     refined_values = refiner.get_solution()
 
-    # use results
     distance_map = self.compute_xmap(refined_values)
 
-    score, n_objects = self.score(pixels, distance_map)
-
-    print 'Score was: %.3f over %d objects' % (score, n_objects)
+    if params.score == 'image':
+      score, n_objects = self.score(pixels, distance_map)
+      print 'Score was: %.3f over %d objects' % (score, n_objects)
 
     # plot output
     self.plot_map(distance_map, params.png)
