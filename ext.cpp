@@ -54,6 +54,10 @@ namespace xia2_regression {
       return ss.str();
     }
 
+    // TODO in here implement a mosaicity tensor rather than an isotropic
+    // r factor => constrain the mosaicity by the crystal symmetryt (external
+    // to this routine)
+
     scitbx::af::versa<double, scitbx::af::c_grid<2> >
     x_map(const dxtbx::model::Panel & panel,
           const dxtbx::model::Beam & beam,
@@ -102,6 +106,9 @@ namespace xia2_regression {
                 (hkl[1] - round(hkl[1])) * (hkl[1] - round(hkl[1])) +
                 (hkl[2] - round(hkl[2])) * (hkl[2] - round(hkl[2]));
 
+
+              // TODO here figure out the tensor description of this i.e.
+              // ([R]d) ** 2
               value += exp(- d2 / r2);
 
             }
