@@ -242,6 +242,8 @@ class Script(object):
     binary_map.reshape(flex.grid(1, nslow, nfast))
 
     # find connected regions of spots - hacking code for density modification
+    # this is used to determine the integration masks for the reflections i.e.
+    # those pixels above 1% of the theoretical peak height
     from cctbx import masks
     from cctbx import uctbx
     uc = uctbx.unit_cell((1, nslow, nfast, 90, 90, 90))
@@ -251,9 +253,15 @@ class Script(object):
     data = idata.as_double()
 
     coms = flood_fill.centres_of_mass()
+
     RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
 
     winv = 1 / self.beam.get_wavelength()
+
+    # TODO make a reflection table here & populate with all of the things
+    # I am interested in for scaling i.e. HKL, I, sigI, Ibg, sigIbg,
+    # scale factor, xy coordinate on the detector, ... make an
+    # integrated pickle with this information for export to MTZ later...
 
     for j in range(flood_fill.n_voids()):
       xy = coms[j][2], coms[j][1]
@@ -271,7 +279,11 @@ class Script(object):
         continue
 
       # here compute the Miller index for this reflection centre
-      # TODO figure out how to implement the background estimation
+      # TODO figure out how to implement the background estimation -
+      # will need to find pixels in region around this object which are
+      # not in an object, determine the mean local background and
+      # variance in this, then apply it to the pixels occupied by
+      # the masks here...
 
       m = distance_map.select(sel)
 
@@ -279,7 +291,7 @@ class Script(object):
       intensity = flex.sum(d)
       background = 0
 
-      print '%d %d %d' % tuple(ihkl), '%.4f %.4f %.4f' % \
+      print '%4d %4d %4d' % tuple(ihkl), '%8.4f %8.4f %8.4f' % \
         (intensity, scale, background)
 
   def run(self):
