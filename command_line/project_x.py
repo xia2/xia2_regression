@@ -49,9 +49,15 @@ png_dpi = 200
   .help = 'Pixels per inch'
 padding = 0
   .type = int(value_min=0)
-  .help = "Add padding around shoebox"
+  .help = 'Add padding around shoebox'
 score = *indexed image
   .type = choice
+unit_cell = None
+  .type = floats(size=6)
+  .help = 'Unit cell input'
+phis = None
+  .type = floats(size=3)
+  .help = 'Input phi 1, 2, 3'
 ''', process_includes=True)
 
 from scitbx import simplex
@@ -331,6 +337,11 @@ class Script(object):
     assert len(crystals) == 1
     crystal = crystals[0]
 
+    if params.unit_cell:
+      from cctbx.uctbx import unit_cell
+      uc = unit_cell(params.unit_cell)
+      crystal.set_B(uc.fractionalization_matrix())
+
     # play with symmetry stuff - yay for short class names
     from dials.algorithms.refinement.parameterisation.crystal_parameters \
       import CrystalUnitCellParameterisation, \
@@ -340,20 +351,32 @@ class Script(object):
     self.cucp = CrystalUnitCellParameterisation(crystal)
     self.cop = CrystalOrientationParameterisation(crystal)
 
+    if params.phis:
+      phi = flex.double(params.phis)
+      self.cop.set_param_vals(phi)
+
     # 0-point and deltas
     values = flex.double(self.cucp.get_param_vals() +
                          self.cop.get_param_vals() + [params.r])
     offset = flex.double([0.01 * v for v in self.cucp.get_param_vals()] +
                          [0.1, 0.1, 0.1, 0.01])
 
-    # create simplex
-    refiner = simple_simplex(values, offset, self, params.max_iter)
-    refined_values = refiner.get_solution()
+    # if no input, create simplex
+    if not params.unit_cell:
+      refiner = simple_simplex(values, offset, self, params.max_iter)
+      refined_values = refiner.get_solution()
+    else:
+      refined_values = flex.double(self.cucp.get_param_vals() +
+                                   self.cop.get_param_vals() + [params.r])
 
     distance_map = self.compute_xmap(refined_values)
 
     if params.score == 'image':
       score, n_objects = self.score(pixels, distance_map)
+      print 'Score was: %.3f over %d objects' % (score, n_objects)
+    else:
+      score, n_objects = self.score_indexed(pixels, self.reflections,
+                                            distance_map)
       print 'Score was: %.3f over %d objects' % (score, n_objects)
 
     # plot output
