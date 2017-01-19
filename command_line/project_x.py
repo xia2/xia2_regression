@@ -18,7 +18,7 @@ from libtbx.phil import parse
 
 help_message = '''
 
-dials_regression.project_x experiment.json
+dials_regression.project_x experiment.json indexed.pickle
 
 '''
 
@@ -44,6 +44,11 @@ png_height = 6
 png_dpi = 200
   .type = int
   .help = 'Pixels per inch'
+padding = 0
+  .type = int(value_min=0)
+  .help = "Add padding around shoebox"
+score = *indexed image
+  .type = choice
 ''', process_includes=True)
 
 from scitbx import simplex
@@ -97,7 +102,8 @@ class Script(object):
       phil=phil_scope,
       epilog=help_message,
       check_format=True,
-      read_experiments=True)
+      read_experiments=True,
+      read_reflections=True)
 
     self.evaluations = 0
 
@@ -119,7 +125,10 @@ class Script(object):
     self.evaluations += 1
     print 'Cycle %d' % self.evaluations
     xmap = self.compute_xmap(vector)
-    cc, n = self.score(self.pixels, xmap)
+    if self.params.score == 'image':
+      cc, n = self.score(self.pixels, xmap)
+    else:
+      cc, n = self.score_indexed(self.pixels, self.reflections, xmap)
     return 1.0 / max(cc, 0.01)
 
   def compute_xmap(self, vector):
@@ -189,11 +198,34 @@ class Script(object):
       print 'Scoring failed'
       return 0.01, 1
 
+  def score_indexed(self, idata, reflections, distance_map):
+    from scitbx.array_family import flex
+
+    data = idata.as_double()
+
+    mean_cc = 0.0
+
+    for reflection in reflections:
+      x0, x1, y0, y1, z0, z1 = reflection['bbox']
+      d = data[y0:y1,x0:x1].as_1d()
+
+      if flex.min(d) < 0:
+        continue
+
+      m = distance_map[y0:y1,x0:x1].as_1d()
+
+      mean_cc += flex.linear_correlation(d, m).coefficient()
+
+    cc = mean_cc / len(reflections)
+    print 'Score: %.3f (CC=%.3f)' % (1.0 / cc, cc)
+    return cc, len(reflections)
+
   def run(self):
     from dials.util.command_line import Command
     from dials.array_family import flex
     from scitbx import matrix
     from dials.util.options import flatten_experiments
+    from dials.util.options import flatten_reflections
     import math
 
     params, options = self.parser.parse_args(show_diff_phil=True)
@@ -201,8 +233,13 @@ class Script(object):
     self.params = params
 
     experiments = flatten_experiments(params.input.experiments)
+    reflections = flatten_reflections(params.input.reflections)
 
     if len(experiments) == 0:
+      self.parser.print_help()
+      return
+
+    if len(reflections) != 1:
       self.parser.print_help()
       return
 
@@ -228,14 +265,7 @@ class Script(object):
     if hasattr(imageset, "get_array_range"):
       assert imageset.get_array_range()[1] - imageset.get_array_range()[0] == 1
 
-    # really slow code follows - (i) move this to C++ and (ii) work out a
-    # way to not loop over all pixels doing relatively expensive calculations
-    # for every pixel and (iii) work out a neater way of looping over the
-    # panels and dealing with the mm to pixel mapping
-
     data = imageset.get_raw_data(0)
-
-    assert len(data) == len(detector)
 
     # in here do some jiggery-pokery to cope with this being interpreted as
     # a rotation image in here i.e. if scan is not None; derive goniometer
@@ -257,7 +287,35 @@ class Script(object):
 
     self.R = R
 
-    # need to decide how to handle multiple plots...
+    reflections = reflections[0]
+
+    print 'Read %d reflections' % len(reflections)
+
+    indexed = reflections.select(reflections.get_flags(
+      reflections.flags.indexed))
+
+    print 'Kept %d indexed reflections' % len(indexed)
+
+    # optionally apply padding - will not use pixel data anyway
+    if params.padding > 0:
+      x0, x1, y0, y1, z0, z1 = indexed['bbox'].parts()
+      x0 -= params.padding
+      x1 += params.padding
+      y0 -= params.padding
+      y1 += params.padding
+      panel = indexed['panel']
+      for i in range(len(indexed)):
+        width, height = detector[panel[i]].get_image_size()
+        if x0[i] < 0: x0[i] = 0
+        if x1[i] > width: x1[i] = width
+        if y0[i] < 0: y0[i] = 0
+        if y1[i] > height: y1[i] = height
+
+      indexed['bbox'] = flex.int6(x0, x1, y0, y1, z0, z1)
+
+    self.reflections = indexed
+
+    # need to decide how to handle multiple panels... #TODO
     assert(len(detector) == 1)
 
     panel = detector[0]
