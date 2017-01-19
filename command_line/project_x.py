@@ -229,6 +229,59 @@ class Script(object):
     print 'Score: %.3f (CC=%.3f)' % (1.0 / cc, cc)
     return cc, len(reflections)
 
+  def integrate(self, idata, distance_map):
+    from scitbx.array_family import flex
+    from scitbx import matrix
+    nslow, nfast = idata.focus()
+
+    # try to find points on here > 1% (for arguments sake)
+    # TODO make this a PHIL parameter
+    binary_map = distance_map.deep_copy()
+    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.01, 1)
+    binary_map = binary_map.iround()
+    binary_map.reshape(flex.grid(1, nslow, nfast))
+
+    # find connected regions of spots - hacking code for density modification
+    from cctbx import masks
+    from cctbx import uctbx
+    uc = uctbx.unit_cell((1, nslow, nfast, 90, 90, 90))
+    flood_fill = masks.flood_fill(binary_map, uc)
+    binary_map = binary_map.as_1d()
+
+    data = idata.as_double()
+
+    coms = flood_fill.centres_of_mass()
+    RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
+
+    winv = 1 / self.beam.get_wavelength()
+
+    for j in range(flood_fill.n_voids()):
+      xy = coms[j][2], coms[j][1]
+      p = matrix.col(self.panel.get_pixel_lab_coord(xy)).normalize() * winv
+      q = p - matrix.col(self.beam.get_s0())
+      hkl = RUBi * q
+      ihkl = [int(round(h)) for h in hkl]
+      sel = binary_map == (j + 2)
+
+      # select pixels for this void; if any are -ve i.e. bad pixels
+      # exclude from calculation
+
+      d = data.select(sel)
+      if flex.min(d) < 0:
+        continue
+
+      # here compute the Miller index for this reflection centre
+      # TODO figure out how to implement the background estimation
+
+      m = distance_map.select(sel)
+
+      scale = flex.sum(m)
+      intensity = flex.sum(d)
+      background = 0
+
+      print '%d %d %d' % tuple(ihkl), '%.4f %.4f %.4f' % \
+        (intensity, scale, background)
+
   def run(self):
     from dials.util.command_line import Command
     from dials.array_family import flex
@@ -381,6 +434,7 @@ class Script(object):
 
     # plot output
     self.plot_map(distance_map, params.png)
+    self.integrate(pixels, distance_map)
 
 if __name__ == '__main__':
   from dials.util import halraiser
