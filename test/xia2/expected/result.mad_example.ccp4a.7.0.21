@@ -23,7 +23,7 @@ Multiplicity                                    4.1(0.2)     4.2(0.2)     2.2(0.
 I/sigma                                        11.4(15%)    29.8(**)     0.8(0.3)
 Rmerge(I+/-)                                  0.052(10%)   0.029(10%)   0.693(15%)
 CC half                                       0.995(2%)   0.994(0.2)   0.380(0.2)
-Anomalous completeness                         90.1(2%)    98.9(5%)     2.6(10)
+Anomalous completeness                         90.1(2%)    98.9(5%)    49.7(10)
 Anomalous multiplicity                          2.3(0.5)     2.5(0.5)     1.2(0.5)
 For AUTOMATIC/DEFAULT/WAVE2:
 High resolution limit                           1.54(5%)    4.18(10%)    1.54(**)
@@ -33,7 +33,7 @@ Multiplicity                                    4.0(0.2)     4.2(0.2)     2.0(0.
 I/sigma                                        11.7(15%)    30.0(**)     0.7(0.3)
 Rmerge(I+/-)                                  0.050(10%)   0.031(10%)   0.725(15%)
 CC half                                       0.997(2%)   0.996(0.2)   0.414(0.2)
-Anomalous completeness                         87.0(2%)    99.4(5%)     2.0(10)
+Anomalous completeness                         87.0(2%)    99.4(5%)    38.6(10)
 Anomalous multiplicity                          2.2(0.5)     2.5(0.5)     1.2(0.5)
 Cell:  51.565(0.5%)  51.565(0.5%) 157.594(0.5%)  90.000  90.000  90.000
 Spacegroup: P 41 21 2
