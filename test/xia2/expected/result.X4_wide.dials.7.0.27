@@ -13,10 +13,10 @@ High resolution limit                           1.22(5%)    3.31(10%)    1.22(**
 Low resolution limit                           28.93(5%)   28.94(**)    1.24(**)
 Completeness                                  100.0(5%)    99.8(5%)   100.0(10)
 Multiplicity                                    5.5(0.2)     5.3(0.2)     5.5(0.2)
-I/sigma                                         7.9(15%)    31.5(**)     1.0(0.3)
+I/sigma                                         7.9(15%)    31.8(**)     1.0(0.3)
 Rmerge(I+/-)                                  0.089(10%)   0.027(10%)   0.749(15%)
 CC half                                       0.998(2%)   0.999(0.2)   0.804(0.2)
-Anomalous completeness                         99.3(2%)    99.7(5%)     5.2(10)
+Anomalous completeness                         99.3(2%)    99.7(5%)    99.2(10)
 Anomalous multiplicity                          3.0(0.5)     3.3(0.5)     2.9(0.5)
 Cell:  42.327(0.5%)  42.327(0.5%)  39.631(0.5%)  90.000  90.000  90.000
 Spacegroup: P 41 21 2
