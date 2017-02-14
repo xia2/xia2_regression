@@ -55,7 +55,7 @@ namespace xia2_regression {
     }
 
     // TODO in here implement a mosaicity tensor rather than an isotropic
-    // r factor => constrain the mosaicity by the crystal symmetryt (external
+    // r factor => constrain the mosaicity by the crystal symmetry (external
     // to this routine)
 
     scitbx::af::versa<double, scitbx::af::c_grid<2> >
