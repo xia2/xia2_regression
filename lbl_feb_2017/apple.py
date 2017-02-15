@@ -354,6 +354,19 @@ class Apple(object):
     background = self.make_background()
     spot = self.get_background_subtracted_spots()
 
+    from dials.array_family import flex
+
+    reflections = flex.reflection_table()
+
+    num_pixels_foreground = flex.int()
+    background_mean = flex.double()
+    background_sum_value = flex.double()
+    background_sum_variance = flex.double()
+    intensity_sum_value = flex.double()
+    intensity_sum_variance = flex.double()
+    miller_index = flex.miller_index()
+    xyzcal_px = flex.vec3_double()
+
     for j in range(flood_fill.n_voids()):
       xy = coms[j][2], coms[j][1]
       p = matrix.col(self.panel.get_pixel_lab_coord(xy)).normalize() * winv
@@ -364,14 +377,33 @@ class Apple(object):
       pixels = data.select(sel)
       if flex.min(pixels) < 0:
         continue
+      n = pixels.size()
       d = flex.sum(pixels)
       b = flex.sum(background.select(sel))
       s = flex.sum(spot.select(sel))
-      print '%d %d %d' % tuple(ihkl), s, math.sqrt(d+b)
 
+      num_pixels_foreground.append(n)
+      background_mean.append(b/n)
+      background_sum_value.append(b)
+      background_sum_variance.append(b)
+      intensity_sum_value.append(s)
+      intensity_sum_variance.append(d+b)
+      miller_index.append(ihkl)
+      xyzcal_px.append((xy[0], xy[1], 0.0))
 
+    reflection_table['num_pixels.foreground'] = num_pixels_foreground
+    reflection_table['background.mean'] = background_mean
+    reflection_table['background.sum.value'] = background_sum_value
+    reflection_table['background.sum.variance'] = background_sum_variance
+    reflection_table['intensity.sum.value'] = intensity_sum_value
+    reflection_table['intensity.sum.variance'] = intensity_sum_variance
+    reflection_table['miller_index'] = miller_index
+    reflection_table['xyzcal.px'] = xyzcal_px
+
+    return reflection_table
 
 apple = Apple(sys.argv[1], sys.argv[2])
+hklout = sys.argv[3]
 distance_map = apple.render_distance()
 
 # FIXME at this point subtract background from every pixel - estimate the
@@ -388,8 +420,9 @@ apple.plot_log_map(spot, 'spot.png')
 apple.plot_log_map(background, 'background.png')
 apple.plot_map(mask, 'mask.png')
 
-apple.integrate()
-
 # FIXME at this stage iterate over the image discovering all of the connected
 # components (also known as spots) - integrate them and then determine the
 # Miller index; create an integrated.pickle; shoebox etc.
+
+reflections = apple.integrate()
+reflections.as_pickle(hklout)
