@@ -261,8 +261,35 @@ close = (distance_map.as_1d() < (2 * maxq))
 far = (distance_map.as_1d() >= (2 * maxq))
 spot = copy.deepcopy(raw_data)
 background = copy.deepcopy(raw_data)
-spot.as_1d().set_selected(far, -1)
-background.as_1d().set_selected(close, -1)
+
+# FIXME at this point subtract background from every pixel - estimate the
+# background from a summed area table - will need to mash around the
+# definitions of foreground and background to do this, and will have to have
+# some idea of the typical size of spots (in order to be able to assign a
+# sensible kernel size)
+
+
+from dials.algorithms.image.filter import summed_area
+from dials.array_family import flex
+
+background.as_1d().set_selected(close, 0)
+mask = far.as_int()
+mask.reshape(background.accessor())
+
+summed_background = summed_area(background, (5,5))
+summed_mask = summed_area(mask, (5,5))
+mean_background = (summed_background.as_double() /
+                   summed_mask.as_double()).iround()
+
+# now hack with the background - figure out a mean background at every
+# pixel and subtract it from the signal image
+background.as_1d().set_selected(close, mean_background.as_1d())
+spot = spot - background
+spot.as_1d().set_selected(far, 0)
 
 apple.plot_log_map(spot, 'spot.png')
 apple.plot_log_map(background, 'background.png')
+
+# FIXME at this stage iterate over the image discovering all of the connected
+# components (also known as spots) - integrate them and then determine the
+# Miller index; create an integrated.pickle; shoebox etc.
