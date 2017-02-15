@@ -391,16 +391,16 @@ class Apple(object):
       miller_index.append(ihkl)
       xyzcal_px.append((xy[0], xy[1], 0.0))
 
-    reflection_table['num_pixels.foreground'] = num_pixels_foreground
-    reflection_table['background.mean'] = background_mean
-    reflection_table['background.sum.value'] = background_sum_value
-    reflection_table['background.sum.variance'] = background_sum_variance
-    reflection_table['intensity.sum.value'] = intensity_sum_value
-    reflection_table['intensity.sum.variance'] = intensity_sum_variance
-    reflection_table['miller_index'] = miller_index
-    reflection_table['xyzcal.px'] = xyzcal_px
+    reflections['num_pixels.foreground'] = num_pixels_foreground
+    reflections['background.mean'] = background_mean
+    reflections['background.sum.value'] = background_sum_value
+    reflections['background.sum.variance'] = background_sum_variance
+    reflections['intensity.sum.value'] = intensity_sum_value
+    reflections['intensity.sum.variance'] = intensity_sum_variance
+    reflections['miller_index'] = miller_index
+    reflections['xyzcal.px'] = xyzcal_px
 
-    return reflection_table
+    return reflections
 
 apple = Apple(sys.argv[1], sys.argv[2])
 hklout = sys.argv[3]
