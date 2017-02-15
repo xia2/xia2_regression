@@ -399,6 +399,8 @@ class Apple(object):
     reflections['intensity.sum.variance'] = intensity_sum_variance
     reflections['miller_index'] = miller_index
     reflections['xyzcal.px'] = xyzcal_px
+    reflections['id'] = flex.int(miller_index.size(), 0)
+    reflections['panel'] = flex.int(miller_index.size(), 0)
 
     return reflections
 
