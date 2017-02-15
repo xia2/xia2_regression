@@ -292,11 +292,11 @@ class Apple(object):
       return self.background
 
     # raw background data
-    background = copy.deepcopy(self.raw_data)
+    background = copy.deepcopy(self.raw_data).as_double()
 
     # mask out the signal areas
     mask = self.get_signal_mask()
-    background.as_1d().set_selected(mask.as_1d(), 0)
+    background.as_1d().set_selected(mask.as_1d(), 0.0)
     inv_mask = (~mask).as_1d().as_int()
     inv_mask.reshape(self.raw_data.accessor())
 
@@ -305,8 +305,8 @@ class Apple(object):
 
     summed_background = summed_area(background, (5,5))
     summed_mask = summed_area(inv_mask, (5,5))
-    mean_background = (summed_background.as_double() /
-                       summed_mask.as_double()).iround()
+    mean_background = (summed_background /
+                       summed_mask.as_double())
     background.as_1d().set_selected(mask.as_1d(), mean_background.as_1d())
 
     self.background = background
@@ -319,7 +319,7 @@ class Apple(object):
     background = self.make_background()
 
     import copy
-    background_subtracted_spots = copy.deepcopy(self.raw_data) - background
+    background_subtracted_spots = self.raw_data.as_double() - background
     background_subtracted_spots.as_1d().set_selected(~mask.as_1d(), 0)
     self.background_subtracted_spots = background_subtracted_spots
     return background_subtracted_spots
@@ -327,27 +327,48 @@ class Apple(object):
   def integrate(self):
     from scitbx.array_family import flex
     from scitbx import matrix
-    nslow, nfast = idata.focus()
+    nslow, nfast = self.raw_data.focus()
 
-    # try to find points on here > 1% (for arguments sake)
-    # TODO make this a PHIL parameter
-    binary_map = distance_map.deep_copy()
-    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.01, 1)
-    binary_map = binary_map.iround()
+    binary_map = self.get_signal_mask().as_1d().as_int()
     binary_map.reshape(flex.grid(1, nslow, nfast))
 
     # find connected regions of spots - hacking code for density modification
-    # this is used to determine the integration masks for the reflections i.e.
-    # those pixels above 1% of the theoretical peak height
+    # this is used to determine the integration masks for the reflections
     from cctbx import masks
     from cctbx import uctbx
     uc = uctbx.unit_cell((1, nslow, nfast, 90, 90, 90))
     flood_fill = masks.flood_fill(binary_map, uc)
     binary_map = binary_map.as_1d()
 
-    data = idata.as_double()
-
     coms = flood_fill.centres_of_mass()
+
+    # now iterate through these blobs, find the intensity and error, and
+    # find the Miller index
+
+    UB = matrix.sqr(self.crystal.get_A())
+    UBi = UB.inverse()
+
+    winv = 1 / self.beam.get_wavelength()
+
+    data = self.raw_data.as_double()
+    background = self.make_background()
+    spot = self.get_background_subtracted_spots()
+
+    for j in range(flood_fill.n_voids()):
+      xy = coms[j][2], coms[j][1]
+      p = matrix.col(self.panel.get_pixel_lab_coord(xy)).normalize() * winv
+      q = p - matrix.col(self.beam.get_s0())
+      hkl = UBi * q
+      ihkl = [int(round(h)) for h in hkl]
+      sel = binary_map == (j + 2)
+      pixels = data.select(sel)
+      if flex.min(pixels) < 0:
+        continue
+      d = flex.sum(pixels)
+      b = flex.sum(background.select(sel))
+      s = flex.sum(spot.select(sel))
+      print '%d %d %d' % tuple(ihkl), s, math.sqrt(d+b)
+
 
 
 apple = Apple(sys.argv[1], sys.argv[2])
@@ -366,6 +387,8 @@ spot = apple.get_background_subtracted_spots()
 apple.plot_log_map(spot, 'spot.png')
 apple.plot_log_map(background, 'background.png')
 apple.plot_map(mask, 'mask.png')
+
+apple.integrate()
 
 # FIXME at this stage iterate over the image discovering all of the connected
 # components (also known as spots) - integrate them and then determine the
