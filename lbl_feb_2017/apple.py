@@ -352,7 +352,6 @@ class Apple(object):
 
     data = self.raw_data.as_double()
     background = self.make_background()
-    spot = self.get_background_subtracted_spots()
 
     from dials.array_family import flex
 
@@ -392,7 +391,7 @@ class Apple(object):
       n = pixels.size()
       d = flex.sum(pixels)
       b = flex.sum(background.select(sel))
-      s = flex.sum(spot.select(sel))
+      s = d - b
 
       # puzzle out the bounding boxes - hack here, we have maps with the
       # fast and slow positions in; select from these then find max, min of
