@@ -366,6 +366,18 @@ class Apple(object):
     intensity_sum_variance = flex.double()
     miller_index = flex.miller_index()
     xyzcal_px = flex.vec3_double()
+    bbox = flex.int6()
+
+    fast = flex.int(self.raw_data.size(), -1)
+    fast.reshape(self.raw_data.accessor())
+    slow = flex.int(self.raw_data.size(), -1)
+    slow.reshape(self.raw_data.accessor())
+
+    nslow, nfast = fast.focus()
+    for j in range(nslow):
+      for i in range(nfast):
+        fast[(j, i)] = i
+        slow[(j, i)] = j
 
     for j in range(flood_fill.n_voids()):
       xy = coms[j][2], coms[j][1]
@@ -381,6 +393,19 @@ class Apple(object):
       d = flex.sum(pixels)
       b = flex.sum(background.select(sel))
       s = flex.sum(spot.select(sel))
+
+      # puzzle out the bounding boxes - hack here, we have maps with the
+      # fast and slow positions in; select from these then find max, min of
+      # this selection
+      fs = fast.select(sel)
+      f_min = flex.min(fs)
+      f_max = flex.max(fs)
+
+      ss = slow.select(sel)
+      s_min = flex.min(ss)
+      s_max = flex.max(ss)
+
+      bbox.append((f_min, f_max+1, s_min, s_max+1, 0, 1))
 
       num_pixels_foreground.append(n)
       background_mean.append(b/n)
@@ -401,6 +426,7 @@ class Apple(object):
     reflections['xyzcal.px'] = xyzcal_px
     reflections['id'] = flex.int(miller_index.size(), 0)
     reflections['panel'] = flex.int(miller_index.size(), 0)
+    reflections['bbox'] = bbox
 
     return reflections
 
