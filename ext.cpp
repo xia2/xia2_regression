@@ -122,6 +122,56 @@ namespace xia2_regression {
       return map;
     }
 
+    scitbx::af::versa<double, scitbx::af::c_grid<2> >
+    q_map(const dxtbx::model::Panel & panel,
+          const dxtbx::model::Beam & beam,
+          const scitbx::mat3<double> & UB,
+          int oversample)
+    {
+      size_t width = panel.get_image_size()[0];
+      size_t height = panel.get_image_size()[1];
+
+      scitbx::mat3<double> UB_inv = UB.inverse();
+
+      scitbx::af::versa<double, scitbx::af::c_grid<2> > map;
+      map.resize(scitbx::af::c_grid<2>(height, width));
+
+      scitbx::af::tiny<double,2> xy;
+      scitbx::vec3<double> s0(beam.get_s0());
+      double winv = 1.0 / beam.get_wavelength();
+
+      size_t offset = 0;
+      for (size_t j = 0; j < height; j++) {
+        for (size_t i = 0; i < width; i++) {
+
+          double value = 0.0;
+
+          for (size_t _j = 0; _j < oversample; _j++) {
+            for (size_t _i = 0; _i < oversample; _i++) {
+
+              xy[0] = i + ((_i + 0.5) / oversample);
+              xy[1] = j + ((_j + 0.5) / oversample);
+
+              scitbx::vec3<double> p(panel.get_pixel_lab_coord(xy));
+              scitbx::vec3<double> q = p.normalize() * winv - s0;
+              scitbx::vec3<double> hkl = UB_inv * q;
+              scitbx::vec3<int> ihkl;
+              ihkl[0] = round(hkl[0]);
+              ihkl[1] = round(hkl[1]);
+              ihkl[2] = round(hkl[2]);
+              scitbx::vec3<double> mq = UB * ihkl;
+              value += (q - mq).length();
+            }
+          }
+
+          map[offset] = value / (oversample * oversample);
+          offset++;
+        }
+      }
+
+      return map;
+    }
+
     void init_module()
     {
       using namespace boost::python;
@@ -131,6 +181,8 @@ namespace xia2_regression {
       def("detector_as_string", detector_as_string, (arg("detector")));
       def("x_map", x_map, (arg("panel"), arg("beam"), arg("UB_inv"),
                            arg("oversample"), arg("r")));
+      def("q_map", q_map, (arg("panel"), arg("beam"), arg("UB"),
+                           arg("oversample")));
     }
 
   }

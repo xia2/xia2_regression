@@ -6,6 +6,9 @@ from scitbx import matrix
 import scitbx.math as smath
 import json
 
+def nint(a):
+  return int(round(a))
+
 def scorify(params):
   rx, ry, rz = params
   R = matrix.sqr(smath.euler_angles_as_matrix((rx, ry, rz), deg=True))
@@ -83,6 +86,14 @@ class Apple(object):
       q = p.normalize() / wavelength - self.s0
       self.qobs.append(q)
 
+    self.wavelength = wavelength
+    self.panel = panel
+    self.beam = expt.beams()[0]
+
+    # slurp data from $somewhere
+
+    imageset = expt.imagesets()[0]
+    self.raw_data = imageset.get_raw_data(0)[0]
 
     from dials.algorithms.refinement.parameterisation.crystal_parameters \
       import CrystalUnitCellParameterisation, \
@@ -110,6 +121,45 @@ class Apple(object):
     print 'Final cell:  ', crystal.get_unit_cell()
     print 'Score change', initial_score, self.target(best, do_print=False)
     self.best = best
+
+  def plot_map(self, map, filename):
+    import matplotlib
+    matplotlib.use('Agg')
+    from matplotlib import pyplot
+    data = map.as_numpy_array()
+    fig = pyplot.gcf()
+    pyplot.imshow(data, cmap='gray_r')
+    pyplot.savefig(filename, dpi=400)
+    return
+
+  def plot_log_map(self, map, filename):
+    import matplotlib
+    matplotlib.use('Agg')
+    from matplotlib import pyplot
+
+    negative = (map.as_1d() <= 0)
+    map.as_1d().set_selected(negative, 1)
+    logmap = flex.log10(map.as_double())
+
+    data = logmap.as_numpy_array()
+    fig = pyplot.gcf()
+    pyplot.imshow(data, cmap='gray_r')
+    pyplot.savefig(filename, dpi=400)
+    return
+
+  def render_distance(self):
+    distance_map = flex.double(flex.grid(self.raw_data.focus()))
+    origin = self.panel.get_origin()
+    fast = self.panel.get_fast_axis()
+    slow = self.panel.get_slow_axis()
+    nfast, nslow = self.panel.get_image_size()
+
+    UB = matrix.sqr(self.crystal.get_A())
+    UBi = UB.inverse()
+
+    from xia2_regression import q_map
+    distance_map = q_map(self.panel, self.beam, UB, 1)
+    return distance_map
 
   def target(self, vector, do_print=False):
     cell_parms = self.cucp.get_param_vals()
@@ -172,11 +222,14 @@ class Apple(object):
 
     UB = matrix.sqr(self.crystal.get_A())
     data = self.data
+    self.maxq = 0
     for j in range(data.size()):
       hkl = data['miller_index'][j]
       q = UB * hkl
       qo = self.qobs[j]
       print (q - qo).length(), self.i_s[j], self.dq0[j]
+      if (q - qo).length() > self.maxq:
+        self.maxq = (q - qo).length()
 
     return
 
@@ -194,9 +247,18 @@ class Apple(object):
 
     return
 
+import copy
 apple = Apple(sys.argv[1], sys.argv[2])
 apple.plotify()
+distance_map = apple.render_distance()
+raw_data = apple.raw_data
+maxq = apple.maxq
+close = (distance_map.as_1d() < (2 * maxq))
+far = (distance_map.as_1d() >= (2 * maxq))
+spot = copy.deepcopy(raw_data)
+background = copy.deepcopy(raw_data)
+spot.as_1d().set_selected(far, -1)
+background.as_1d().set_selected(close, -1)
 
-with open('cells.dat', 'w') as f:
-  for cell in apple.cells:
-    f.write('%f %f %f %f %f %f\n' % cell)
+apple.plot_log_map(spot, 'spot.png')
+apple.plot_log_map(background, 'background.png')
