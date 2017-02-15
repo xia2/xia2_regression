@@ -237,6 +237,32 @@ class Apple(object):
 
     return
 
+  def get_maxq(self):
+    vector = self.best
+    cell_parms = self.cucp.get_param_vals()
+    orientation_parms = self.cop.get_param_vals()
+    assert len(vector) == len(cell_parms) + len(orientation_parms)
+    tst_cell = vector[:len(cell_parms)]
+    tst_orientation = vector[len(cell_parms):len(cell_parms) +
+                             len(orientation_parms)]
+
+    self.cucp.set_param_vals(tst_cell)
+    self.cop.set_param_vals(tst_orientation)
+
+    from scitbx import matrix
+
+    UB = matrix.sqr(self.crystal.get_A())
+    data = self.data
+    self.maxq = 0
+    for j in range(data.size()):
+      hkl = data['miller_index'][j]
+      q = UB * hkl
+      qo = self.qobs[j]
+      if (q - qo).length() > self.maxq:
+        self.maxq = (q - qo).length()
+
+    return self.maxq
+
   def zero(self):
     from scitbx import matrix
 
@@ -251,16 +277,81 @@ class Apple(object):
 
     return
 
-import copy
+  def get_signal_mask(self, scale=2):
+    if hasattr(self, 'signal_mask'):
+      return self.signal_mask
+    distance_map = self.render_distance()
+    maxq = self.get_maxq()
+    self.signal_mask = (distance_map.as_1d() < (2 * maxq))
+    self.signal_mask.reshape(self.raw_data.accessor())
+    return self.signal_mask
+
+  def make_background(self):
+    import copy
+    if hasattr(self, 'background'):
+      return self.background
+
+    # raw background data
+    background = copy.deepcopy(self.raw_data)
+
+    # mask out the signal areas
+    mask = self.get_signal_mask()
+    background.as_1d().set_selected(mask.as_1d(), 0)
+    inv_mask = (~mask).as_1d().as_int()
+    inv_mask.reshape(self.raw_data.accessor())
+
+    from dials.algorithms.image.filter import summed_area
+    from dials.array_family import flex
+
+    summed_background = summed_area(background, (5,5))
+    summed_mask = summed_area(inv_mask, (5,5))
+    mean_background = (summed_background.as_double() /
+                       summed_mask.as_double()).iround()
+    background.as_1d().set_selected(mask.as_1d(), mean_background.as_1d())
+
+    self.background = background
+    return background
+
+  def get_background_subtracted_spots(self):
+    if hasattr(self, 'background_subtracted_spots'):
+      return self.background_subtracted_spots
+    mask = self.get_signal_mask()
+    background = self.make_background()
+
+    import copy
+    background_subtracted_spots = copy.deepcopy(self.raw_data) - background
+    background_subtracted_spots.as_1d().set_selected(~mask.as_1d(), 0)
+    self.background_subtracted_spots = background_subtracted_spots
+    return background_subtracted_spots
+
+  def integrate(self):
+    from scitbx.array_family import flex
+    from scitbx import matrix
+    nslow, nfast = idata.focus()
+
+    # try to find points on here > 1% (for arguments sake)
+    # TODO make this a PHIL parameter
+    binary_map = distance_map.deep_copy()
+    binary_map.as_1d().set_selected(binary_map.as_1d() > 0.01, 1)
+    binary_map = binary_map.iround()
+    binary_map.reshape(flex.grid(1, nslow, nfast))
+
+    # find connected regions of spots - hacking code for density modification
+    # this is used to determine the integration masks for the reflections i.e.
+    # those pixels above 1% of the theoretical peak height
+    from cctbx import masks
+    from cctbx import uctbx
+    uc = uctbx.unit_cell((1, nslow, nfast, 90, 90, 90))
+    flood_fill = masks.flood_fill(binary_map, uc)
+    binary_map = binary_map.as_1d()
+
+    data = idata.as_double()
+
+    coms = flood_fill.centres_of_mass()
+
+
 apple = Apple(sys.argv[1], sys.argv[2])
-apple.plotify()
 distance_map = apple.render_distance()
-raw_data = apple.raw_data
-maxq = apple.maxq
-close = (distance_map.as_1d() < (2 * maxq))
-far = (distance_map.as_1d() >= (2 * maxq))
-spot = copy.deepcopy(raw_data)
-background = copy.deepcopy(raw_data)
 
 # FIXME at this point subtract background from every pixel - estimate the
 # background from a summed area table - will need to mash around the
@@ -268,27 +359,13 @@ background = copy.deepcopy(raw_data)
 # some idea of the typical size of spots (in order to be able to assign a
 # sensible kernel size)
 
-
-from dials.algorithms.image.filter import summed_area
-from dials.array_family import flex
-
-background.as_1d().set_selected(close, 0)
-mask = far.as_int()
-mask.reshape(background.accessor())
-
-summed_background = summed_area(background, (5,5))
-summed_mask = summed_area(mask, (5,5))
-mean_background = (summed_background.as_double() /
-                   summed_mask.as_double()).iround()
-
-# now hack with the background - figure out a mean background at every
-# pixel and subtract it from the signal image
-background.as_1d().set_selected(close, mean_background.as_1d())
-spot = spot - background
-spot.as_1d().set_selected(far, 0)
+mask = apple.get_signal_mask()
+background = apple.make_background()
+spot = apple.get_background_subtracted_spots()
 
 apple.plot_log_map(spot, 'spot.png')
 apple.plot_log_map(background, 'background.png')
+apple.plot_map(mask, 'mask.png')
 
 # FIXME at this stage iterate over the image discovering all of the connected
 # components (also known as spots) - integrate them and then determine the
