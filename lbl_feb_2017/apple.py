@@ -129,7 +129,9 @@ class Apple(object):
     data = map.as_numpy_array()
     fig = pyplot.gcf()
     pyplot.imshow(data, cmap='gray_r')
+    pyplot.colorbar()
     pyplot.savefig(filename, dpi=400)
+    pyplot.clf()
     return
 
   def plot_log_map(self, map, filename):
@@ -144,7 +146,9 @@ class Apple(object):
     data = logmap.as_numpy_array()
     fig = pyplot.gcf()
     pyplot.imshow(data, cmap='gray_r')
+    pyplot.colorbar()
     pyplot.savefig(filename, dpi=400)
+    pyplot.clf()
     return
 
   def render_distance(self):
