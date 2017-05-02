@@ -1,98 +1,22 @@
-Environment configuration...
-Python => /Users/graeme/svn/cctbx/build/../base/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
-CCTBX => /Users/graeme/svn/cctbx/modules
-CCP4 => /Applications/ccp4-7.0
-CLIBD => /Applications/ccp4-7.0/lib/data
-CCP4_SCR => /var/folders/hs/gvssfcd910s0jczjhjczj6h80000gn/T/tmp0c_mzg
-Starting directory: /private/tmp/xia2_regression.insulin.dials
-Working directory: /private/tmp/xia2_regression.insulin.dials
-Free space:        33.38 GB
-Contact: xia2.support@gmail.com
-XIA2 0.5.285-gf62be11d
-DIALS 1.dev.1326-geb703913
-CCP4 7.0.036
-Command line: xia2 pipeline=2di nproc=1 trust_beam_centre=True /Users/graeme/svn/cctbx/build/xia2_regression/test_data/insulin
-------------------- Autoindexing SWEEP1 --------------------
-All possible indexing solutions:
-cI  78.72  78.72  78.72  90.00  90.00  90.00
-hR 111.31 111.31  68.10  90.00  90.00 120.00
-tI  78.76  78.76  78.64  90.00  90.00  90.00
-oI  78.64  78.76  78.76  90.00  90.00  90.00
-oF  78.64 111.22 111.54  90.00  90.00  90.00
-mC  78.64 111.22  68.23  90.00 125.20  90.00
-aP  68.10  68.12  68.23 109.40 109.40 109.50
-Indexing solution:
-cI  78.67  78.67  78.67  90.00  90.00  90.00
--------------------- Integrating SWEEP1 --------------------
-Processed batches 1 to 45
-Standard Deviation in pixel range: 0.23 0.28
-Integration status per image:
-ooooooooooooooooooooooooooooooooooooooooooooo
-"o" => good        "%" => ok        "!" => bad rmsd
-"O" => overloaded  "#" => many bad  "." => weak
-"@" => abandoned
-Mosaic spread: 0.390 < 0.408 < 0.420
--------------------- Preparing DEFAULT ---------------------
-Likely spacegroups:
-I 2 3
-I 21 3
-Reindexing to first spacegroup setting: I 2 3 (h,k,l)
---------------------- Scaling DEFAULT ----------------------
-Resolution for sweep NATIVE/SWEEP1: 1.53 (cc_half > 0.5)
---------------------- Scaling DEFAULT ----------------------
-Overall twinning score: 1.93
-Your data do not appear twinned
 Project: AUTOMATIC
 Crystal: DEFAULT
-Sequence: 
-Wavelength name: NATIVE
-Wavelength 0.97900
-Sweeps:
-SWEEP SWEEP1 [WAVELENGTH NATIVE]
-TEMPLATE insulin_1_###.img
-DIRECTORY /Users/graeme/svn/cctbx/build/xia2_regression/test_data/insulin
-IMAGES (USER) 1 to 45
-MTZ file: /private/tmp/xia2_regression.insulin.dials/DEFAULT/NATIVE/SWEEP1/integrate/insulin_1__001.mtz
-For AUTOMATIC/DEFAULT/NATIVE                 Overall    Low     High
-High resolution limit                           1.53    4.15    1.53
-Low resolution limit                           31.85   31.86    1.56
-Completeness                                   89.6    96.8    52.1
-Multiplicity                                    4.4     5.1     1.5
-I/sigma                                        19.6    46.5     1.2
-Rmerge(I)                                     0.044   0.038   0.655
-Rmerge(I+/-)                                  0.036   0.029   0.651
-Rmeas(I)                                      0.049   0.042   0.910
-Rmeas(I+/-)                                   0.044   0.036   0.891
-Rpim(I)                                       0.021   0.017   0.630
-Rpim(I+/-)                                    0.025   0.020   0.606
-CC half                                       0.999   0.998   0.524
-Wilson B factor                              18.980
-Anomalous completeness                         78.4    98.8    15.5
-Anomalous multiplicity                          2.5     2.8     1.2
-Anomalous correlation                         0.266   0.479   0.000
-Anomalous slope                               1.197
-Total observations                            47752    3220     461
-Total unique                                  10814     628     304
-Assuming spacegroup: I 2 3
-Other likely alternatives are:
-I 21 3
-Unit cell:
- 78.015  78.015  78.015
- 90.000  90.000  90.000
-mtz format:
-Scaled reflections: /private/tmp/xia2_regression.insulin.dials/DataFiles/AUTOMATIC_DEFAULT_free.mtz
-mtz_unmerged format:
-Scaled reflections (NATIVE): /private/tmp/xia2_regression.insulin.dials/DataFiles/AUTOMATIC_DEFAULT_scaled_unmerged.mtz
-sca format:
-Scaled reflections (NATIVE): /private/tmp/xia2_regression.insulin.dials/DataFiles/AUTOMATIC_DEFAULT_scaled.sca
-sca_unmerged format:
-Scaled reflections (NATIVE): /private/tmp/xia2_regression.insulin.dials/DataFiles/AUTOMATIC_DEFAULT_scaled_unmerged.sca
-Processing took 00h 01m 16s
-XIA2 used... aimless, ccp4, mosflm, pointless, xia2
-Here are the appropriate citations (BIBTeX in xia2-citations.bib.)
-Evans, P. (2006) Acta Cryst. D62, 72-82.
-Evans, P. R. and Murshudov, G. N. (2013) Acta Cryst. D69, 1204-1214.
-Leslie, A. G. W. and Powell, H. R. (2007) Evolving Methods in Macromolecular Crystallography 245, 41-51.
-Winn, M. D. et al. (2011) Acta Cryst. D67, 235-242.
-Winter, G. (2010) J. Appl. Cryst. 43, 186-190.
-Status: normal termination
+Sequence length: 0
+Wavelength: NATIVE (0.97900)
+Sweep: SWEEP1
+Files ***
+Images: 1 to 45
+Beam 94.00 94.70 => 94.34 94.57
+Distance 160.00 => 158.60(0.1)
+Date: Thu Aug 31 13:52:46 2006
+For AUTOMATIC/DEFAULT/NATIVE:
+High resolution limit                           1.53(5%)    4.15(10%)    1.53(**)
+Low resolution limit                           31.85(5%)   31.86(**)    1.56(**)
+Completeness                                   89.6(5%)    96.8(5%)    52.1(10)
+Multiplicity                                    4.4(0.2)     5.1(0.2)     1.5(0.2)
+I/sigma                                        19.6(15%)    46.5(**)     1.2(0.3)
+Rmerge(I+/-)                                  0.036(10%)   0.029(10%)   0.651(15%)
+CC half                                       0.999(2%)   0.998(0.2)   0.524(0.2)
+Anomalous completeness                         78.4(2%)    98.8(5%)    15.5(10)
+Anomalous multiplicity                          2.5(0.5)     2.8(0.5)     1.2(0.5)
+Cell:  78.015(0.5%)  78.015(0.5%)  78.015(0.5%)  90.000  90.000  90.000
+Spacegroup: I 2 3
