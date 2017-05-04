@@ -10,7 +10,7 @@ echo
 echo =======================================================================
 echo
 
-rsync -rv g18-sc-serv-03:/scratch/jenkins_slave/workspace/dials_distribute_push/xia2_regression_data/ $(libtbx.show_build_path)/xia2_regression
+rsync -rv nx-staff:/dls/science/groups/scisoft/DIALS/CD/build_dependencies/stash/xia2_regression_data/ $(libtbx.show_build_path)/xia2_regression
 
 echo
 echo Done.
@@ -30,7 +30,7 @@ libtbx.find_in_repositories dials_regression >/dev/null 2>/dev/null || {
   echo =======================================================================
   if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
   then
-    rsync -rv g18-sc-serv-03:/scratch/jenkins_slave/workspace/dials_distribute_push/dials_regression $(libtbx.find_in_repositories dials)/.. && libtbx.configure dials_regression
+    rsync -rv nx-staff:/dls/science/groups/scisoft/DIALS/CD/build_dependencies/live/dials_regression $(libtbx.find_in_repositories dials)/.. && libtbx.configure dials_regression
   fi
 
   echo
