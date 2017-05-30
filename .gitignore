@@ -3,5 +3,6 @@
 *.pyc
 *.swp
 .git-notifier*
+git-notifier.log
 .gitversion
 .cache
