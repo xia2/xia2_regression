@@ -163,11 +163,6 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
     print >>compare, "> xia2.html not present after execution"
     output_identical = False
 
-  g = glob.glob('LogFiles/*_report.html')
-  if len(g) == 0:
-    print >>compare, "> xia2 report not present after execution"
-    output_identical = False
-
   os.chdir(cwd)
   if not output_identical:
     from libtbx.utils import Sorry
