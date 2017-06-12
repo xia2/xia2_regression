@@ -44,6 +44,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
   template_name = 'result.%s.%d.%d.%d' % (test_name, ccp4[0], ccp4[1], ccp4[2])
+  template_name = os.path.join(os.path.abspath(os.path.join(os.getcwd(), '..')), template_name)
   with open(template_name, 'w') as fh:
     fh.write(generate_tolerant_template(summary_text_lines))
 
