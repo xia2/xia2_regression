@@ -80,8 +80,8 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   print >>compare, 'Comparing output against %s' % expected_result_file
   print >>compare, '-' * 80
 
-  number = re.compile('(\d*\.\d+|\d+\.?)')
-  number_with_tolerance = re.compile('(\d*\.\d+|\d+\.?)\((ignore|\*\*|\d*\.\d+%?|\d+\.?%?)\)')
+  number = re.compile('(-?\d*\.\d+|-?\d+\.?)')
+  number_with_tolerance = re.compile('(-?\d*\.\d+|-?\d+\.?)\((ignore|\*\*|\d*\.\d+%?|\d+\.?%?)\)')
   output_identical = True
   for actual, expected in zip(summary_text_lines, expected_summary_lines):
     if actual == expected:
