@@ -13,6 +13,13 @@ def ccp4_version():
   assert version
   return [int(v) for v in version.groups()]
 
+def xds_version():
+  result = run_process(['xds'], print_stdout=False)
+  assert result['exitcode'] == 0 and not result['timeout']
+  version = re.search('BUILT=([0-9]+)\)', result['stdout'])
+  assert version
+  return int(version.groups()[0])
+
 def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   cwd = os.path.abspath(os.curdir)
   tmp_dir = os.path.join(os.curdir, 'xia2_regression.%s' % test_name)
@@ -28,6 +35,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   os.chdir(tmp_dir)
 
   ccp4 = ccp4_version()
+  xds = xds_version()
   result = run_process(['xia2'] + command_line_args)
 
   error_file = 'xia2.error'
@@ -43,7 +51,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 
   summary_text = open(summary_file, 'rb').read()
   summary_text_lines = summary_text.split('\n')
-  template_name = 'result.%s.%d.%d.%d' % (test_name, ccp4[0], ccp4[1], ccp4[2])
+  template_name = 'result.%s.%d.%d.%d.%d' % (test_name, ccp4[0], ccp4[1], ccp4[2], xds)
   template_name = os.path.join(os.path.abspath(os.path.join(os.getcwd(), '..')), template_name)
   with open(template_name, 'w') as fh:
     fh.write(generate_tolerant_template(summary_text_lines))
@@ -53,22 +61,27 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   if os.path.exists(expected_result_dir):
     for f in os.listdir(expected_result_dir):
       if f.startswith('result.%s' % test_name) and os.path.isfile(os.path.join(expected_result_dir, f)):
-        candidate_version = re.search("\.([0-9]+)\.([0-9]+)\.([0-9]+)$", f)
+        candidate_version = re.search("\.([0-9]+)\.([0-9]+)\.([0-9]+)(\.([0-9]+))?$", f)
         if candidate_version:
-          major, minor, revision = [int(v) for v in candidate_version.groups()]
+          candidate_version = [int(v) if v else 0 for v in candidate_version.group(1,2,3,5)]
+          major, minor, revision, xdsrev = candidate_version
           cmaj, cmin, crev = ccp4
+          xdsv = xds
           # ensure file is not made for a newer CCP4 version
           if cmaj < major: continue
           if cmaj == major and cmin < minor: continue
           if cmaj == major and cmin == minor and crev < revision: continue
+          # ensure file is not made for a newer XDS version
+          if xdsv < xdsrev: continue
           if expected_result_file is not None and expected_result_file_version is not None:
-            cmaj, cmin, crev = expected_result_file_version
+            cmaj, cmin, crev, xdsv = expected_result_file_version
             # ensure file is for a more recent version than any already found file
             if cmaj > major: continue
             if cmaj == major and cmin > minor: continue
             if cmaj == major and cmin == minor and crev > revision: continue
+            if xdsv > xdsrev: continue
           expected_result_file = f
-          expected_result_file_version = [int(v) for v in candidate_version.groups()]
+          expected_result_file_version = candidate_version
         elif expected_result_file is None:
           expected_result_file = f
   assert expected_result_file is not None, "Could not find expected results file to compare actual results to"
@@ -77,6 +90,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 
   compare = StringIO.StringIO()
   print >>compare, 'Detected CCP4 version %d.%d.%d' % (ccp4[0], ccp4[1], ccp4[2])
+  print >>compare, 'Detected XDS revision %d' % xds
   print >>compare, 'Comparing output against %s' % expected_result_file
   print >>compare, '-' * 80
 
