@@ -1,4 +1,7 @@
 from __future__ import division
+
+import sys
+
 from xia2_regression.util.fetch_test_data import fetch_test_data
 
 help_message = '''
@@ -11,7 +14,6 @@ to xia2_regression - if the data are already there will not download again.
 
 '''
 
-import sys
 if (len(sys.argv) < 2):
   fetch_test_data()
 else:

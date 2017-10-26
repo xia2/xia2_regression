@@ -1,10 +1,11 @@
-from dials.array_family import flex
 import cPickle as pickle
+import json
 import math
 import sys
-from scitbx import matrix
+
 import scitbx.math as smath
-import json
+from dials.array_family import flex
+from scitbx import matrix, simplex
 
 def nint(a):
   return int(round(a))
@@ -21,7 +22,6 @@ def scorify(params):
     score += i_s[j] * abs((q + s0).length() - matrix.col(data['s1'][j]).length())
   return score
 
-from scitbx import simplex
 
 def generate_start(values, offset):
   assert len(values) == len(offset)

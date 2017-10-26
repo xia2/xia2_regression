@@ -1,10 +1,12 @@
 from __future__ import division
 
 import os
+
 import libtbx.load_env
 from libtbx.test_utils import open_tmp_directory
-xia2_regression = libtbx.env.under_build("xia2_regression")
 from xia2_regression.test.xia2 import run_xia2_tolerant
+
+xia2_regression = libtbx.env.under_build("xia2_regression")
 
 data_dir = os.path.join(xia2_regression, "test_data", "mad_example")
 assert os.path.exists(data_dir)

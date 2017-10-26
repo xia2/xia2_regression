@@ -14,7 +14,12 @@
 # etc. ad nauseum.
 
 from __future__ import division
+
+import random
+
 from libtbx.phil import parse
+from scitbx import simplex
+from scitbx.array_family import flex
 
 help_message = '''
 
@@ -60,9 +65,6 @@ phis = None
   .help = 'Input phi 1, 2, 3'
 ''', process_includes=True)
 
-from scitbx import simplex
-from scitbx.array_family import flex
-import random
 
 def generate_start(values, offset):
   assert len(values) == len(offset)

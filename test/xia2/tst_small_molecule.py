@@ -1,6 +1,7 @@
 from __future__ import division
 
 import os
+
 import libtbx.load_env
 from xia2_regression.test.xia2 import run_xia2_tolerant
 

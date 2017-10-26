@@ -1,6 +1,7 @@
-from dials.array_family import flex
 import cPickle as pickle
 import sys
+
+from dials.array_family import flex
 
 reflection_file = sys.argv[1]
 data = pickle.load(open(reflection_file, 'rb'))

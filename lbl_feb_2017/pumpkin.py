@@ -1,10 +1,12 @@
-from dials.array_family import flex
 import cPickle as pickle
+import json
 import math
 import sys
-from scitbx import matrix
+
 import scitbx.math as smath
-import json
+from dials.array_family import flex
+from dxtbx.model.experiment.experiment_list import ExperimentListFactory
+from scitbx import matrix, simplex
 
 filename = sys.argv[1]
 
@@ -22,7 +24,6 @@ v = data['intensity.sum.variance']
 s = flex.sqrt(v)
 i_s = i/s
 
-from dxtbx.model.experiment.experiment_list import ExperimentListFactory
 expt = ExperimentListFactory.from_json_file(sys.argv[2])
 crystal = expt.crystals()[0]
 UB = matrix.sqr(crystal.get_A())
@@ -49,7 +50,6 @@ def plotify(params):
     q = R * UB * hkl
     print (q + s0).length() - matrix.col(data['s1'][j]).length(), i_s[j]
 
-from scitbx import simplex
 
 def generate_start(values, offset):
   assert len(values) == len(offset)

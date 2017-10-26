@@ -1,9 +1,11 @@
 from __future__ import division
+
 import cStringIO as StringIO
 import glob
 import os
 import re
 import sys
+
 from dials.util.procrunner import run_process
 
 def ccp4_version():

@@ -1,5 +1,6 @@
-from download import download
 import multiprocessing
+
+from download import download
 
 files_to_download = {
   'http://www.ccp4.ac.uk/tutorials/tutorial_files/blend_tutorial/data02.tgz':
@@ -68,4 +69,3 @@ if __name__ == '__main__':
   if cwd != 'xia2_regression':
     raise RuntimeError, 'only run this from xia2_regression'
   fetch_test_data()
-

@@ -1,6 +1,7 @@
+import random
+
 from scitbx import simplex
 from scitbx.array_family import flex
-import random
 
 def generate_start(values, offset):
   assert len(values) == len(offset)
