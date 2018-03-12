@@ -6,7 +6,7 @@ import os
 import re
 import sys
 
-from dials.util.procrunner import run_process
+from procrunner import run_process
 
 def ccp4_version():
   result = run_process(['refmac5', '-i'], print_stdout=False)
