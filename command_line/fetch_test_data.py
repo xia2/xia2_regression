@@ -18,5 +18,5 @@ to xia2_regression - if the data are already there will not download again.
   if len(sys.argv) < 2:
     fetch_test_data()
   else:
-    print "Downloading into directory %s" % sys.argv[1]
+    print("Downloading into directory %s" % sys.argv[1])
     fetch_test_data(sys.argv[1])
