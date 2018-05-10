@@ -1,6 +1,8 @@
+from __future__ import absolute_import, division, print_function
+
 import multiprocessing
 
-from download import download
+from xia2_regression.util.download import download
 
 files_to_download = {
   'http://www.ccp4.ac.uk/tutorials/tutorial_files/blend_tutorial/data02.tgz':
@@ -50,7 +52,7 @@ def fetch_test_data(target_dir = '', skip_existing_files=True):
 
     status_prefix = progress_mask % (num + 1, download_count)
     if skip_existing_files and os.path.exists(filename):
-      print status_prefix, "skipping", url, ": file exists"
+      print(status_prefix, "skipping", url, ": file exists")
     else:
       results.append(pool.apply_async(download, (url, filename, status_prefix)))
 
@@ -60,12 +62,3 @@ def fetch_test_data(target_dir = '', skip_existing_files=True):
       success = False
   if not success:
     raise RuntimeError, 'some downloads failed, please try again.'
-
-  return
-
-if __name__ == '__main__':
-  import os
-  cwd = os.path.split(os.getcwd())[-1]
-  if cwd != 'xia2_regression':
-    raise RuntimeError, 'only run this from xia2_regression'
-  fetch_test_data()
