@@ -5,7 +5,7 @@ import os
 from libtbx.test_utils import open_tmp_directory
 from xia2_regression.test.xia2 import run_xia2_tolerant
 
-split_xinfo_template = """/
+split_xinfo_template = lambda data_dir: """/
 BEGIN PROJECT AUTOMATIC
 BEGIN CRYSTAL DEFAULT
 
@@ -58,7 +58,7 @@ def test_dials_split(xia2_regression_build, ccp4):
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
   with open(xinfo_file, 'wb') as f:
-    print >> f, split_xinfo_template
+    print >> f, split_xinfo_template(data_dir)
 
   command_line_args = ['pipeline=dials', 'nproc=1', 'njob=2', 'mode=parallel',
                        'trust_beam_centre=True', 'xinfo=%s' % xinfo_file]
@@ -97,7 +97,7 @@ def test_xds_split(xia2_regression_build, ccp4):
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
   with open(xinfo_file, 'wb') as f:
-    print >> f, split_xinfo_template
+    print >> f, split_xinfo_template(data_dir)
 
   command_line_args = ['pipeline=3di', 'nproc=1', 'njob=2', 'mode=parallel',
                        'trust_beam_centre=True', 'xinfo=%s' %xinfo_file]
@@ -136,7 +136,7 @@ def test_xds_ccp4a_split(xia2_regression_build, ccp4):
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
   with open(xinfo_file, 'wb') as f:
-    print >> f, split_xinfo_template
+    print >> f, split_xinfo_template(data_dir)
 
   command_line_args = [
     'pipeline=3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
