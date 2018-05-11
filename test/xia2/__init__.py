@@ -44,8 +44,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   error_file = 'xia2.error'
   if os.path.exists(error_file):
     print(open(error_file, 'r').read(), file=sys.stderr)
-    from libtbx.utils import Sorry
-    raise Sorry("xia2.error present after execution")
+    sys.exit("xia2.error present after execution")
 
   assert result['stderr'] == '', "xia2 terminated with output to STDERR:\n" + result['stderr']
   assert result['exitcode'] == 0, "xia2 terminated with non-zero exit code (%d)" % result['exitcode']
@@ -183,9 +182,8 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 
   os.chdir(cwd)
   if not output_identical:
-    from libtbx.utils import Sorry
     sys.stderr.write(compare.getvalue())
-    raise Sorry("xia2 output failing tolerance checks")
+    sys.exit("xia2 output failing tolerance checks")
   sys.stdout.write(compare.getvalue())
 
 def generate_tolerant_template(lines):
