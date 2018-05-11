@@ -1,14 +1,9 @@
-from __future__ import division
+from __future__ import absolute_import, division, print_function
 
 import os
 
-import libtbx.load_env
 from libtbx.test_utils import open_tmp_directory
 from xia2_regression.test.xia2 import run_xia2_tolerant
-
-xia2_regression = libtbx.env.under_build("xia2_regression")
-data_dir = os.path.join(xia2_regression, "test_data", "X4_wide")
-assert os.path.exists(data_dir)
 
 split_xinfo_template = """/
 BEGIN PROJECT AUTOMATIC
@@ -38,7 +33,10 @@ END CRYSTAL DEFAULT
 END PROJECT AUTOMATIC
 """ % (data_dir, data_dir)
 
-def exercise_dials():
+def test_dials(xia2_regression_build):
+  data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
+  assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
+
   command_line_args = ['pipeline=dials', 'nproc=1', 'trust_beam_centre=True',
                        'read_all_image_headers=False', 'truncate=cctbx',
                        data_dir]
@@ -53,7 +51,10 @@ def exercise_dials():
            expected_data_files=expected_data_files)
 
 
-def exercise_dials_split():
+def test_dials_split(xia2_regression_build):
+  data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
+  assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
+
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
   with open(xinfo_file, 'wb') as f:
@@ -72,7 +73,10 @@ def exercise_dials_split():
            expected_data_files=expected_data_files)
 
 
-def exercise_xds():
+def test_xds(xia2_regression_build):
+  data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
+  assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
+
   command_line_args = ['pipeline=3di', 'nproc=1', 'trust_beam_centre=True',
                        'read_all_image_headers=False', data_dir]
 
@@ -86,7 +90,10 @@ def exercise_xds():
            expected_data_files=expected_data_files)
 
 
-def exercise_xds_split():
+def test_xds_split(xia2_regression_build):
+  data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
+  assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
+
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
   with open(xinfo_file, 'wb') as f:
@@ -105,7 +112,10 @@ def exercise_xds_split():
            expected_data_files=expected_data_files)
 
 
-def exercise_xds_ccp4a():
+def test_xds_ccp4a(xia2_regression_build):
+  data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
+  assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
+
   command_line_args = [
     'pipeline=3di', 'nproc=1', 'scaler=ccp4a', 'trust_beam_centre=True', data_dir]
 
@@ -119,7 +129,10 @@ def exercise_xds_ccp4a():
            expected_data_files=expected_data_files)
 
 
-def exercise_xds_ccp4a_split():
+def test_xds_ccp4a_split(xia2_regression_build):
+  data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
+  assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
+
   tmp_dir = os.path.abspath(open_tmp_directory())
   xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
   with open(xinfo_file, 'wb') as f:
@@ -138,17 +151,3 @@ def exercise_xds_ccp4a_split():
 
   run_xia2_tolerant("X4_wide_split.ccp4a", command_line_args,
            expected_data_files=expected_data_files)
-
-
-def run(args):
-  exercises = (exercise_xds, exercise_xds_ccp4a, exercise_dials)
-  if len(args):
-    exercises = [globals().get('exercise_%s' %arg) for arg in args]
-  for exercise in exercises:
-    exercise()
-
-if __name__ == '__main__':
-  import sys
-  from libtbx.utils import show_times_at_exit
-  show_times_at_exit()
-  run(sys.argv[1:])
