@@ -6,8 +6,8 @@
 from __future__ import absolute_import, division, print_function
 
 import pytest
-from dials.conftest import (dials_regression, xia2_regression,
-                            xia2_regression_build)
+from xia2.conftest import ccp4, dials_regression, xia2_regression, xia2_regression_build
+
 from libtbx.test_utils.pytest import libtbx_collector
 
 pytest_collect_file = libtbx_collector()

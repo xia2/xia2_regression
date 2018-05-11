@@ -4,7 +4,7 @@ import os
 
 from xia2_regression.test.xia2 import run_xia2_tolerant
 
-def test_dials(xia2_regression_build):
+def test_dials(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "small_molecule_example")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -22,7 +22,7 @@ def test_dials(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_xds(xia2_regression_build):
+def test_xds(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "small_molecule_example")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -40,7 +40,7 @@ def test_xds(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_xds_ccp4a(xia2_regression_build):
+def test_xds_ccp4a(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "small_molecule_example")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 

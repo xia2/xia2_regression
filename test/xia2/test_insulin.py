@@ -4,7 +4,7 @@ import os
 
 from xia2_regression.test.xia2 import run_xia2_tolerant
 
-def test_2d(xia2_regression_build):
+def test_2d(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "insulin")
   assert os.path.exists(data_dir)
 

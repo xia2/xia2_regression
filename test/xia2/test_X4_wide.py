@@ -33,7 +33,7 @@ END CRYSTAL DEFAULT
 END PROJECT AUTOMATIC
 """ % (data_dir, data_dir)
 
-def test_dials(xia2_regression_build):
+def test_dials(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -51,7 +51,7 @@ def test_dials(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_dials_split(xia2_regression_build):
+def test_dials_split(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -73,7 +73,7 @@ def test_dials_split(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_xds(xia2_regression_build):
+def test_xds(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -90,7 +90,7 @@ def test_xds(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_xds_split(xia2_regression_build):
+def test_xds_split(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -112,7 +112,7 @@ def test_xds_split(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_xds_ccp4a(xia2_regression_build):
+def test_xds_ccp4a(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -129,7 +129,7 @@ def test_xds_ccp4a(xia2_regression_build):
            expected_data_files=expected_data_files)
 
 
-def test_xds_ccp4a_split(xia2_regression_build):
+def test_xds_ccp4a_split(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
