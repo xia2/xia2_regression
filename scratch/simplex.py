@@ -1,3 +1,4 @@
+from __future__ import print_function
 import random
 
 from scitbx import simplex
@@ -28,9 +29,9 @@ class simple_simplex(object):
                                     max_iter=1000000)
 
     self.x = optimizer.get_solution()
-    print "Iterations %d %d" % (optimizer.count, self.fcount)
-    print "Solution %s" % str(list(self.x))
-    print "Target %f" % self.target(self.x)
+    print("Iterations %d %d" % (optimizer.count, self.fcount))
+    print("Solution %s" % str(list(self.x)))
+    print("Target %f" % self.target(self.x))
 
   def target(self, vector):
     self.fcount += 1

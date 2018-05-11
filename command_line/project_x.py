@@ -14,6 +14,7 @@
 # etc. ad nauseum.
 
 from __future__ import division
+from __future__ import print_function
 
 import random
 
@@ -134,7 +135,7 @@ class Script(object):
     # compute and score vector of params (order == [metrical matrix params],
     # [orientation params], r; return 1.0/cc
     self.evaluations += 1
-    print 'Cycle %d' % self.evaluations
+    print('Cycle %d' % self.evaluations)
     xmap = self.compute_xmap(vector)
     if self.params.score == 'image':
       cc, n = self.score(self.pixels, xmap)
@@ -157,10 +158,10 @@ class Script(object):
     from scitbx import matrix
     from xia2_regression import x_map
 
-    print 'Cell: %.3f %.3f %.3f %.3f %.3f %.3f' % \
-      tuple(self.crystal.get_unit_cell().parameters())
-    print 'Phi(1,2,3): %.3f %.3f %.3f' % tuple(tst_orientation), \
-      'R: %.3f' % tst_r
+    print('Cell: %.3f %.3f %.3f %.3f %.3f %.3f' % \
+      tuple(self.crystal.get_unit_cell().parameters()))
+    print('Phi(1,2,3): %.3f %.3f %.3f' % tuple(tst_orientation), \
+      'R: %.3f' % tst_r)
 
     RUBi = (self.R * matrix.sqr(self.crystal.get_A())).inverse()
     distance_map = x_map(self.panel, self.beam, RUBi, self.params.oversample,
@@ -203,10 +204,10 @@ class Script(object):
       mean_cc += flex.linear_correlation(d, m).coefficient()
 
     if flood_fill.n_voids() > 1:
-      print 'Score: %.3f' % (1.0 / (mean_cc / flood_fill.n_voids()))
+      print('Score: %.3f' % (1.0 / (mean_cc / flood_fill.n_voids())))
       return mean_cc / flood_fill.n_voids(), flood_fill.n_voids()
     else:
-      print 'Scoring failed'
+      print('Scoring failed')
       return 0.01, 1
 
   def score_indexed(self, idata, reflections, distance_map):
@@ -228,7 +229,7 @@ class Script(object):
       mean_cc += flex.linear_correlation(d, m).coefficient()
 
     cc = mean_cc / len(reflections)
-    print 'Score: %.3f (CC=%.3f)' % (1.0 / cc, cc)
+    print('Score: %.3f (CC=%.3f)' % (1.0 / cc, cc))
     return cc, len(reflections)
 
   def integrate(self, idata, distance_map):
@@ -293,8 +294,8 @@ class Script(object):
       intensity = flex.sum(d)
       background = 0
 
-      print '%4d %4d %4d' % tuple(ihkl), '%8.4f %8.4f %8.4f' % \
-        (intensity, scale, background)
+      print('%4d %4d %4d' % tuple(ihkl), '%8.4f %8.4f %8.4f' % \
+        (intensity, scale, background))
 
   def run(self):
     from dials.util.command_line import Command
@@ -365,12 +366,12 @@ class Script(object):
 
     reflections = reflections[0]
 
-    print 'Read %d reflections' % len(reflections)
+    print('Read %d reflections' % len(reflections))
 
     indexed = reflections.select(reflections.get_flags(
       reflections.flags.indexed))
 
-    print 'Kept %d indexed reflections' % len(indexed)
+    print('Kept %d indexed reflections' % len(indexed))
 
     # optionally apply padding - will not use pixel data anyway
     if params.padding > 0:
@@ -440,11 +441,11 @@ class Script(object):
 
     if params.score == 'image':
       score, n_objects = self.score(pixels, distance_map)
-      print 'Score was: %.3f over %d objects' % (score, n_objects)
+      print('Score was: %.3f over %d objects' % (score, n_objects))
     else:
       score, n_objects = self.score_indexed(pixels, self.reflections,
                                             distance_map)
-      print 'Score was: %.3f over %d objects' % (score, n_objects)
+      print('Score was: %.3f over %d objects' % (score, n_objects))
 
     # plot output
     self.plot_map(distance_map, params.png)

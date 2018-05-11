@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 
 import cStringIO as StringIO
 import glob
@@ -42,7 +43,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
 
   error_file = 'xia2.error'
   if os.path.exists(error_file):
-    print >> sys.stderr, open(error_file, 'r').read()
+    print(open(error_file, 'r').read(), file=sys.stderr)
     from libtbx.utils import Sorry
     raise Sorry("xia2.error present after execution")
 
@@ -91,17 +92,17 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
     expected_summary_lines = fh.readlines()
 
   compare = StringIO.StringIO()
-  print >>compare, 'Detected CCP4 version %d.%d.%d' % (ccp4[0], ccp4[1], ccp4[2])
-  print >>compare, 'Detected XDS revision %d' % xds
-  print >>compare, 'Comparing output against %s' % expected_result_file
-  print >>compare, '-' * 80
+  print('Detected CCP4 version %d.%d.%d' % (ccp4[0], ccp4[1], ccp4[2]), file=compare)
+  print('Detected XDS revision %d' % xds, file=compare)
+  print('Comparing output against %s' % expected_result_file, file=compare)
+  print('-' * 80, file=compare)
 
   number = re.compile('(-?\d*\.\d+|-?\d+\.?)')
   number_with_tolerance = re.compile('(-?\d*\.\d+|-?\d+\.?)\((ignore|\*\*|\d*\.\d+%?|\d+\.?%?)\)')
   output_identical = True
   for actual, expected in zip(summary_text_lines, expected_summary_lines):
     if actual == expected:
-      print >>compare, ' ' + actual
+      print(' ' + actual, file=compare)
       continue
 
     actual_s = actual.split()
@@ -146,7 +147,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
         valid.append(False)
 
     if all(equal):
-      print >>compare, ' ' + actual
+      print(' ' + actual, file=compare)
       continue
 
     expected_line = ''
@@ -163,21 +164,21 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
         expected_line += ' ' + template % expected + ' '
         actual_line += '*' + template % actual + '*'
         output_identical = False
-    print >>compare, '-' + expected_line
+    print('-' + expected_line, file=compare)
     if not all(valid):
-      print >>compare, '>' + actual_line
+      print('>' + actual_line, file=compare)
     else:
-      print >>compare, '+' + actual_line
-  print >>compare, '-' * 80
+      print('+' + actual_line, file=compare)
+  print('-' * 80, file=compare)
 
   for data_file in expected_data_files:
     if not os.path.exists(os.path.join('DataFiles', data_file)):
-      print >>compare, "> expected file %s is missing" % data_file
+      print("> expected file %s is missing" % data_file, file=compare)
       output_identical = False
 
   html_file = 'xia2.html'
   if not os.path.exists(html_file):
-    print >>compare, "> xia2.html not present after execution"
+    print("> xia2.html not present after execution", file=compare)
     output_identical = False
 
   os.chdir(cwd)

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 
 def run(args):
@@ -5,7 +6,7 @@ def run(args):
   unhandled_args = []
 
   for arg in args:
-    print arg
+    print(arg)
     if os.path.isfile(arg):
       if arg[-4:] == '.mtz':
         mtz_files.append(arg)
@@ -16,13 +17,13 @@ def run(args):
     unhandled_args.append(arg)
 
   mtz_files.sort(key=os.path.getmtime)
-  print mtz_files
+  print(mtz_files)
 
   hklin = mtz_files
   hklout = 'sorted.mtz'
 
   pointgroup, reindex_op = decide_pointgroup(hklin, hklout)
-  print pointgroup, reindex_op
+  print(pointgroup, reindex_op)
 
   hklin = hklout
   hklout = 'scaled.mtz'

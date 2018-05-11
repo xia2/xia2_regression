@@ -12,6 +12,7 @@
 # Jiffy application: given experiments.json compute HKL for pixel
 
 from __future__ import division
+from __future__ import print_function
 
 from libtbx.phil import parse
 
@@ -106,7 +107,7 @@ class Script(object):
       p = matrix.col(panel.get_pixel_lab_coord(pixel))
       q = p.normalize() / wavelength - s0
       hkl = RUBi * q
-      print '%d %d' % pixel, '=> %.3f %.3f %.3f' % hkl.elems
+      print('%d %d' % pixel, '=> %.3f %.3f %.3f' % hkl.elems)
 
 
 if __name__ == '__main__':

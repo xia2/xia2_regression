@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cPickle as pickle
 import json
 import math
@@ -11,7 +12,7 @@ from scitbx import matrix, simplex
 filename = sys.argv[1]
 
 data = pickle.load(open(filename, 'rb'))
-print '%d reflections' % data.size()
+print('%d reflections' % data.size())
 
 # keep = data.select(data.get_flags(data.flags.integrated))
 # print keep.size()
@@ -48,7 +49,7 @@ def plotify(params):
   for j in range(data.size()):
     hkl = data['miller_index'][j]
     q = R * UB * hkl
-    print (q + s0).length() - matrix.col(data['s1'][j]).length(), i_s[j]
+    print((q + s0).length() - matrix.col(data['s1'][j]).length(), i_s[j])
 
 
 def generate_start(values, offset):

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 import os
 import shutil
 import sys
@@ -105,21 +106,21 @@ def download(url, target, status_prefix=''):
     except:
       pass
 
-  print status_prefix, "downloading", url, ": ",
+  print(status_prefix, "downloading", url, ": ", end=' ')
   result = None
   retries = 3
   while (result is None) and (retries >= 0):
     try:
       result = Downloader().download_to_file(url, target, status=False)
-    except urllib2.HTTPError, e:
-      print e
+    except urllib2.HTTPError as e:
+      print(e)
       retries = retries - 1
       if retries >= 0:
         sleep = [15,10,5][retries]
-        print "\nRetrying in %d seconds..." % sleep
+        print("\nRetrying in %d seconds..." % sleep)
         time.sleep(sleep)
       else:
-        print "\nGiving up.\n"
+        print("\nGiving up.\n")
         raise
   return result
 
@@ -134,9 +135,9 @@ def test():
   download(url, os.path.join(tempdir, 'filelist.dat'))
 
   for record in open(os.path.join(tempdir, 'filelist.dat')):
-    print record.strip()
+    print(record.strip())
 
-  print 'OK'
+  print('OK')
 
   shutil.rmtree(tempdir)
 

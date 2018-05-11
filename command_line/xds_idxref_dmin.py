@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 
 def main(xparm_file, spot_file):
 
@@ -35,7 +36,7 @@ def main(xparm_file, spot_file):
 
   d_spacings = [1.0 / (ub * mi).length() for mi in miller_indices]
 
-  print max(d_spacings)
+  print(max(d_spacings))
 
   # Convert Pixel coordinate into mm/rad
   x, y, z = centroids_px.parts()
@@ -55,7 +56,7 @@ def main(xparm_file, spot_file):
 
   d_spacings = 1/reciprocal_space_points.norms()
   dmax = flex.max(d_spacings)
-  print dmax
+  print(dmax)
 
 if __name__ == '__main__':
   import sys

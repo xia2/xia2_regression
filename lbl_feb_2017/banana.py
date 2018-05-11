@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cPickle as pickle
 import sys
 
@@ -5,7 +6,7 @@ from dials.array_family import flex
 
 reflection_file = sys.argv[1]
 data = pickle.load(open(reflection_file, 'rb'))
-print '%d reflections' % data.size()
+print('%d reflections' % data.size())
 
 i = data['intensity.sum.value']
 v = data['intensity.sum.variance']
@@ -17,4 +18,4 @@ c = h.slot_centers()
 d = h.slots()
 
 for _c, _d in zip(c, d):
-  print _c, _d
+  print(_c, _d)

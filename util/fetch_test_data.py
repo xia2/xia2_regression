@@ -14,7 +14,7 @@ def fetch_test_data_index():
 
   result = download(index_url, 'filelist.dat')
   if result == -1:
-    raise RuntimeError, 'Could not download file list.'
+    raise RuntimeError('Could not download file list.')
 
   index = {}
   for record in open('filelist.dat'):
@@ -61,4 +61,4 @@ def fetch_test_data(target_dir = '', skip_existing_files=True):
     if result.get(timeout=600) == -1:
       success = False
   if not success:
-    raise RuntimeError, 'some downloads failed, please try again.'
+    raise RuntimeError('some downloads failed, please try again.')
