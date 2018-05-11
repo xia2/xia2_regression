@@ -2,10 +2,9 @@ from __future__ import absolute_import, division, print_function
 
 import os
 
-from libtbx.test_utils import open_tmp_directory
 from xia2_regression.test.xia2 import run_xia2_tolerant
 
-split_xinfo_template = lambda data_dir: """/
+split_xinfo_template = """/
 BEGIN PROJECT AUTOMATIC
 BEGIN CRYSTAL DEFAULT
 
@@ -15,7 +14,7 @@ END WAVELENGTH NATIVE
 
 BEGIN SWEEP SWEEP1
 WAVELENGTH NATIVE
-DIRECTORY %s
+DIRECTORY {0}
 IMAGE X4_wide_M1S4_2_0001.cbf
 START_END 1 40
 BEAM 219.84 212.65
@@ -23,7 +22,7 @@ END SWEEP SWEEP1
 
 BEGIN SWEEP SWEEP2
 WAVELENGTH NATIVE
-DIRECTORY %s
+DIRECTORY {0}
 IMAGE X4_wide_M1S4_2_0001.cbf
 START_END 45 90
 BEAM 219.84 212.65
@@ -31,7 +30,7 @@ END SWEEP SWEEP2
 
 END CRYSTAL DEFAULT
 END PROJECT AUTOMATIC
-""" % (data_dir, data_dir)
+"""
 
 def test_dials(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
@@ -51,17 +50,15 @@ def test_dials(xia2_regression_build, ccp4):
            expected_data_files=expected_data_files)
 
 
-def test_dials_split(xia2_regression_build, ccp4):
+def test_dials_split(xia2_regression_build, ccp4, tmpdir):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
-  tmp_dir = os.path.abspath(open_tmp_directory())
-  xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
-  with open(xinfo_file, 'wb') as f:
-    print >> f, split_xinfo_template(data_dir)
+  xinfo_file = tmpdir / 'split.xinfo'
+  xinfo_file.write_text(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
 
   command_line_args = ['pipeline=dials', 'nproc=1', 'njob=2', 'mode=parallel',
-                       'trust_beam_centre=True', 'xinfo=%s' % xinfo_file]
+                       'trust_beam_centre=True', 'xinfo=%s' % xinfo_file.strpath]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -73,7 +70,7 @@ def test_dials_split(xia2_regression_build, ccp4):
            expected_data_files=expected_data_files)
 
 
-def test_xds(xia2_regression_build, ccp4):
+def test_xds(xia2_regression_build, ccp4, tmpdir):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
@@ -90,17 +87,15 @@ def test_xds(xia2_regression_build, ccp4):
            expected_data_files=expected_data_files)
 
 
-def test_xds_split(xia2_regression_build, ccp4):
+def test_xds_split(xia2_regression_build, ccp4, tmpdir):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
-  tmp_dir = os.path.abspath(open_tmp_directory())
-  xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
-  with open(xinfo_file, 'wb') as f:
-    print >> f, split_xinfo_template(data_dir)
+  xinfo_file = tmpdir / 'split.xinfo'
+  xinfo_file.write_text(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
 
   command_line_args = ['pipeline=3di', 'nproc=1', 'njob=2', 'mode=parallel',
-                       'trust_beam_centre=True', 'xinfo=%s' %xinfo_file]
+                       'trust_beam_centre=True', 'xinfo=%s' % xinfo_file.strpath]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
@@ -133,15 +128,13 @@ def test_xds_ccp4a_split(xia2_regression_build, ccp4):
   data_dir = os.path.join(xia2_regression_build, "test_data", "X4_wide")
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
-  tmp_dir = os.path.abspath(open_tmp_directory())
-  xinfo_file = os.path.join(tmp_dir, 'split.xinfo')
-  with open(xinfo_file, 'wb') as f:
-    print >> f, split_xinfo_template(data_dir)
+  xinfo_file = tmpdir / 'split.xinfo'
+  xinfo_file.write_text(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
 
   command_line_args = [
     'pipeline=3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
     'merging_statistics.source=aimless',
-    'trust_beam_centre=True', 'mode=parallel', 'xinfo=%s' % xinfo_file]
+    'trust_beam_centre=True', 'mode=parallel', 'xinfo=%s' % xinfo_file.strpath]
 
   expected_data_files = [
     'AUTOMATIC_DEFAULT_free.mtz',
