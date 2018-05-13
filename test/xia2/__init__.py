@@ -1,7 +1,6 @@
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
-import cStringIO as StringIO
+from six.moves import cStringIO as StringIO
 import glob
 import os
 import re
@@ -90,7 +89,7 @@ def run_xia2_tolerant(test_name, command_line_args, expected_data_files=[]):
   with open(os.path.join(expected_result_dir, expected_result_file), 'r') as fh:
     expected_summary_lines = fh.readlines()
 
-  compare = StringIO.StringIO()
+  compare = StringIO()
   print('Detected CCP4 version %d.%d.%d' % (ccp4[0], ccp4[1], ccp4[2]), file=compare)
   print('Detected XDS revision %d' % xds, file=compare)
   print('Comparing output against %s' % expected_result_file, file=compare)
