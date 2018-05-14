@@ -55,7 +55,7 @@ def test_dials_split(xia2_regression_build, ccp4, tmpdir):
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
   xinfo_file = tmpdir / 'split.xinfo'
-  xinfo_file.write_text(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
+  xinfo_file.write(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
 
   command_line_args = ['pipeline=dials', 'nproc=1', 'njob=2', 'mode=parallel',
                        'trust_beam_centre=True', 'xinfo=%s' % xinfo_file.strpath]
@@ -92,7 +92,7 @@ def test_xds_split(xia2_regression_build, ccp4, tmpdir):
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
   xinfo_file = tmpdir / 'split.xinfo'
-  xinfo_file.write_text(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
+  xinfo_file.write(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
 
   command_line_args = ['pipeline=3di', 'nproc=1', 'njob=2', 'mode=parallel',
                        'trust_beam_centre=True', 'xinfo=%s' % xinfo_file.strpath]
@@ -129,7 +129,7 @@ def test_xds_ccp4a_split(xia2_regression_build, ccp4):
   assert os.path.exists(data_dir), 'Please run xia2_regression.fetch_test_data first'
 
   xinfo_file = tmpdir / 'split.xinfo'
-  xinfo_file.write_text(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
+  xinfo_file.write(split_xinfo_template.format(data_dir.replace('\\', '\\\\')))
 
   command_line_args = [
     'pipeline=3di', 'nproc=1', 'scaler=ccp4a', 'njob=2',
