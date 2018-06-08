@@ -1,14 +1,36 @@
 #!/bin/bash
 set -e
 
+# Summary is a function so we can run it in two places
+print_summary() {
+  echo This program fetches the xia2 example data from a local diamond machine
+  echo If you are not connected to the Diamond network this will fail.
+  echo In this case you should run   xia2_regression.fetch_test_data   instead
+}
+
+# If the user provides any arguments (including -h/--help), just print usage
+if [[ $# -gt 0 ]]; then
+  echo "Usage: xia2_regression.fetch_test_data_local"
+  echo
+  print_summary
+  echo
+  echo "If not present, this program also offers to install dials_regression"
+  if [[ $1 == "-h" || $1 == "--help" ]]; then
+    exit 0
+  else
+    exit 1
+  fi
+fi
+
+
+
 echo =======================================================================
 echo
-echo This program fetches the xia2 example data from a local diamond machine
-echo If you are not connected to the Diamond network this will fail.
-echo In this case you should run   xia2_regression.fetch_test_data   instead
+print_summary
 echo
 echo =======================================================================
 echo
+
 
 rsync -rv nx-staff:/dls/science/groups/scisoft/DIALS/CD/build_dependencies/stash/xia2_regression_data/ $(libtbx.show_build_path)/xia2_regression
 
